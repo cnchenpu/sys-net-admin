@@ -5,7 +5,8 @@
 * firewall-cmd
 * /etc/firewalld/firewalld.conf
 * /etc/firewalld/zones/
-* /usr/lib/firewalld/zones
+* /usr/lib/firewalld/services/
+* /usr/lib/firewalld/zones/
     * block.xml
     * drop.xml
     * home.xml
@@ -16,12 +17,12 @@
     * internal.xml
     * trusted.xml
 
-
+### check running status:
 ```bash
 $ firewall-cmd --state
 ```
 
-### zone
+## zone
 id|zone|comment
 ---|---|---
 1|public|For use in public areas. You do not trust the other computers on the network. Only selected incoming connections are accepted.
@@ -31,16 +32,42 @@ id|zone|comment
 5|home|
 6|internal|
 7|trusted|
+-|drop|drop all incomming packets and no reply; allow outgoing connection
+-|block|block all incomming connection and reply 'icmp'; only allow outgoing connection
 
-* drop zone
-    - drop all incomming packets and no reply; allow outgoing connection
-* block zone
-    - block all incomming connection and reply 'icmp'; only allow outgoing connection
-
+### list zone status
 ```bash
 $ firewall-cmd --get-active-zone
-
 $ firewall-cmd --get-zone
-
 $ firewall-cmd --zone=public --list-all
+```
+
+### initial zone
+```bash
+$ firewall-cmd --zone=home --change-interface=ens0s3
+```
+
+### change fielwalld settings
+```bash
+$ firewall-cmd --permanent --zone=home --change-interface=ens0s3
+$ firewall-cmd --reload
+```
+### list service & port
+```bash
+$ firewall-cmd --get-services
+```
+
+### add service to zone
+```bash
+$ firewall-cmd --zone=public --add-services=dns
+```
+
+### add port to zone
+```bash
+$ firewall-cmd --zone=public --add-port=9958/tcp
+```
+
+### disable firewalld
+```bash
+$ systemctl disable firewalld
 ```
