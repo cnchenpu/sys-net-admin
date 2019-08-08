@@ -2,8 +2,20 @@
 ## firewalld v.s. iptables
 
 ### firewalld
+* firewall-cmd
+* /etc/firewalld/firewalld.conf
+* /etc/firewalld/zones/
+* /usr/lib/firewalld/zones
+    * block.xml
+    * drop.xml
+    * home.xml
+    * public.xml
+    * work.xml
+    * dmz.xml
+    * external.xml
+    * internal.xml
+    * trusted.xml
 
-### firewall-cmd
 
 ```bash
 $ firewall-cmd --state
@@ -14,20 +26,16 @@ id|zone|comment
 ---|---|---
 1|public|For use in public areas. You do not trust the other computers on the network. Only selected incoming connections are accepted.
 2|external|Public area, for NAT.
+3|dmz|
+4|work|
+5|home|
+6|internal|
+7|trusted|
 
-
-
-
-
-* block
-* dmz
-* drop
-* external
-* home
-* internal
-* public
-* trusted
-* work
+* drop zone
+    - drop all incomming packets and no reply; allow outgoing connection
+* block zone
+    - block all incomming connection and reply 'icmp'; only allow outgoing connection
 
 ```bash
 $ firewall-cmd --get-active-zone
