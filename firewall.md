@@ -1,4 +1,6 @@
 # Firewall
+A firewall is a way to protect machines from any unwanted traffic from outside. It enables users to control incoming network traffic on host machines by defining a set of firewall rules. These rules are used to sort the incoming traffic and either block it or allow through. 
+
 ## firewalld v.s. iptables
 
 ### firewalld
@@ -23,6 +25,8 @@ $ firewall-cmd --state
 ```
 
 ## zone
+Zones are predefined sets of rules. Network interfaces and sources can be assigned to a zone.
+
 id|zone|comment
 ---|---|---
 1|public|For use in public areas. You do not trust the other computers on the network. Only selected incoming connections are accepted.
@@ -46,12 +50,16 @@ $ firewall-cmd --zone=public --list-all
 ```bash
 $ firewall-cmd --zone=home --change-interface=ens0s3
 ```
-
 ### change fielwalld settings
 ```bash
 $ firewall-cmd --permanent --zone=home --change-interface=ens0s3
 $ firewall-cmd --reload
 ```
+
+## service
+Firewall services are predefined rules that cover all necessary settings to allow incoming traffic for a specific service and they apply within a zone. 
+Services use one or more ports or addresses for network communication. Firewalls filter communication based on ports. To allow network traffic for a service, its ports must be open. firewalld blocks all traffic on ports that are not explicitly set as open. Some zones, such as trusted, allow all traffic by default.  
+
 ### list service & port
 ```bash
 $ firewall-cmd --get-services
