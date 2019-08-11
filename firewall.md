@@ -15,31 +15,60 @@ $ systemctl start firewalld
 
 * firewall-cmd
 * /etc/firewalld/firewalld.conf
+* /etc/firewalld/lockdown-whitelist.xml
 * /etc/firewalld/zones/
 * /etc/firewalld/services/
 * /usr/lib/firewalld/services/
 * /usr/lib/firewalld/zones/
-    * block.xml
-    * drop.xml
-    * home.xml
-    * public.xml
-    * work.xml
-    * dmz.xml
-    * external.xml
-    * internal.xml
-    * trusted.xml
 
 ### check running status:
 ```bash
 $ firewall-cmd --state
 ```
 
+### get default/active zone:
+```bash
+$ firewall-cmd --get-default-zone
+$ firewall-cmd --get-active-zones
+$ firewall-cmd --zone=public --list-all
+```
+
+#### "/etc/firewalld/zones/public.xml:"
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<zone>
+  <short>Public</short>
+  <description>For use in public areas. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.</description>
+  <service name="dhcpv6-client"/>
+  <service name="ssh"/>
+</zone>
+```
+
+### list service
+```bash
+$ firewall-cmd --list-services
+```
+
+#### "/usr/lib/firewalld/services/ssh.xml:"
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>SSH</short>
+  <description>Secure Shell (SSH) is a protocol for logging into and executing commands on remote machines...</description>
+  <port protocol="tcp" port="22"/>
+</service>
+```
+
 ## zone
 
 Zones are predefined sets of rules. Network interfaces and sources can be assigned to a zone.
-
 Predefine zone: ```/usr/lib/firewalld/zones/```
 
+### list all zones
+```bash
+$ firewall-cmd --get-zones
+$ firewall-cmd --list-all-zones
+```
 
 id|zone|comment
 ---|---|---
@@ -54,21 +83,17 @@ id|zone|comment
 -|block|Any incoming network connections are rejected with an icmp-host-prohibited message for IPv4 and icmp6-adm-prohibited for IPv6. Only network connections initiated from within the system are possible. 
 
 ```
-default: Only selected incoming connections are accepted.
+Default: Only selected incoming connections are accepted.
 ```
 
-### list zone status
+### set default zone
 ```bash
-$ firewall-cmd --get-active-zone
-$ firewall-cmd --get-zone
-$ firewall-cmd --list-all-zones
-$ firewall-cmd --zone=public --list-all
-```
-
-### get/set default zone
-```bash
-$ firewall-cmd --get-default-zone
 $ firewall-cmd --set-default-zone zone-name
+```
+
+### assign (initial) zone
+```bash
+$ firewall-cmd --zone=home --change-interface=ens0s3
 ```
 
 ### use zone target to set default behavior for incoming traffic
@@ -77,10 +102,6 @@ $ firewall-cmd --zone=zone-name --list-all
 $ firewall-cmd --zone=zone-name --set-target=<default|ACCEPT|REJECT|DROP>
 ``` 
 
-### assign (initial) zone
-```bash
-$ firewall-cmd --zone=home --change-interface=ens0s3
-```
 ### change fielwalld settings
 ```bash
 $ firewall-cmd --permanent --zone=home --change-interface=ens0s3
@@ -88,13 +109,12 @@ $ firewall-cmd --reload
 ```
 
 ## service
-Firewall services are predefined rules that cover all necessary settings to allow incoming traffic for a specific service and they apply within a zone. 
+Firewall services are predefined rules (```/usr/lib/firewalld/services/```) that cover all necessary settings to allow incoming traffic for a specific service and they apply within a zone. 
 Services use one or more ports or addresses for network communication. Firewalls filter communication based on ports. To allow network traffic for a service, its ports must be open. firewalld blocks all traffic on ports that are not explicitly set as open. Some zones, such as trusted, allow all traffic by default.  
 
-### list service & port
+### get services
 ```bash
 $ firewall-cmd --get-services
-$ firewall-cmd --list-services
 ```
 
 ### add service to zone
