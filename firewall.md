@@ -1,4 +1,7 @@
 # Firewall
+
+[](./fig/Linux-firewall.jpg)
+
 A firewall is a way to protect machines from any unwanted traffic from outside. It enables users to control incoming network traffic on host machines by defining a set of firewall rules. These rules are used to sort the incoming traffic and either block it or allow through. 
 
 ## firewalld v.s. iptables
