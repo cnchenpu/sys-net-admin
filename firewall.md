@@ -55,6 +55,11 @@ $ firewall-cmd --zone=public --list-all
 $ firewall-cmd --list-services
 ```
 
+### list open ports
+```bash
+$ firewall-cmd --list-ports
+```
+
 #### "/usr/lib/firewalld/services/ssh.xml:"
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
