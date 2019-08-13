@@ -5,18 +5,20 @@
 A firewall is a way to protect machines from any unwanted traffic from outside. It enables users to control incoming network traffic on host machines by defining a set of firewall rules. These rules are used to sort the incoming traffic and either block it or allow through. 
 
 ## firewalld v.s. iptables
+Unlike the iptables command, the firewall-cmd command does not restart the firewall and disrupt established TCP connections.
 
 ## firewalld
 ***firewalld*** uses the concepts of ***zones*** and ***services***, that simplify the traffic management. **Zones** are predefined sets of rules. Network interfaces and sources can be assigned to a zone. The traffic allowed depends on the network your computer is connected to and the security level this network is assigned. Firewall **services** are predefined rules that cover all necessary settings to allow incoming traffic for a specific service and they apply within a zone. 
 
-### firewalld
+### enable/start/disable firewalld
 ```bash
-$ systemctl status firewalld
 $ systemctl enable firewalld
 $ systemctl start firewalld
+$ systemctl restart firewalld
+$ $ systemctl disable firewalld
 ```
 
-* firewall-cmd
+### configuration files:
 * /etc/firewalld/firewalld.conf
 * /etc/firewalld/lockdown-whitelist.xml
 * /etc/firewalld/zones/
@@ -27,6 +29,7 @@ $ systemctl start firewalld
 ### check running status:
 ```bash
 $ firewall-cmd --state
+$ systemctl status firewalld
 ```
 
 ### get default/active zone:
