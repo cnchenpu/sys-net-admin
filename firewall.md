@@ -73,17 +73,17 @@ $ firewall-cmd --get-zones
 $ firewall-cmd --list-all-zones
 ```
 
-id|zone|comment
----|---|---
-1|public|For use in public areas. You do not trust the other computers on the network. Only selected incoming connections are accepted.
-2|external|For use on external networks with masquerading enabled, especially for routers. You do not trust the other computers on the network. Public area, for NAT.
-3|dmz|For computers in your demilitarized zone that are publicly-accessible with limited access to your internal network.
-4|work|For use at work where you mostly trust the other computers on the network. 
-5|home|For use at home when you mostly trust the other computers on the network. 
-6|internal|For use on internal networks when you mostly trust the other computers on the network.
-7|trusted|All network connections are accepted. 
--|drop|Any incoming network packets are dropped without any notification. Only outgoing network connections are possible. 
--|block|Any incoming network connections are rejected with an icmp-host-prohibited message for IPv4 and icmp6-adm-prohibited for IPv6. Only network connections initiated from within the system are possible. 
+zone|comment
+---|---
+public|For use in public areas. You do not trust the other computers on the network. Only selected incoming connections are accepted.
+external|For use on external networks with masquerading enabled, especially for routers. You do not trust the other computers on the network. Public area, for NAT.
+dmz|For computers in your demilitarized zone that are publicly-accessible with limited access to your internal network.
+work|For use at work where you mostly trust the other computers on the network. 
+home|For use at home when you mostly trust the other computers on the network. 
+internal|For use on internal networks when you mostly trust the other computers on the network.
+trusted|All network connections are accepted. 
+drop|Any incoming network packets are dropped without any notification. Only outgoing network connections are possible. 
+block|Any incoming network connections are rejected with an icmp-host-prohibited message for IPv4 and icmp6-adm-prohibited for IPv6. Only network connections initiated from within the system are possible. 
 
 ```
 Default: Only selected incoming connections are accepted.
