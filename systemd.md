@@ -3,6 +3,12 @@ The *systemd*, system and service manager, is responsible for controlling how se
 
 ## systemd v.s. init scripts
 
+Previous versions of Linux use *init scripts* located in the ```/etc/rc.d/init``` directory to start and stop services. In RHEL 7, these init scripts have been replaced with *systemd service units*. The *systemctl* command lists all loaded service units:
+```bash
+$ systemctl list-units --type service --all
+$ systemctl list-unit-files --type service
+```
+
 ## unit
 
 ```/usr/lib/systemd/system```
@@ -17,3 +23,13 @@ snapshot unit | Can be used to temporarily save the state of the set of systemd 
 swap unit | Encapsulate memory swap partitions or swap files. | .swap
 
 ## target
+
+### Use ***systemd-analyze*** to check server's boot problem
+```bash
+$ systemd-analyze
+$ systemd-analyze time
+$ systemd-analyze blame
+$ systemd-analyze critical-chain
+$ systemd-analyze plot > plot.svg
+```
+![](fig/systemd.svg)
