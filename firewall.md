@@ -50,7 +50,7 @@ $ firewall-cmd --zone=public --list-all
 </zone>
 ```
 
-### list service
+### list open services
 ```bash
 $ firewall-cmd --list-services
 ```
@@ -123,8 +123,9 @@ $ firewall-cmd --reload
 Firewall services are predefined rules (```/usr/lib/firewalld/services/```) that cover all necessary settings to allow incoming traffic for a specific service and they apply within a zone. 
 Services use one or more ports or addresses for network communication. Firewalls filter communication based on ports. To allow network traffic for a service, its ports must be open. firewalld blocks all traffic on ports that are not explicitly set as open. Some zones, such as trusted, allow all traffic by default.  
 
-### get services
+### get all services
 ```bash
+# /usr/lib/firewalld/services/
 $ firewall-cmd --get-services
 ```
 
@@ -137,6 +138,29 @@ $ firewall-cmd --add-service=ssh --zone=public
 ### add port to zone
 ```bash
 $ firewall-cmd --zone=public --add-port=9958/tcp
+```
+
+### create new service
+```bash
+# new service
+$ firewall-cmd --permanent --new-service=iperf3
+
+# add description for new service
+$ firewall-cmd --permanent --service=iperf3 --set-description="iperf3 is an network performance testing tool"
+
+# add short description of the service
+$ firewall-cmd --permanent --service=iperf3 --set-short=iperf3
+
+# add service ports
+$ firewall-cmd --permanent --service=iperf3 --add-port=5201/tcp
+$ firewall-cmd --permanent --service=iperf3 --add-port=5201/udp
+
+# reload firewalld configurations
+$ firewall-cmd --reload
+
+# check new service
+$ firewall-cmd --get-services | grep iperf3
+$ firewall-cmd --info-service=iperf3
 ```
 
 ### disable firewalld
