@@ -6,10 +6,9 @@ View systemd information:
 $
 
 ## unit
+A **unit** file ```/usr/lib/systemd/system/<resource name>.<unit type>``` basically describes a resource and tells **systemd** how to activate that resource.
 
-```/usr/lib/systemd/system/```
-
-unit | function | extention
+unit type | function | extention
 ---|---|---
 service unit | Start and control daemons and the processes they consist of. | .service
 target unit | Replaces init run levels. | .target
@@ -58,7 +57,7 @@ $ systemctl show <name>
 ```
 
 ## target
-
+A ***target unit*** is a special kind of unit file because it doesn’t represent a single resource; rather, it groups other units to bring the system to a particular state. Target units in systemd loosely resemble run levels in System V in the sense that each target unit represents a particular system state.
 In RHEL 7, *run levels* have been replaced with *systemd target units*. Target units have a **.target** extension and similar to run levels. 
 
 ```/usr/lib/systemd/system/runlevel*.target```
@@ -96,9 +95,12 @@ $ systemctl emergency   #put in emergency mode (emergency.target)
 $ systemctl default     #back to default mode (multi-user.target)
 ```
 
-Viewing log messages
+Viewing log messages:
 ```bash
 $ journalctl
+$ journalctl -b     # boot messages
+# time range
+$ journalctl --since "1 hour ago"  |  --since "2 days ago"  |  --since "2019-06-26 23:00:00" --until "2019-06-26 23:20:00" 
 $ journalctl -u <service-name>.service
 $ journalctl -k     # show only kernel messages
 $ journalctl -f     # tail -f /var/log/messages
