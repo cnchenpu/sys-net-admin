@@ -3,10 +3,18 @@
 ## Network devices: Switch, Firewall, Wi-Fi AP.
 
 ## Information services: Server, Storage, KVM.
+- Dell iDRAC
+  ![](fig/iDRAC-0.png)
+  ![](fig/iDRAC-1.jpg)
+
+![](fig/server-1.jpg)
+
 
 ## Power: Power cable, UPS.
 
 ## Cooling: AC, Water cooler
+- Humidity: 40%-60%
+- Temperature: 18-27&deg;C
 
 ## Fire: Fire extinguisher, Smoke detectors.
 
