@@ -19,3 +19,6 @@
 ![](fig/cabling-3.jpg)
 ![](fig/cabling-4.jpg)
 ![](fig/cabling-0.jpg)
+
+[Stack Overflow: The Architecture](https://nickcraver.com/blog/2016/02/17/stack-overflow-the-architecture-2016-edition/)
+
