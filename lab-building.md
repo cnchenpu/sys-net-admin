@@ -13,3 +13,9 @@
 ## Security: Access contorl, Camera.
 
 ## Other: Rack, Patch panel.
+
+![](fig/cabling-1.jpg)
+![](fig/cabling-2.jpg)
+![](fig/cabling-3.jpg)
+![](fig/cabling-4.jpg)
+![](fig/cabling-0.jpg)
