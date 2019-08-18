@@ -1,0 +1,15 @@
+# Data Center / Lab
+
+## Network devices: Switch, Firewall, Wi-Fi AP.
+
+## Information services: Server, Storage, KVM.
+
+## Power: Power cable, UPS.
+
+## Cooling: AC, Water cooler
+
+## Fire: Fire extinguisher, Smoke detectors.
+
+## Security: Access contorl, Camera.
+
+## Other: Rack, Patch panel.
