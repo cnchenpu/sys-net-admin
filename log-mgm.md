@@ -3,7 +3,7 @@
 ## journalctl
 **journalctl** is a utility for querying and displaying logs from journald, systemd’s logging service.
 
-Viewing log messages:
+### Viewing log messages:
 ```bash
 $ journalctl
 $ journalctl -b     # boot messages
@@ -20,7 +20,7 @@ $ systemctl list-units --type service --all | grep rsyslog
 $ systemctl status rsyslog.service
 ```
 
-configuration file of *rsyslogd*: /etc/rsyslog.conf
+### Configuration file for *rsyslogd*: /etc/rsyslog.conf
 ```bash
 # The imjournal module bellow is now used as a message source instead of imuxsock.
 $ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
@@ -51,7 +51,7 @@ $InputTCPServerRun 514
 
 ## *logrotate* - Log Rotation
 
-configuration files: /etc/logrotate.conf
+### Configuration file for log rotation: /etc/logrotate.conf
 ```bash
 # rotate log files weekly
 weekly 
@@ -72,7 +72,7 @@ dateext
 include /etc/logrotate.d
 ```
 
-configuration files: /etc/logrotate.d/syslog
+### Configuration files for log rotation: /etc/logrotate.d/syslog
 ```bash
 /var/log/cron
 /var/log/maillog
@@ -94,3 +94,7 @@ configuration files: /etc/logrotate.d/syslog
 }
 ```
 
+### Tells logrotate to force the rotation:
+```bash
+$ logrotate -fv /etc/logrotate.conf
+```
