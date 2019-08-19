@@ -1,10 +1,6 @@
 # systemd
 The *systemd*, system and service manager, is responsible for controlling how services are started, stopped and managed. It is backward compatible with *init scripts* used by previous versions of Linux.
 
-View systemd information:
-```bash
-$
-
 ## unit
 A **unit** file ```/usr/lib/systemd/system/<resource name>.<unit type>``` basically describes a resource and tells **systemd** how to activate that resource.
 
@@ -23,38 +19,80 @@ Previous versions of Linux use *init scripts* located in the ```/etc/rc.d/init.d
 
 ## service
 
-Display the status of all services:
+### Check service configurations:
+```bash
+$ cat /usr/lib/systemd/system/<service name>.service
+
+$ systemctl cat <service-name>.service
+```
+
+### Edit service unit (configuration) file:
+```bash
+$ systemctl edit --full <service-name>.service
+```
+
+### E.q.: firewalld.service unti file (```systemctl cat firewalld.service```):
+```bash
+# /etc/systemd/system/firewalld.service
+[Unit]
+Description=firewalld - dynamic firewall daemon
+Before=network-pre.target
+Wants=network-pre.target
+After=dbus.service
+After=polkit.service
+Conflicts=iptables.service ip6tables.service ebtables.service ipset.service
+Documentation=man:firewalld(1)
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/firewalld
+ExecStart=/usr/sbin/firewalld --nofork --nopid $FIREWALLD_ARGS
+ExecReload=/bin/kill -HUP $MAINPID
+# supress to log debug and error output also to /var/log/messages
+StandardOutput=null
+StandardError=null
+Type=dbus
+BusName=org.fedoraproject.FirewallD1
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
+Alias=dbus-org.fedoraproject.FirewallD1.service
+```
+
+
+### Display the status of all services:
 ```bash
 #service utility
 $ service --status-all
 #chkconfig utility
 $ chkconfig --list 
-$ chkconfig --list <name>
+$ chkconfig --list <service-name>
 #systemctl utility
 $ systemctl list-units --type service --all
 $ systemctl list-unit-files --type service
 ```
 
-Starting and stopping services:
+### Starting and stopping services:
 ```bash
 #service utility
-$ service <name> status | start | stop | restart 
+$ service <service-name> status | start | stop | restart 
 #systemctl utility
-$ systemctl status | start | stop | restart <name>
+$ systemctl status | start | stop | restart | reload <service-name>
 ```
 
-Enabling and disabling services:
+### Enabling and disabling services:
 ```bash
 #chkconfig utility
-$ chkconfig <name> on | off
+$ chkconfig <service-name> on | off
 #systemctl utility
-$ systemctl enable | disable <name>
+$ systemctl enable | disable <service-name>
 ```
 
-Show service info:
+### Show service detail info:
 ```bash
-$ systemctl show <name>
+$ systemctl show <service-name>
 ```
+
 
 ## target
 A ***target unit*** is a special kind of unit file because it doesn’t represent a single resource; rather, it groups other units to bring the system to a particular state. Target units in systemd loosely resemble run levels in System V in the sense that each target unit represents a particular system state.
@@ -70,24 +108,24 @@ run level | target units | description
 5 | runlevel5.target, graphical.target | graphical multi-user mode
 6 | runlevel6.target, reboot.target | system reboot
 
-List the currently active targets:
+### List the currently active targets:
 ```bash
 $ systemctl list-units --type target
 ```
 
-Check default target mode:
+### Check default target mode:
 ```bash
 $ systemctl get-default
 $ ll /etc/systemd/system/default.target
 $ runlevel
 ```
 
-Set default target mode:
+### Set default target mode:
 ```bash
 $ systemctl set-default multi-user.target
 ```
 
-Changing system states:
+### Changing system states:
 ```bash
 $ systemctl reboot      #reboot (reboot.target)
 $ systemctl poweroff    #power off (poweroff.target)
@@ -95,7 +133,7 @@ $ systemctl emergency   #put in emergency mode (emergency.target)
 $ systemctl default     #back to default mode (multi-user.target)
 ```
 
-Viewing log messages:
+### Viewing log messages:
 ```bash
 $ journalctl
 $ journalctl -b     # boot messages
