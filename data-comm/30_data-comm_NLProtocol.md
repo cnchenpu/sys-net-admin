@@ -96,4 +96,3 @@ __The minimum lenght of IP header is 20 bytes.__
 
 ![](fig/ICMP-ping-2.png)
 
-# HW 8: Give your wireshark example of IP header (due date: 12/11).

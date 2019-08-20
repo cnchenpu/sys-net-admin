@@ -1,5 +1,3 @@
-Please refer to textbook [chapter 2](https://github.com/cnchenpu/data-comm/blob/master/ppt/Ch2-Forouzan.ppt).
-
 # Data Communications Across a Link
 - Converting data (e.g. bits) into signals to be sent across the link (Physical layer)
 - Ensuring link is ready for data transmission, reliable/efficient transmission of data (Data link layer) <br>

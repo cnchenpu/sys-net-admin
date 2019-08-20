@@ -1,17 +1,15 @@
-Please refer to textbook [chapter 9](https://github.com/cnchenpu/data-comm/blob/master/ppt/Ch9-Forouzan.ppt).
-
 # Data-Link Layer
 - node to node communication through links
   - point-to-point
   - broadcase
 - controls how the media is used  
-  - data link control (chapter 11)
-  - media access contorl (chapter 12)
+  - data link control
+  - media access contorl
 
 ## Data-Link Layer Services
 - Framing
   - encapsulate/decapsulate dtatgram before sending and after receiving it in nodes
-- Error Contorl (chapter 10)
+- Error Contorl
   - detect the frame error
     - correct it at receiver
     - retransmit it by sender

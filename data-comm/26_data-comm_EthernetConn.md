@@ -1,5 +1,3 @@
-Please refer to textbook [chapter 17](https://github.com/cnchenpu/data-comm/blob/master/ppt/Ch17-Forouzan.ppt).
-
 # Connection devices
 - Hub
   - only for physical layer

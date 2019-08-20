@@ -20,8 +20,6 @@
 ![](fig/network-layer-destination.png)
 
 ## Switching
-[ch.8](https://github.com/cnchenpu/data-comm/blob/master/17_data-comm_switch.md#switching)
-
 - Circuit switching
     + Connection Oriented
 - Packet switching
