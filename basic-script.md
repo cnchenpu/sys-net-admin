@@ -2,23 +2,23 @@
 
 - Beginning with ```#!/bin/bash```
 - Specical variables:
-  - $0 - The name of the Bash script.
-  - $1 - $9 - The first 9 arguments to the Bash script. (As mentioned above.)
-  - $# - How many arguments were passed to the Bash script.
-  - $@ - All the arguments supplied to the Bash script.
-  - $? - The exit status of the most recently run process.
-  - $$ - The process ID of the current script.
-  - ${#VAR} - Length of a variable.
+  - $0 : The name of the Bash script.
+  - $1 ~ $9 : The first 9 arguments to the Bash script. (As mentioned above.)
+  - $# : How many arguments were passed to the Bash script.
+  - $@ : All the arguments supplied to the Bash script.
+  - $? : The exit status of the most recently run process.
+  - $$ : The process ID of the current script.
+  - ${#VAR} : Length of a variable.
   
-- VAR=$(`command`) - Save the output of the command into a variable VAR
-- ```read VAR``` - Read and save input into a variable VAR
+- VAR=$(`command`) : Save the output of the command into a variable VAR
+- ```read VAR``` : Read and save input into a variable VAR
 - ```let "VAR = <expression>"```
 - ```expr "item1 operator item2"```
 - ```VAR=$( expr expression )```
 - ```VAR=$(( expression ))```
-  - operator: +, -, *, /, ++, --, %
+  - operator : +, -, *, /, ++, --, %
 
-## Re-direct
+## Re-direct: <, >
 ```bash
 # Re-direct output and error to test.log
 # 1: stdout
@@ -26,7 +26,7 @@
 $ test > test.log 2>&1
 ```
 
-## pipe
+## pipe: |
 
 ## Conditions
 ### if
@@ -58,16 +58,16 @@ esac
 ```
 
 ### test operations
-- ! exp - false expression
-- -n string - The length of string is greater than zero
-- -z string - the length of string is zero (empty) 
-- string1 = string2 - strings are equal
-- string1 != string2 - strings are not equal
-- integer1 -eq integer2 - integers are equal
-- integer1 -gt integer2 - integer1 is greater than integer2
-- integer1 -lt integer2 - integer1 is less than integer2
-- -d DIR - directory DIR exists
-- -e file - file exists
+- ! exp : false expression
+- -n string : The length of string is greater than zero
+- -z string : the length of string is zero (empty) 
+- string1 = string2 : strings are equal
+- string1 != string2 : strings are not equal
+- integer1 -eq integer2 : integers are equal
+- integer1 -gt integer2 : integer1 is greater than integer2
+- integer1 -lt integer2 : integer1 is less than integer2
+- -d DIR : directory DIR exists
+- -e file : file exists
 
 
 ## Loop
@@ -112,33 +112,84 @@ function_name VAR
 ```
 
 
+## Filters
+### head [-number of lines to print] [file]
+View the first n lines of data.
+
+### tail [-number of lines to print] [path]
+View the last n lines of data.
+
+### sort [-options] [path]
+Organise the data into order.
+
+### nl [-options] [path]
+Print line numbers before data.
+
+### wc [-options] [path]
+Print a count of lines, words and characters.
+
+### cut [options] [file]
+Cut the data into fields and only display the specified fields.
+```bash
+# -f : select only these fields
+# -d : field delimiter
+$ cut -f 1,2 -d ' ' test.log
+```
+
+### uniq [file]
+Report or omit repeated lines.
+
+### tac [file]
+Print files in reverse of ```cat```.
+
+## sed <expression> [file]
+Do a search and replace on the data.
+```bash
+# e.q.: s/search/replace/g
+# s : substitute
+# g : global (optional)
+$ sed 's/Warning/Error/g' test.log
+```
+
+
 ## egrep [option] '<pattern>' [file-path]
 
-### option: basic usage
-- -i - Ignore case.
-- -v - Return all lines which don't match the pattern.
-- -w - Select only matches that from whole words.
-- -c - Conunt of matching lines.
-- -l - Print the file name which contains a match.
-- -n - Print the line number before each line that matches.
-- -r - Read all files in given directory and sub-directories recursively.
+### option : basic usage
+- -i : Ignore case.
+- -v : Return all lines which don't match the pattern.
+- -w : Select only matches that from whole words.
+- -c : Conunt of matching lines.
+- -l : Print the file name which contains a match.
+- -n : Print the line number before each line that matches.
+- -r : Read all files in given directory and sub-directories recursively.
 
 ### pattern: Reqular Expression
--    . (dot) - a single character.
--    ? - the preceding character matches 0 or 1 times only.
--    * - the preceding character matches 0 or more times.
--    + - the preceding character matches 1 or more times.
--    {n} - the preceding character matches exactly n times.
--    {n,m} - the preceding character matches at least n times and not more than m times.
--    [agd] - the character is one of those included within the square brackets.
--    [^agd] - the character is not one of those included within the square brackets.
--    [c-f] - the dash within the square brackets operates as a range. In this case it means either the letters c, d, e or f.
--    () - allows us to group several characters to behave as one.
--    | (pipe symbol) - the logical OR operation.
--    ^ - matches the beginning of the line.
--    $ - matches the end of the line. 
+-    . (dot) : a single character.
+-    ? : the preceding character matches 0 or 1 times only.
+-    * : the preceding character matches 0 or more times.
+-    + : the preceding character matches 1 or more times.
+-    {n} : the preceding character matches exactly n times.
+-    {n,m} : the preceding character matches at least n times and not more than m times.
+-    {n,} : match at least x times.
+-    [agd] : the character is one of those included within the square brackets.
+-    [^agd] : the character is not one of those included within the square brackets.
+-    [c-f] : the dash within the square brackets operates as a range. In this case it means either the letters c, d, e or f.
+-    \s : anything which is considered whitespace.
+-    \S : anything which is NOT considered whitespace.
+-    \d : a digit (ie. 0 ~ 9).
+-    \D : anything which is NOT a digit.
+-    \w : anything which is considered a word character.
+-    \W : anything which is NOT considered a word character.
+-    () : allows us to group several characters to behave as one.
+-    | (pipe symbol) : the logical OR operation.
+-    ^ : matches the beginning of the line.
+-    $ : matches the end of the line. 
+-    \b : word boundary - wither the beginning or end of a word.
+-    e.q. credit card numbers: ```\d{4}[-, ]?\d{4}[-, ]?\d{4}[-, ]\d{4}```
+-    e.q. email address: ```[a-zA-Z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}```
+-    e.q. IP address: ```\b(\d{1,3}\.){3}\d{1,3}\b```
 
-#### E.q.
+
 - ```egrep 'mellon' myfile.txt```
   
   Print every line in myfile.txt containing the string 'mellon'.
@@ -151,13 +202,13 @@ function_name VAR
     
     Print each file in the directory projectx which contains a number of 8 digits or more.
 
-- ```egrep '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}' myfile.txt```
+- ```egrep '[a-z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}' myfile.txt```
     
     Print every line of myfiles.txt containing an email address.
 
-## awk '{actions}' file-to-process
 
-#### E.q.
+
+## awk '{actions}' file-to-process
 ```bash
 # source example file
 $ cat mysampledata.txt
