@@ -1,4 +1,4 @@
-# Netwprk Layer
+# Network Layer
 ![](fig/network-layer.png)
 
 ## Inter-Networking
