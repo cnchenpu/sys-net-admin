@@ -18,6 +18,12 @@ iptables -A chain rule
     - match = -m match-name
     - target = -j ACCEPT|DROP
 
+# delete a rule from a chain
+iptables -D chain rule-number
+
+# insert a rule into a chain
+iptbles -I chain rule-number
+
 # list iptable rules
 iptables -L|-S
 
@@ -158,6 +164,7 @@ target     prot opt source               destination
 
 - Save to configuration file.
   - ```iptables-save | tee /etc/sysconfig/iptables```
+(only show the filter table)  
 ```
 *filter
 :INPUT DROP [240:18987]
