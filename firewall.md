@@ -5,7 +5,27 @@
 A firewall is a way to protect machines from any unwanted traffic from outside. It enables users to control incoming network traffic on host machines by defining a set of firewall rules. These rules are used to sort the incoming traffic and either block it or allow through. 
 
 ## firewalld v.s. iptables
-Unlike the iptables command, the firewall-cmd command does not restart the firewall and disrupt established TCP connections.
+
+The essential differences between firewalld and the iptables (and ip6tables) services are:
+- The **iptables** service stores configuration in ```/etc/sysconfig/iptables``` and ```/etc/sysconfig/ip6tables```, while **firewalld** stores it in various XML files in ```/usr/lib/firewalld/``` and ```/etc/firewalld/```. Note that the ```/etc/sysconfig/iptables``` file does not exist as **firewalld** is installed by default on RHEL 7.x.
+- With the **iptables** service, every single change means flushing all the old rules and reading all the new rules from ```/etc/sysconfig/iptables```, while with **firewalld** there is no recreating of all the rules. Only the differences are applied. Consequently, **firewalld** can change the settings during runtime without existing connections being lost. Unlike the iptables command, the firewall-cmd command does not restart the firewall and disrupt established TCP connections.
+
+To use the **iptables** services instead of **firewalld**, needs to disable **firewalld** service and install ***iptables-services*** package.
+1. Disable and stop firewalld:
+  ```
+  - systemctl disable firewalld
+  - systemctl stop firewalld
+  ```
+2. Install iptables-services package:
+  ```
+  - yum install iptables-services
+  ```
+3. Start and enable iptables:
+  ```
+  - systemctl start iptables
+  - systemctl enable iptables
+  ```
+4. Configure iptables rules.  
 
 ## firewalld
 ***firewalld*** uses the concepts of ***zones*** and ***services***, that simplify the traffic management. **Zones** are predefined sets of rules. Network interfaces and sources can be assigned to a zone. The traffic allowed depends on the network your computer is connected to and the security level this network is assigned. Firewall **services** are predefined rules that cover all necessary settings to allow incoming traffic for a specific service and they apply within a zone. 

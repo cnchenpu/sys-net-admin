@@ -113,6 +113,10 @@ target     prot opt source               destination
   - only allow SSH connection from specific IP address
   - ```iptables -A INPUT -p tcp -s YOUR_IP_ADDRESS -m tcp --dport 22 -j ACCEPT```
 
+- Allow return traffic initiated by the server.
+  - insert a rule to accept connections which the status are ESTABLISHED & RELATED
+  - ```iptables -I INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT```
+
 - Allow all outgoing connections.
   - ```iptables -P OUTPUT ACCEPT```
 
@@ -124,7 +128,8 @@ target     prot opt source               destination
   - ```iptables -L```
 ```
 Chain INPUT (policy DROP)
-target     prot opt source               destination         
+target     prot opt source               destination
+ACCEPT     all  --  anywhere             anywhere            state RELATED,ESTABLISHED          
 DROP       tcp  --  anywhere             anywhere            tcp flags:FIN,SYN,RST,PSH,ACK,URG/NONE 
 DROP       tcp  --  anywhere             anywhere            tcp flags:!FIN,SYN,RST,ACK/SYN state NEW 
 DROP       tcp  --  anywhere             anywhere            tcp flags:FIN,SYN,RST,PSH,ACK,URG/FIN,SYN,RST,PSH,ACK,URG 
@@ -149,6 +154,7 @@ target     prot opt source               destination
 -P INPUT DROP
 -P FORWARD ACCEPT
 -P OUTPUT ACCEPT
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
 -A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP 
 -A INPUT -p tcp -m tcp ! --tcp-flags FIN,SYN,RST,ACK SYN -m state --state NEW -j DROP 
 -A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,PSH,ACK,URG -j DROP 
@@ -170,6 +176,7 @@ target     prot opt source               destination
 :INPUT DROP [240:18987]
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [244:22380]
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
 -A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP 
 -A INPUT -p tcp -m tcp ! --tcp-flags FIN,SYN,RST,ACK SYN -m state --state NEW -j DROP 
 -A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,PSH,ACK,URG -j DROP 
