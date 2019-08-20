@@ -5,18 +5,18 @@ Man page: **iptables** is used to set up, maintain, and inspect the ***tables***
 
 ```Note: Table << Chain << Rule ```
 
-Synopsis:
+## Synopsis:
 ```bash
 # appand a rule to the end of chain
 iptables -A chain rule
-    - chain : INPUT, FORWARD, OUTPUT,...
+    - chain : INPUT, FORWARD, OUTPUT,
     - rule = [parameters] [match] [target]
     - parameters :
         -p : protocol (tcp, udp, /etc/protocol)
         -s : source address
         -d : destination address
     - match = -m match-name
-    - target = -j chain-name (ACCEPT, DROP)
+    - target = -j ACCEPT|DROP
 
 # list iptable rules
 iptables -L|-S
@@ -35,7 +35,7 @@ $ lsmod | grep tables
 ```
 
 
-## 1. decide which ports and services to open
+## 1. Decide which ports and services to open
 We will need secure remote access, web and email services.
 - SSH: 22
 - HTTP: 80
@@ -49,6 +49,23 @@ We will need secure remote access, web and email services.
 
 ## 2. Flush the firewall rules - erase them all
 - ```iptables -F```
+- Results: empty default filter table (```iptables -L```)
+```
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination  
+```
+- Results: accept all (```iptables -S```)
+```
+-P INPUT ACCEPT
+-P FORWARD ACCEPT
+-P OUTPUT ACCEPT
+```
 
 ## 3. Block the most common attacks
 - Block **[null packets](https://ddos-guard.net/en/terminology/attack_type/tcp-null-attack)** which used for port scanning.
@@ -99,10 +116,66 @@ We will need secure remote access, web and email services.
 ## Check, save and activate iptables configurations
 - List rults.
   - ```iptables -L```
+```
+Chain INPUT (policy DROP)
+target     prot opt source               destination         
+DROP       tcp  --  anywhere             anywhere            tcp flags:FIN,SYN,RST,PSH,ACK,URG/NONE 
+DROP       tcp  --  anywhere             anywhere            tcp flags:!FIN,SYN,RST,ACK/SYN state NEW 
+DROP       tcp  --  anywhere             anywhere            tcp flags:FIN,SYN,RST,PSH,ACK,URG/FIN,SYN,RST,PSH,ACK,URG 
+ACCEPT     all  --  anywhere             anywhere            
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:http 
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:https 
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:pop3 
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:pop3s 
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:imap 
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:imaps 
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:ssh 
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination 
+```
+
   - ```iptables -S```
+```
+-P INPUT DROP
+-P FORWARD ACCEPT
+-P OUTPUT ACCEPT
+-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP 
+-A INPUT -p tcp -m tcp ! --tcp-flags FIN,SYN,RST,ACK SYN -m state --state NEW -j DROP 
+-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,PSH,ACK,URG -j DROP 
+-A INPUT -i lo -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 110 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 995 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 143 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 993 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT 
+```
 
 - Save to configuration file.
   - ```iptables-save | tee /etc/sysconfig/iptables```
+```
+*filter
+:INPUT DROP [240:18987]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [244:22380]
+-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP 
+-A INPUT -p tcp -m tcp ! --tcp-flags FIN,SYN,RST,ACK SYN -m state --state NEW -j DROP 
+-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,PSH,ACK,URG -j DROP 
+-A INPUT -i lo -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 110 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 995 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 143 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 993 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT 
+COMMIT
+```
 
 - Restart iptables service.
   - ```service iptables restart```
