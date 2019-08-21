@@ -31,14 +31,14 @@ $ systemctl cat <service-name>.service
 $ systemctl edit --full <service-name>.service
 ```
 
-### E.q.: firewalld.service unti file (```systemctl cat firewalld.service```):
+### E.q.: firewalld.service unit file (```systemctl cat firewalld.service``` or ```/usr/lib/systemd/system/firewalld.service```):
 ```bash
 # /etc/systemd/system/firewalld.service
 [Unit]
 Description=firewalld - dynamic firewall daemon
-Before=network-pre.target
-Wants=network-pre.target
-After=dbus.service
+Before=network-pre.target   # Before: this (firewalld) service will be started BEFORE the 'network-pre.target'
+Wants=network-pre.target    # Wants: the 'network-pre.target' will be started when this (firewalld) service starts. The firewalld WANTS the network-pre.target, but not necessary.
+After=dbus.service          # After: this (firewalld) service will be started AFTER the 'dbus.service'
 After=polkit.service
 Conflicts=iptables.service ip6tables.service ebtables.service ipset.service
 Documentation=man:firewalld(1)
@@ -55,7 +55,7 @@ BusName=org.fedoraproject.FirewallD1
 KillMode=mixed
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi-user.target  # WantedBy: the firewalls is WANTEDBY the 'multi-user.target', but not necessary. The firewalld will be started after 'multi-user.target' starts.
 Alias=dbus-org.fedoraproject.FirewallD1.service
 ```
 

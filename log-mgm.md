@@ -1,20 +1,34 @@
 # Log Management
 
 ## journalctl
-**journalctl** is a utility for querying and displaying logs from journald, systemd’s logging service.
+**journalctl** is a utility for querying and displaying logs from systemd’s journal (```systemd-journald.service```). 
 
-### Viewing log messages:
+### Viewing journal log messages:
 ```bash
 $ journalctl
 $ journalctl -b     # boot messages
 # time range
 $ journalctl --since "1 hour ago"  |  --since "2 days ago"  |  --since "2019-06-26 23:00:00" --until "2019-06-26 23:20:00" 
-$ journalctl -u <service-name>.service
+$ journalctl -u <service-name>.service      # show only specific service log
 $ journalctl -k     # show only kernel messages
 $ journalctl -f     # tail -f /var/log/messages
 ```
 
-## *rsyslog.service* - System Logging Service
+
+## systemd-journald
+**systemd-journald** is a system service (```systemd-journald.service```) that collects and stores logging data. By default, the journal stores log data in ```/run/log/journal/```. Since /run/ is volatile, log data is lost at reboot. The configuration file is ```/etc/systemd/journald.conf```.
+```bash
+$ systemctl list-units --type service --all | grep journal
+systemd-journal-flush.service   # Flush Journal to Persistent Storage
+systemd-journald.service        # Journal Service
+systemd-journald.socket         # Journal Socket
+
+$ systemctl status systemd-journald.service
+```
+Journal events can be transferred to traditional syslog daemon (***syslogd***). The syslog daemon behaves like a normal journal client, and reads messages from the journal files, similarly to journalctl.
+
+
+## *rsyslog.service* - System Logging Service (extened of traditional *syslogd*)
 ```bash
 $ systemctl list-units --type service --all | grep rsyslog
 $ systemctl status rsyslog.service
@@ -22,6 +36,7 @@ $ systemctl status rsyslog.service
 
 ### Configuration file for *rsyslogd*: /etc/rsyslog.conf
 ```bash
+#### MODULES ####
 # The imjournal module bellow is now used as a message source instead of imuxsock.
 $ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
 $ModLoad imjournal # provides access to the systemd journal
@@ -31,7 +46,15 @@ $ModLoad imjournal # provides access to the systemd journal
 # Provides TCP syslog reception
 $ModLoad imtcp
 $InputTCPServerRun 514
+....
 
+#### RULES ####
+# Log anything (except mail) of level info or higher.
+# Don't log private authentication messages!
+*.info;mail.none;authpriv.none;cron.none                /var/log/messages
+....
+
+# ### begin forwarding rule ###
 # remote host is: name/ip:port, e.g. 192.168.0.1:514, port optional
 #*.* @@remote-host:514
 ```
