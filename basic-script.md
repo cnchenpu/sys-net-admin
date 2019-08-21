@@ -231,3 +231,15 @@ $ awk '{print $2}' mysampledata.txt
 # print folmated lines and if the value colume 3 > 10
 $ awk '$3 > 10 {print $1 " - " $2 " : " $3}' mysampledata.txt
 ```
+
+
+## Script Debug
+
+- [ShellCheck](https://www.shellcheck.net/)
+    finds bugs in your shell scripts. 
+
+- Run script in debug mode:
+```
+$ export PS4=' $BASH_SOURCE:$LINENO: ${function}'
+$ bash -x script-name.sh
+```
