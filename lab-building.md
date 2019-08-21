@@ -9,7 +9,6 @@
 
 ![](fig/server-1.jpg)
 
-
 ## Power: Power cable, UPS.
 
 ## Cooling: AC, Water cooler
@@ -22,11 +21,17 @@
 
 ## Other: Rack, Patch panel.
 
+### Cabling
+- Horizontal Cable Manager
+- Vertical Cable Manager
+- Cable Hangers and Trays
+- Patch Panels
+
+![](data-comm/fig/network-cabling.png)
+
 ![](fig/cabling-1.jpg)
 ![](fig/cabling-2.jpg)
 ![](fig/cabling-3.jpg)
 ![](fig/cabling-4.jpg)
 ![](fig/cabling-0.jpg)
-
-[Stack Overflow: The Architecture](https://nickcraver.com/blog/2016/02/17/stack-overflow-the-architecture-2016-edition/)
 

@@ -64,7 +64,6 @@
 - Cooling System
 - Overhead Cable Pathway
 - ...
-- A practice guide: [Cabling the Data Center](https://www.brocade.com/content/dam/common/documents/content-types/product-design-guide/cabling-best-practices-ga-bp-036-02.pdf)
 
 ![](fig/network-cabling.png)
 
