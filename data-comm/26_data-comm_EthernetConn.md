@@ -15,6 +15,11 @@
 
 ![](fig/connection-devices.png)
 
+## Routing
+![](fig/route-1.jpg)
+![](fig/route-2.jpg)
+![](fig/route-3.jpg)
+
 ## Link-layer switch construct the swtiching table by learning
 ![](fig/switching-table.png)
 
