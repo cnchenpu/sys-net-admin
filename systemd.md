@@ -1,5 +1,5 @@
 # systemd
-The *systemd*, system and service manager, is responsible for controlling how services are started, stopped and managed. It is backward compatible with *init scripts* used by previous versions of Linux.
+The *systemd*, system and service manager, is responsible for controlling how services are started, stopped and managed. It is backward compatible with *init scripts* used by previous versions of Linux. The *systemd* management command is ```systemctl```.
 
 ## unit
 A **unit** file ```/usr/lib/systemd/system/<resource name>.<unit type>``` basically describes a resource and tells **systemd** how to activate that resource.
@@ -12,6 +12,29 @@ mount unit | Contorl mount points in the file system. | .mount
 device unit | Expose kernel devices in systemd | .device
 snapshot unit | Can be used to temporarily save the state of the set of systemd units, which can later be restored by activating the saved snapshot unit. | .snapshot
 swap unit | Encapsulate memory swap partitions or swap files. | .swap
+
+List current active units:
+```bash
+$ systemctl list-units
+```
+List all loaded units:
+```bash
+$ systemctl list-units --all
+```
+List all unit file:
+```bash
+$ systemctl list-unit-files
+$ ls /usr/lib/systemd/system/
+```
+Display a unit file of a service:
+```bash
+$ systemctl cat <service-name>.service
+```
+Checking server properties:
+```bash
+$ systemctl show <service-name>.service
+```
+
 
 ## systemd service units v.s. init scripts
 
