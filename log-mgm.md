@@ -25,8 +25,11 @@ systemd-journald.socket         # Journal Socket
 
 $ systemctl status systemd-journald.service
 ```
-Journal events can be transferred to traditional syslog daemon (***syslogd***). The syslog daemon behaves like a normal journal client, and reads messages from the journal files, similarly to journalctl.
 
+
+### Log flow
+Journal events can be transferred to traditional syslog daemon (***syslogd***). The syslog daemon behaves like a normal journal client, and reads messages from the journal files, similarly to journalctl.
+![](fig/log-flow.jpg)
 
 ## *rsyslog.service* - System Logging Service (extened of traditional *syslogd*)
 ```bash
