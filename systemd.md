@@ -93,6 +93,7 @@ Alias=dbus-org.fedoraproject.FirewallD1.service
 Shows units required and wanted by the specified unit.
 ```bash
 $ systemctl list-dependencies [service-name]
+$ systemctl show <service-name> | egrep 'After|Before'
 ```
 
 ![](fig/unit-dep2.jpg)
@@ -127,6 +128,22 @@ $ chkconfig <service-name> on | off
 $ systemctl enable | disable <service-name>
 ```
 
+Enable service will create a symbolic link to the service's configuration file (```/usr/lib/systemd/system/<service-name>.service```) at the **.wants** directory which specified by the **"WantedBy="** option. The ```<unit name>.wants``` directories are used to configure autostartup of services.
+
+For example:
+```bash
+$ systemctl enable firewalld.service
+Created symlink from /etc/systemd/system/multi-user.target.wants/firewalld.service to /etc/systemd/system/firewalld.service.
+
+$ ll /etc/systemd/system/multi-user.target.wants/
+lrwxrwxrwx. 1 root root 41 Aug  6 14:42 firewalld.service -> /usr/lib/systemd/system/firewalld.service
+```
+
+### Check if service is enabled:
+```bash
+$ systemctl is-enabled <service-name>
+```
+
 ### Show service detail info:
 ```bash
 $ systemctl show <service-name>
@@ -154,6 +171,7 @@ $ systemctl list-units --type target
 
 ### Check default target mode:
 ```bash
+# RHEL6: /etc/inittab
 $ systemctl get-default
 $ ll /etc/systemd/system/default.target
 $ runlevel
@@ -181,6 +199,13 @@ $ journalctl --since "1 hour ago"  |  --since "2 days ago"  |  --since "2019-06-
 $ journalctl -u <service-name>.service
 $ journalctl -k     # show only kernel messages
 $ journalctl -f     # tail -f /var/log/messages
+```
+
+
+### Show control group
+```bash
+$ systemd-cgls
+$ systemd-cgtop
 ```
 
 ### Use *systemd-analyze* to check server's boot problem
