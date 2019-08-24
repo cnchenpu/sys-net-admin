@@ -1,6 +1,7 @@
 # Data Center / Lab
 
 ## Network devices: Switch, Firewall, Wi-Fi AP.
+![](fig/networking.jpg)
 
 ## Information services: Server, Storage, KVM.
 - Dell iDRAC
@@ -10,6 +11,7 @@
 ![](fig/server-1.jpg)
 
 ## Power: Power cable, UPS.
+![](fig/UPS.jpg)
 
 ## Cooling: AC, Water cooler
 - Humidity: 40%-60%
@@ -21,16 +23,16 @@
 ## Fire: Fire extinguisher, Smoke detectors.
 
 ## Security: Access contorl, Camera.
+![](fig/acc.jpg)
 
 ## Other: Rack, Patch panel.
+![](data-comm/fig/network-cabling.png)
 
 ### Cabling
 - Horizontal Cable Manager
 - Vertical Cable Manager
 - Cable Hangers and Trays
 - Patch Panels
-
-![](data-comm/fig/network-cabling.png)
 
 ![](fig/cabling-1.jpg)
 ![](fig/cabling-2.jpg)
