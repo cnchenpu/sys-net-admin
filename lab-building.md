@@ -4,8 +4,8 @@
 
 ## Information services: Server, Storage, KVM.
 - Dell iDRAC
-  ![](fig/iDRAC-0.png)
-  ![](fig/iDRAC-1.jpg)
+![](fig/iDRAC-0.png)
+![](fig/iDRAC-1.jpg)
 
 ![](fig/server-1.jpg)
 
@@ -14,6 +14,9 @@
 ## Cooling: AC, Water cooler
 - Humidity: 40%-60%
 - Temperature: 18-27&deg;C
+
+![](fig/cooling.jpg)
+![](fig/cooling-2.jpg)
 
 ## Fire: Fire extinguisher, Smoke detectors.
 
@@ -34,4 +37,7 @@
 ![](fig/cabling-3.jpg)
 ![](fig/cabling-4.jpg)
 ![](fig/cabling-0.jpg)
+![](fig/cabling-5.jpg)
+![](fig/cabling-6.jpg)
+![](fig/cabling-7.jpg)
 
