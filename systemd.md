@@ -1,9 +1,12 @@
 # systemd
 The *systemd*, system and service manager, is responsible for controlling how services are started, stopped and managed. It is backward compatible with *init scripts* used by previous versions of Linux. The *systemd* management command is ```systemctl```.
 
+## How systemd boots the system?
+Kernel runs the ```/sbin/init``` which links to ```/lib/systemd/systemd```. It runs the default target, ```/etc/systemd/system/default.target```, which link to ```/lib/systemd/system/multi-user.target``` for a text login or ```/usr/lib/systemd/system/graphical.target``` for a GUI environment.
+
 
 ## Unit
-A **unit** file ```/usr/lib/systemd/system/<resource name>.<unit type>``` basically describes a resource and tells **systemd** how to activate that resource.
+The basic item of configuration is the **unit** file. A **unit** file ```/usr/lib/systemd/system/<resource name>.<unit type>``` basically describes a resource and tells **systemd** how to activate that resource.
 
 unit type | function | extention
 ---|---|---
@@ -54,14 +57,22 @@ $ systemctl cat <service-name>.service
 $ systemctl edit --full <service-name>.service
 ```
 
+### Reload systemd for edited unit:
+```bash
+$ systemctl daemon-reload
+```
+
 ### E.q.: firewalld.service unit file (```systemctl cat firewalld.service``` or ```/usr/lib/systemd/system/firewalld.service```):
 ```bash
 # /etc/systemd/system/firewalld.service
 [Unit]
 Description=firewalld - dynamic firewall daemon
-Before=network-pre.target   # Before: this (firewalld) service will be started BEFORE the 'network-pre.target'
-Wants=network-pre.target    # Wants: Pre-require units of this unit. The firewalld WANTS the network-pre.target to start, but not necessary.
-After=dbus.service          # After: this (firewalld) service will be started AFTER the 'dbus.service'
+Before=network-pre.target   
+# Before: this (firewalld) service will be started BEFORE the 'network-pre.target'
+Wants=network-pre.target    
+# Wants: Pre-require units of this unit. The firewalld WANTS the network-pre.target to start, but not necessary.
+After=dbus.service          
+# After: this (firewalld) service will be started AFTER the 'dbus.service'
 After=polkit.service
 Conflicts=iptables.service ip6tables.service ebtables.service ipset.service
 Documentation=man:firewalld(1)
@@ -78,7 +89,8 @@ BusName=org.fedoraproject.FirewallD1
 KillMode=mixed
 
 [Install]
-WantedBy=multi-user.target  # WantedBy: the firewalls is WANTEDBY the 'multi-user.target', but not necessary. The firewalld will be started after 'multi-user.target' starts.
+WantedBy=multi-user.target  
+# WantedBy: the firewalls is WANTEDBY the 'multi-user.target', but not necessary. The firewalld will be started after 'multi-user.target' starts.
 Alias=dbus-org.fedoraproject.FirewallD1.service
 ```
 
@@ -99,6 +111,7 @@ $ systemctl show <service-name> | egrep 'After|Before'
 ![](fig/unit-dep2.jpg)
 
 ![](fig/unit-dep3.jpg)
+
 
 ### Display the status of all services:
 ```bash
