@@ -32,9 +32,9 @@ net_prio	            5	            1	       1
 - **memory** - sets limits on memory use by tasks in a cgroup.
 - **devices** - allows or denies access to devices for tasks in a cgroup.
 - **freezer** - suspends or resumes tasks in a cgroup.
-- **net_cls** - 
+- **net_cls** - tags network packets that allows traffic control.
 - **blkio** - sets limits on input/output access to and from block devices.
 - **perf_event** - enables monitoring cgroups with the perf tool.
 - **hugetlb** - allows to use virtual memory pages of large sizes and to enforce resource limits on these pages.
-- **pids** -
-- **net_prio** -
+- **pids** - limits the total process for a cgroup.
+- **net_prio** - sets network interface priority.
