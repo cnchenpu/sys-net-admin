@@ -2,11 +2,13 @@
 Network performance testing.
 
 ## server
-Listen on (default) port 5201.
+Listen on TCP port 5201 (by default).
 ```QUIZ: Open port for client's iperf connections```
 
 ```bash
-# -s: server mode
+# -s: server mode 
+# server: 172.22.14.83
+# client: 172.22.14.73
 
 $ iperf3 -s -i 10
 
@@ -35,6 +37,8 @@ Accepted connection from 172.22.14.73, port 42212
 # -i: interval (seconds) between bandwidth reports
 # -t: time in seconds to transmit
 # -w: windows size  / socket buffer size
+# server: 172.22.14.83
+# client: 172.22.14.73
 
 $ iperf3 -i 10 -w 10K -t 60 -c <server IP>
 
