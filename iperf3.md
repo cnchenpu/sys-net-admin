@@ -40,7 +40,12 @@ Accepted connection from 172.22.14.73, port 42212
 # server: 172.22.14.83
 # client: 172.22.14.73
 
-$ iperf3 -i 10 -w 10K -t 60 -c <server IP>
+# if server does not open port 5201 for iperf3
+$ iperf3 -i 10 -w 10K -t 60 -c 172.22.14.83
+iperf3: error - unable to connect to server: No route to host
+
+
+$ iperf3 -i 10 -w 10K -t 60 -c 172.22.14.83
 
 Connecting to host 172.22.14.83, port 5201
 [  4] local 172.22.14.73 port 42214 connected to 172.22.14.83 port 5201
