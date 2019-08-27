@@ -151,7 +151,6 @@ $ firewall-cmd --get-services
 
 ### add service to zone
 ```bash
-$ firewall-cmd --zone=public --add-services=dns
 $ firewall-cmd --add-service=ssh --zone=public
 ```
 
@@ -160,7 +159,7 @@ $ firewall-cmd --add-service=ssh --zone=public
 $ firewall-cmd --zone=public --add-port=9958/tcp
 ```
 
-### create new service
+### create new service (add port) by command
 ```bash
 # new service
 $ firewall-cmd --permanent --new-service=iperf3
@@ -182,6 +181,30 @@ $ firewall-cmd --reload
 $ firewall-cmd --get-services | grep iperf3
 $ firewall-cmd --info-service=iperf3
 ```
+
+### create new service (add port) by xml file
+1. create service xml file at ```/usr/lib/firewalld/services/service-name.xml```
+```xml
+<!-- /usr/lib/firewalld/services/iperf3.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>iperf3</short>
+  <description>iperf3 is a network performance testing tool.</description>
+  <port protocol="tcp" port="5201"/>
+  <port protocol="udp" port="5201"/>
+</service>
+```
+
+2. add the service to zone
+```bash
+$ firewall-cmd --zone=public --add-services=dns
+```
+
+3. reload firewalld configurations
+```bash
+$ firewall-cmd --reload
+```
+
 
 ### disable firewalld
 ```bash
