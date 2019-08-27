@@ -207,6 +207,21 @@ $ sed 's/Warning/Error/g' test.log
     Print every line of myfiles.txt containing an email address.
 
 
+## find /path -name <file name> -exec <command> "{}" \;
+```bash
+# find and delete 100+ MB files
+$ find /path -size +100MB -exec rm -r "{}" \;
+
+# find and delete *.exe files
+$ find /path -name "*.exe" -exec rm -r "{}" \;
+
+# find and change php files authority
+$ find /path -name "*.php" -exec chmod 644 "{}" \; 
+
+# find and change all folders authority
+$ find /path -type d -exec chmod 755 "{}" \;
+```
+
 
 ## awk '{actions}' file-to-process
 ```bash
@@ -231,6 +246,11 @@ $ awk '{print $2}' mysampledata.txt
 # print folmated lines and if the value colume 3 > 10
 $ awk '$3 > 10 {print $1 " - " $2 " : " $3}' mysampledata.txt
 ```
+## awk -F "delimiter" '{actions}' file-to-process
+```bash
+# list all user account
+$ awk -F ":" '{print $1}' /etc/passwd
+```
 
 
 ## Script Debug
@@ -243,3 +263,4 @@ $ awk '$3 > 10 {print $1 " - " $2 " : " $3}' mysampledata.txt
 $ export PS4=' $BASH_SOURCE:$LINENO: ${function}'
 $ bash -x script-name.sh
 ```
+
