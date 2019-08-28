@@ -117,9 +117,10 @@ block|Any incoming network connections are rejected with an icmp-host-prohibited
 Default: Only selected incoming connections are accepted.
 ```
 
-### set default zone
+### set default zone and add network interface to the zone (if not exist)
 ```bash
-$ firewall-cmd --set-default-zone zone-name
+$ firewall-cmd --set-default-zone <zone-name>
+$ firewall-cmd --zone=<zone-name> --add-interface=eth0
 ```
 
 ### assign (initial) zone
@@ -129,8 +130,8 @@ $ firewall-cmd --zone=home --change-interface=ens0s3
 
 ### use zone target to set default behavior for incoming traffic
 ```bash
-$ firewall-cmd --zone=zone-name --list-all
-$ firewall-cmd --zone=zone-name --set-target=<default|ACCEPT|REJECT|DROP>
+$ firewall-cmd --zone=<zone-name> --list-all
+$ firewall-cmd --zone=<zone-name> --set-target=<default|ACCEPT|REJECT|DROP>
 ``` 
 
 ### change fielwalld settings
@@ -140,7 +141,7 @@ $ firewall-cmd --reload
 ```
 
 ## service
-Firewall services are predefined rules (```/usr/lib/firewalld/services/```) that cover all necessary settings to allow incoming traffic for a specific service and they apply within a zone. 
+Firewall services are predefined rules that cover all necessary settings to allow incoming traffic for a specific service and they apply within a zone. The configuration files for the default supported services are located at ```/usr/lib/firewalld/services``` and user-created service files would be in ```/etc/firewalld/services```.
 Services use one or more ports or addresses for network communication. Firewalls filter communication based on ports. To allow network traffic for a service, its ports must be open. firewalld blocks all traffic on ports that are not explicitly set as open. Some zones, such as trusted, allow all traffic by default.  
 
 ### get all services
@@ -157,6 +158,11 @@ $ firewall-cmd --add-service=ssh --zone=public
 ### add port to zone
 ```bash
 $ firewall-cmd --zone=public --add-port=9958/tcp
+```
+
+### remove service from zone
+```bash
+$ firewall-cmd --zone=public --remove-service=http --permanent
 ```
 
 ### create new service (add port) by command
@@ -197,10 +203,10 @@ $ firewall-cmd --info-service=iperf3
 
 2. add the service to zone
 ```bash
-$ firewall-cmd --zone=public --add-services=dns
+$ firewall-cmd --add-service=iperf3 --zone=public
 ```
 
-3. reload firewalld configurations
+3. reload firewalld configurations (service xml file have changed)
 ```bash
 $ firewall-cmd --reload
 ```
@@ -213,8 +219,26 @@ $ systemctl disable firewalld
 
 ### disable/enabe all traffic
 ```bash
-firewall-cmd --panic-on
-firewall-cmd --panic-off
-firewall-cmd --query-panic
+$ firewall-cmd --panic-on
+$ firewall-cmd --panic-off
+$ firewall-cmd --query-panic
 ```
 
+## Advanced firewalld configuration with Rich Language
+For more detail, check ```man firewalld.richlanguage```.
+
+E.q.:
+1. Allow new IPv4 connections from address 192.168.0.0/24 for service tftp.
+```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.0.0/24" service name="tftp"'```
+
+2. Deny IPv4 traffic over TCP from host 192.168.1.10 to port 22.
+```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.1.10" port port=22 protocol=tcp reject'``` 
+
+3. White-list source address to allow all connections from 192.168.2.2.
+```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.2.2" accept'```
+
+4. Black-list source address to reject all connections from 192.168.2.3.
+```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.2.3" reject type="icmp-admin-prohibited"'```
+
+5. Black-list source address to drop all connections from 192.168.2.4
+```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.2.4" drop'```
