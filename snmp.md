@@ -9,25 +9,19 @@ tcp        0      0 127.0.0.1:199           0.0.0.0:*               LISTEN      
 udp        0      0 0.0.0.0:161             0.0.0.0:*                           24835/snmpd
 ```
 
-## open snmp ports for firewalld
-1. create service file: ```/usr/lib/firewalld/services/snmpd.xml```
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<service>
-  <short>snmpd</short>
-  <description>snmpd for network performance monitoring.</description>
-  <port protocol="tcp" port="199"/>
-  <port protocol="udp" port="161"/>
-</service>
-```
-
-2. add the service to zone
+## open snmp ports (udp:161) for firewalld
 ```bash
-$ firewall-cmd --zone=public --add-services=snmpd
-```
+#1. check snmp service info
+$ firewall-cmd --info-service=snmp
 
-3. reload firewalld configurations
-```bash
+#2. add the snmp service (port 161) to zone for firewalld
+$ firewall-cmd --add-service=snmp --zone=public
+
+#3. reload firewalld configurations
 $ firewall-cmd --reload
+
+#4. check firewalld zone or services
+$ firewall-cmd --list-all
+$ firewall-cmd --list-services
 ```
 
