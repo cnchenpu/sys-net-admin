@@ -8,8 +8,14 @@
 $ journalctl
 $ journalctl -b     # boot messages
 # time range
-$ journalctl --since "1 hour ago"  |  --since "2 days ago"  |  --since "2019-06-26 23:00:00" --until "2019-06-26 23:20:00" 
+$ journalctl --since "1 hour ago"  |    |  
+$ journalctl --since "2 days ago"
+$ journalctl --since today
+$ journalctl --since yesterday --until now
+$ journalctl --since "2019-06-26 23:00:00" --until "2019-06-26 23:20:00" 
 $ journalctl -u <service-name>.service      # show only specific service log
+$ journalctl -u sshd.service
+$ journalctl -u sshd.service -x     # -x: show more detail
 $ journalctl -k     # show only kernel messages
 $ journalctl -f     # tail -f /var/log/messages
 ```
