@@ -182,7 +182,7 @@ run level | target units | description
 $ systemctl list-units --type target
 ```
 
-### Check default target mode:
+### Check default target mode (run level):
 ```bash
 # RHEL6: /etc/inittab
 $ systemctl get-default
