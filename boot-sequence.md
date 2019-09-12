@@ -136,3 +136,5 @@ Why do you need to know server's booting process?
 
 # Linux boot sequence and failure symptom
 ![](fig/boot-failure.jpg)
+
+# HW: Check /etc/inittab and list what it does.
