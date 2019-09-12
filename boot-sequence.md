@@ -1,6 +1,8 @@
 # Boot Sequences
 Why do you need to know server's booting process?
 
+![](fig/boot-sequence.jpg)
+
 1. Power On
 2. BIOS (Basic Input Output System)
    1. CPU detect the BIOS at 0xFFFF0
@@ -43,7 +45,23 @@ Why do you need to know server's booting process?
 
 
 
+## vmlinuz
+* vmlinuz is a compressed and executable Linux kernel.
+* A kernel is a program that constitutes the central core of a computer operating system. It is the first thing that is loaded into memory when a computer is booted up, and it remains in memory for the entire time that the computer is in operation.
+* At the head of this kernel image (vmlinuz) is a routine that does some minimal amount of hardware setup and then decompresses the kernel contained within the kernel image and places it into high memory. If an initial RAM disk image (initrd) is present, this routine moves it into memory (or we can say extract the compressed ramdisk image in to the real memory) and notes it for later use. The routine then calls the kernel and the kernel boot begins.
 
+
+
+## initrd (initial RAM disk)
+* The initial RAM disk (initrd) is an initial root file system that is mounted prior to when the real rootfile system is available. The initrd is bound to the kernel and loaded as part of the kernel boot procedure. The kernel then mounts this initrd as part of the two-stage boot process to load the modules to make the real file systems available and get at the real root file system.
+* The initrd contains a minimal set of directories and executables to achieve this, such as the insmod tool to install kernel modules into the kernel.
+* The initrd image contains the necessary executables and system files to support the second-stage (```/boot/stage2```) boot of a Linux system.
+* Decompress command: ```zcat initramfs-2.6.32-754.el6.x86_64.img | cpio -id```
+
+
+
+## initramfs
+* Decompress command: ```/usr/lib/dracut/skipcpio initramfs-3.10.0-957.el7.x86_64.img | gunzip -c | cpio -id```
 
 ## The /boot folder
 - The ```vmlinuz``` file contain the actual Linux kernel, which is loaded and executed by grub. 
