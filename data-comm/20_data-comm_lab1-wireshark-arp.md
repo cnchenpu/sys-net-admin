@@ -6,8 +6,6 @@ Download: <a href="https://www.wireshark.org/download.html">![Wireshark](https:/
 An illustration of capture an incomming frame: <br>
 ![](fig/packet-sniffing.png)
 
-Packet sniffer structure: <br>
-![](fig/packet-sniffing-howto.png)
 
 ## ipconfig & arp
 ![](fig/ipconfig.png)
@@ -27,7 +25,7 @@ ARP Request: <br>
 ARP Reply: <br>
 ![](fig/ARP-reply.png)
 
-# HW: Use Wireshare to analyze the ARP protocol (due: 11/6)
+# HW: Use Wireshare to analyze the ARP protocol
 - Start your web browser and clear the browser’s cache memory, but do not access any website yet.
 - Open the Wireshark and start capturing.
 - Go to your browser and retrieve any file from a website. Wireshark starts capturing packets.
