@@ -12,7 +12,7 @@ Packet sniffer structure: <br>
 ## ipconfig & arp
 ![](fig/ipconfig.png)
 
-![](fig/arp-a.png)
+![](data-comm/fig/../../fig/arp-a.png)
 
 Start the Wireshark: <br>
 ![](fig/wireshark-start.png)
