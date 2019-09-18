@@ -37,11 +37,15 @@ Why do you need to know server's booting process?
 * MBR is less than 512 bytes in size. This has three components: 
   1. primary boot loader (boot sector) in first 446 bytes 
   2. partition table info in next 64 bytes 
-  3. MBR validation check (magic number) in last 2 bytes.
+  3. MBR validation check (magic number: AA55) in last 2 bytes.
 * It contains information about GRUB
 * MBR loads and executes the GRUB boot loader.
 
 ![](fig/MBR.jpg)
+
+### Backup MBR
+- ```dd if=/dev/sda of=mbr bs=512 count=1```
+- ```hexdump mbr```
 
 
 
@@ -54,6 +58,18 @@ Why do you need to know server's booting process?
 * GRUB has the knowledge of the filesystem.
 * Grub configuration file is ```/boot/grub[2]/grub.conf``` (```/etc/grub[2].conf``` is a link to this).
 * GRUB loads and executes kernel and initrd images into memory.
+
+```bash
+#/boot/grub/grub.conf
+default=0
+timeout=5
+splashimage=(hd0,0)/grub/splash.xpm.gz
+hiddenmenu
+title CentOS 6 (2.6.32-754.el6.x86_64)
+	root (hd0,0)
+	kernel /vmlinuz-2.6.32-754.el6.x86_64 ro root=/dev/mapper/vg_rh6-lv_root rd_NO_LUKS LANG=en_US.UTF-8 rd_LVM_LV=vg_rh6/lv_swap rd_NO_MD SYSFONT=latarcyrheb-sun16 crashkernel=auto rd_LVM_LV=vg_rh6/lv_root  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM rhgb quiet console=tty0 console=ttyS0,38400
+	initrd /initramfs-2.6.32-754.el6.x86_64.img
+```
 
 
 
@@ -104,7 +120,6 @@ Why do you need to know server's booting process?
   * 6 – reboot
 
 
-
 ### rc.sysinit: system initialization
 - read info from ```/etc/sysconfig/network```
 - test and mount ```/proc``` and ```/sys```
@@ -148,7 +163,6 @@ Why do you need to know server's booting process?
   2. ~/.bash_login
   3. ~/.profile 
 * The ```.bash_profile``` will collect the required customization parameters from ```.bashrc```.
-
 
 
 
