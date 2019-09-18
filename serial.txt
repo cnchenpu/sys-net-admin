@@ -1,0 +1,108 @@
+Detected CPU family 6 model 142
+Warning: Intel CPU model - this hardware has not undergone testing by Red Hat and might not be certified. Please consult https://hardware.redhat.com for certified hardware.
+%G		Welcome to CentOS 
+
+Starting udev: %G[  OK  ]
+
+Setting hostname RH6:  [  OK  ]
+
+Setting up Logical Volume Management:   2 logical volume(s) in volume group "vg_rh6" now active
+
+[  OK  ]
+
+Checking filesystems
+
+Checking all file systems.
+
+[/sbin/fsck.ext4 (1) -- /] fsck.ext4 -a /dev/mapper/vg_rh6-lv_root 
+
+/dev/mapper/vg_rh6-lv_root: clean, 57143/440640 files, 532078/1759232 blocks
+
+[/sbin/fsck.ext4 (1) -- /boot] fsck.ext4 -a /dev/sda1 
+
+/dev/sda1: clean, 39/128016 files, 65086/512000 blocks
+
+[  OK  ]
+
+Remounting root filesystem in read-write mode:  [  OK  ]
+
+Mounting local filesystems:  [  OK  ]
+
+Enabling local filesystem quotas:  [  OK  ]
+
+Enabling /etc/fstab swaps:  [  OK  ]
+
+Entering non-interactive startup
+
+Calling the system activity data collector (sadc)... 
+
+Starting monitoring for VG vg_rh6:   2 logical volume(s) in volume group "vg_rh6" monitored
+
+[  OK  ]
+
+Loading OpenIB kernel modules:[  OK  ]
+
+ip6tables: Applying firewall rules: [  OK  ]
+
+iptables: Applying firewall rules: [  OK  ]
+
+Bringing up loopback interface:  [  OK  ]
+
+Bringing up interface eth0:  
+
+Determining IP information for eth0... done.
+
+[  OK  ]
+
+Starting auditd: [  OK  ]
+
+Starting portreserve: [  OK  ]
+
+Starting system logger: [  OK  ]
+
+Starting irqbalance: [  OK  ]
+
+Starting rpcbind: [  OK  ]
+
+Starting NFS statd: [  OK  ]
+
+Starting system message bus: [  OK  ]
+
+Starting cups: [  OK  ]
+
+Mounting filesystems:  [  OK  ]
+
+Starting acpi daemon: [  OK  ]
+
+Starting HAL daemon: [  OK  ]
+
+Retrigger failed udev events[  OK  ]
+
+Loading autofs4: [  OK  ]
+
+Starting automount: [  OK  ]
+
+Starting kdump:[  OK  ]
+
+Starting mcelog daemon
+
+[  OK  ]
+Starting sshd: [  OK  ]
+
+Starting xinetd: [  OK  ]
+
+Starting postfix: [  OK  ]
+
+Starting abrt daemon: [  OK  ]
+
+Starting crond: [  OK  ]
+
+Starting atd: [  OK  ]
+
+Starting certmonger: [  OK  ]
+
+
+CentOS release 6.10 (Final)
+Kernel 2.6.32-754.el6.x86_64 on an x86_64
+
+RH6 login: 
