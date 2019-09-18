@@ -109,6 +109,9 @@ title CentOS 6 (2.6.32-754.el6.x86_64)
 
 
 ## Init
+* ```/sbin/init```
+* Controls Linux initialization and runlevel startup.
+* PID #1 - Mother of all processes.
 * The ```init``` runs ```/etc/rc.d/rc.sysinit``` and looks at the ```/etc/inittab``` file to decide the Linux run level.
 * Following are the available run levels
   * 0 – halt
