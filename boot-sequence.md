@@ -93,7 +93,7 @@ Why do you need to know server's booting process?
 
 
 ## Init
-* Looks at the /etc/inittab file to decide the Linux run level.
+* The ```init``` runs ```/etc/rc.d/rc.sysinit``` and looks at the ```/etc/inittab``` file to decide the Linux run level.
 * Following are the available run levels
   * 0 – halt
   * 1 – Single user mode
@@ -102,6 +102,24 @@ Why do you need to know server's booting process?
   * 4 – unused
   * 5 – X11
   * 6 – reboot
+
+
+
+### rc.sysinit: system initialization
+- read info from ```/etc/sysconfig/network```
+- test and mount ```/proc``` and ```/sys```
+- test and mount usb device
+- check ```SELinux``` and enable it if necessary
+- initial peripherals according ```/proc/sys/kernel/modprobe```
+- load user defined modules according ```/etc/sysconfig/modules/*.modules```
+- configure kernel parameters from ```/etc/sysctl.conf```
+- setup ```hostname```
+- activate ```RAID``` and ```Device-Mapper (LVM and multipath)``` devices
+- ```fcsk``` check file system
+- mount all file systems in ```/etc/fstab```
+- update ```quota``` if necessary
+- write boot messages to ```/var/log/dmesg```
+
 
 
 ## Systemd
@@ -137,4 +155,3 @@ Why do you need to know server's booting process?
 # Linux boot sequence and failure symptom
 ![](fig/boot-failure.jpg)
 
-# HW: Check /etc/inittab and list what it does.
