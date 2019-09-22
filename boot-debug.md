@@ -43,3 +43,32 @@ GRUB_DISABLE_RECOVERY="true"
 
 - Boot messages in serial in RH7: [serial.txt](./serialRH7.txt)
 
+
+## Boot loader issues
+![](fig/boot-loader.png)
+1. BIOS runs boot loader stage 1 in MBR
+2. MBR loads stage 1.5
+3. Stage 1.5 finds the boot partition, then loads the stage 2 in ```/boot```
+4. Stage 2 loads the ```grub.conf```, then user can see the boot menu
+
+
+## Lab: Checking boot loaders
+### 1. Stage 1 in MBR
+```bash
+$ dd if=/dev/sda of=mbr.bin bs=512 count=1
+$ hexdump -C mbr.bin
+```
+### 2. Stage 1 in /boot/grub
+```bash
+$ hexdump -C /boot/grub/stage1
+```
+
+### Stage 1.5
+```bash
+$ hexdump -C e2fs_stage1_5 -n 95 -s 512
+```
+
+### 3. Stage 2 /boot/grub
+```bash
+$ hexdump -C /boot/grub/stage2 -n 95 -s 512
+```
