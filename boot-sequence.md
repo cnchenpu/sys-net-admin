@@ -13,8 +13,10 @@ Why do you need to know server's booting process?
 3. POST (Power On Self Test)
 4. MBR (Master Boot Record)
    - First stage boot loader
+     - Stage 1 loads stage 1.5
+     - Stage 1.5 loads stage 2
 5. Boot-loader
-   - Second stage
+   - Second stage (in the /boot)
    - GRUB / GRUB 2
    - vmlinuz kernel
    - initrd / initramfs
