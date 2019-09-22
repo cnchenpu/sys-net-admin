@@ -49,6 +49,8 @@ Why do you need to know server's booting process?
 * MBR loads and executes the GRUB boot loader.
   * load stage 2 boot loader (in the /boot) through stage 1.5
 
+![](fig/boot-sector.png)
+
 ![](fig/MBR.jpg)
 
 ### Backup MBR
