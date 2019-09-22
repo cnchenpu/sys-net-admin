@@ -66,12 +66,12 @@ $ hexdump -C mbr.bin
 $ hexdump -C /boot/grub/stage1
 ```
 
-### Stage 1.5
+### 3. Stage 1.5
 ```bash
 $ hexdump -C e2fs_stage1_5 -n 95 -s 512
 ```
 
-### 3. Stage 2 /boot/grub
+### 4. Stage 2 /boot/grub
 ```bash
 $ hexdump -C /boot/grub/stage2 -n 95 -s 512
 ```
