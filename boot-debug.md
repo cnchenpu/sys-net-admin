@@ -4,6 +4,9 @@ tag: sysadmin, Linux
 
 # Debug boot failure
 
+## Single user mode
+Add ```single``` to ```/boot/grub/grub.conf``` in the end of ``kernel``.
+
 ## Setup serial console
 1. configure serial port
 ![](fig/serial-out.jpg)
