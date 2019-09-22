@@ -37,11 +37,12 @@ Why do you need to know server's booting process?
 ## MBR (Master Boot Record)
 * It is located in the first sector of the bootable disk. Typically /dev/hda, or /dev/sda
 * MBR is less than 512 bytes in size. This has three components: 
-  1. primary boot loader (boot sector) in first 446 bytes 
+  1. primary boot loader (boot sector) in first 446 bytes - stage 1 boot loader
   2. partition table info in next 64 bytes 
   3. MBR validation check (magic number: AA55) in last 2 bytes.
 * It contains information about GRUB
 * MBR loads and executes the GRUB boot loader.
+  * load stage 2 boot loader (in the /boot) through stage 1.5
 
 ![](fig/MBR.jpg)
 
