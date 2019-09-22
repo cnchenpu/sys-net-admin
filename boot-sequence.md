@@ -122,6 +122,7 @@ title CentOS 6 (2.6.32-754.el6.x86_64)
   * 5 – X11
   * 6 – reboot
 * service scripts: ```/etc/init.d/```
+* service lists: ```chkconfig --list```
 
 
 
