@@ -2,7 +2,7 @@
 tag: sysadmin, Linux
 ---
 
-# Debug boot failure
+# Lab: Debug boot failure
 
 ## Single user mode
 Add ```single``` to ```/boot/grub/grub.conf``` in the end of ``kernel``.
@@ -55,7 +55,22 @@ GRUB_DISABLE_RECOVERY="true"
 4. Stage 2 loads the ```grub.conf```, then user can see the boot menu
 
 
-## Lab: Checking boot loaders
+
+## Manual Boot in GRUB
+- No root parameter causes kernel panic
+ ![](fig/boot-no-root-parameter-0.jpg)
+ ![](fig/boot-no-root-parameter.jpg)
+
+- Wrong root parameter failure
+ ![](fig/boot-wrong-root-0.jpg)
+ ![](fig/boot-wrong-root.jpg)  
+
+- Correct root parameter (root path)
+![](fig/boot-manual.jpg)
+
+
+
+## Checking boot loaders
 ### 1. Stage 1 in MBR
 ```bash
 $ dd if=/dev/sda of=mbr.bin bs=512 count=1
