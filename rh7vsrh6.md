@@ -2,7 +2,7 @@
 
 Features | RHEL 7 | RHEL 6
 ---|---|---
-Default File | System | XFS | EXT4
+Default File System | XFS | EXT4
 Kernel Version | 3.10.x-x kernel | 2.6.x-x Kernel
 First Process | systemd (process ID 1) | init (process ID 1)
 Run Level | runlevels are called as "targets" as shown below: <br> runlevel0.target -> poweroff.target <br> runlevel1.target -> rescue.target <br> runlevel2.target -> multi-user.target <br> runlevel3.target -> multi-user.target <br> runlevel4.target -> multi-user.target <br> runlevel5.target -> graphical.target <br> runlevel6.target -> reboot.target <br> ```/etc/systemd/system/default.target``` (this by default is linked to the multi-user.target OR graphical.target) | Traditional runlevels defined: <br> runlevel 0 <br> runlevel 1 <br> runlevel 2 <br> runlevel 3 <br> runlevel 4 <br> runlevel 5 <br> runlevel 6 <br> and the default runlevel would be defined in ```/etc/inittab``` file.
