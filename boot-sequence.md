@@ -112,7 +112,7 @@ title CentOS 6 (2.6.32-754.el6.x86_64)
 * ```/sbin/init```
 * Controls Linux initialization and runlevel startup.
 * PID #1 - Mother of all processes.
-* The ```init``` runs ```/etc/rc.d/rc.sysinit``` and looks at the ```/etc/inittab``` file to decide the Linux run level.
+* The ```/sbin/init``` runs ```/etc/rc.d/rc.sysinit``` and looks at the ```/etc/inittab``` file to decide the Linux run level.
 * Following are the available run levels
   * 0 – halt
   * 1 – Single user mode
@@ -121,6 +121,8 @@ title CentOS 6 (2.6.32-754.el6.x86_64)
   * 4 – unused
   * 5 – X11
   * 6 – reboot
+* service scripts: ```/etc/init.d/```
+
 
 
 ### rc.sysinit: system initialization
@@ -141,7 +143,9 @@ title CentOS 6 (2.6.32-754.el6.x86_64)
 
 
 ## Systemd
-
+- first process: ```/lib/systemd/systemd```
+- default target: ```systemctl get-default```
+- services scripts: ```/lib/systemd```
 
 
 ## Runlevel Programs

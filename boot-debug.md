@@ -1,5 +1,5 @@
 ---
-tag: sysadmin, network
+tag: sysadmin, Linux
 ---
 
 # Debug boot failure
