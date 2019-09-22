@@ -145,7 +145,7 @@ title CentOS 6 (2.6.32-754.el6.x86_64)
 ## Systemd
 - first process: ```/lib/systemd/systemd```
 - default target: ```systemctl get-default```
-- services scripts: ```/lib/systemd```
+- services started by systemd: ```/lib/systemd/system/*.service```
 
 
 ## Runlevel Programs
