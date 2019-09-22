@@ -165,9 +165,12 @@ $ systemctl show <service-name>
 
 ## Target
 A ***target unit*** is a special kind of unit file because it doesn’t represent a single resource; rather, it groups other units to bring the system to a particular state. Target units in systemd loosely resemble run levels in System V in the sense that each target unit represents a particular system state.
-In RHEL 7, *run levels* have been replaced with *systemd target units*. Target units have a **.target** extension and similar to run levels. 
 
-```/usr/lib/systemd/system/runlevel*.target```
+In RHEL 7, *run levels* have been replaced with *systemd target units*. Target units have a **.target** extension and similar to run levels. Check target for run levels:
+
+```bash
+$ ll /usr/lib/systemd/system/runlevel*.target
+```
 
 run level | target units | description
 ---|---|---
