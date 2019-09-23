@@ -4,8 +4,10 @@ tag: sysadmin, Linux
 
 # Lab: Debug boot failure
 
-## Single user mode
-Add ```single``` to ```/boot/grub/grub.conf``` in the end of ``kernel``.
+## Single user mode (Emergency mode)
+Press ```e``` key to edit the boot option when GRUB boot menu appear.
+- RH6: Add ```single``` in the end of kernel line.
+- RH7: Replace ```ro``` with ```rw init=/sysroot/bin/sh``` in the kernel line.
 
 ## Setup serial console
 1. configure serial port
