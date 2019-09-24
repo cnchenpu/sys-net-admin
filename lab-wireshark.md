@@ -73,7 +73,7 @@ ARP Reply: <br>
 
 
 
-# HW: Use Wireshare to analyze the ARP protocol (Due date: 10/24)
+# HW: Use Wireshare to analyze the ARP protocol (Due date: 9/24)
 - Start your web browser and clear the browser’s cache memory, but do not access any website yet.
 - Open the Wireshark and start capturing.
 - Go to your browser and retrieve any file from a website. Wireshark starts capturing packets.
