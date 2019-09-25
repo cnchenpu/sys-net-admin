@@ -1,6 +1,8 @@
 # Lab: Rescue System From MBR Failure
 The MBR could be damaged by by disk error or GRUB installation failure. This lab demosnstrate how to backup and restore MBR for boot failure.
 
+![](fig/MBR.jpg)
+
 ## 1. Backup MBR
 MBR is located in the first sector (512 bytes) of boot disk (/dev/sda).
 ```bash
