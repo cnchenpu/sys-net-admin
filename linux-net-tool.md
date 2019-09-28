@@ -1,6 +1,8 @@
 # Linux Network Tools
 
-## nc, ncat
+## nc (ncat)
+![](fig/ncat.jpg)
+
 ```nc``` (```ncat```) reads and writes data across the network from the command line.
 
 - Listen for connections on TCP port 8080.
