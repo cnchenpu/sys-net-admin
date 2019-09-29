@@ -1,6 +1,7 @@
 # Linux Network Configuration Tools
 
-## Configuration File
+## IP Networking Control Files
+### Interface definitions
 ```bash
 # cat /etc/sysconfig/network-scripts/ifcfg-eth0 
 DEVICE=eth0
@@ -25,7 +26,16 @@ PEERROUTES=yes
 LAST_CONNECT=1568257891
 ```
 
-## ifconfig
+### Hostname and default gateway definition
+```bash
+# cat /etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME=ENCU-RH6
+#GATEWAY=
+```
+
+### Reading Routes and IP Information
+#### ifconfig
 ```
 # ifconfig
 eth0      Link encap:Ethernet  HWaddr 08:00:27:45:58:D3  
@@ -47,7 +57,94 @@ lo        Link encap:Local Loopback
           RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
 ```
 
-## ethtool
+#### ifup, ifdown, ifcfg
+#### ip addr
+```
+# ip addr show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 08:00:27:45:58:d3 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.183/24 brd 192.168.0.255 scope global eth0
+    inet 10.0.1.100/24 scope global eth0
+    inet6 fe80::a00:27ff:fe45:58d3/64 scope link 
+       valid_lft forever preferred_lft forever
+```
+``` 
+# ip addr add 10.0.1.100/24 dev eth0
+```
+```
+# ip addr del 10.0.1.100/24 dev eth0
+```
+
+#### route 
+```
+# route 
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+192.168.0.0     *               255.255.255.0   U     1      0        0 eth0
+default         192.168.0.1     0.0.0.0 
+```
+```
+# route add -net 10.0.1.0 netmask 255.255.255.0 gw 192.168.0.1
+#
+# route 
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+10.0.1.0        192.168.0.1     255.255.255.0   UG    0      0        0 eth0
+192.168.0.0     *               255.255.255.0   U     1      0        0 eth0
+default         192.168.0.1     0.0.0.0         UG    0      0        0 eth0
+#
+# route del -net 10.0.1.0 netmask 255.255.255.0 gw 192.168.0.1
+```
+
+#### ip route
+```
+# ip route list
+192.168.0.0/24 dev eth0  proto kernel  scope link  src 192.168.0.183  metric 1 
+default via 192.168.0.1 dev eth0  proto static
+```
+
+### Ethernet Layer Tools
+#### arp
+```
+# arp
+Address                  HWtype  HWaddress           Flags Mask            Iface
+192.168.0.120            ether   74:f6:1c:20:e2:92   C                     eth0
+192.168.0.155            ether   00:24:36:7b:b9:31   C                     eth0
+192.168.0.171            ether   ac:37:43:98:d8:7f   C                     eth0
+192.168.0.178            ether   40:40:a7:b3:31:6e   C                     eth0
+192.168.0.163            ether   08:00:27:13:63:5b   C                     eth0
+192.168.0.176            ether   9c:4e:36:9c:40:d8   C                     eth0
+192.168.0.1              ether   68:ff:7b:56:06:8e   C                     eth0
+```
+
+#### ip neigh
+```
+# ip neigh
+192.168.0.120 dev eth0 lladdr 74:f6:1c:20:e2:92 STALE
+192.168.0.155 dev eth0 lladdr 00:24:36:7b:b9:31 STALE
+192.168.0.171 dev eth0 lladdr ac:37:43:98:d8:7f STALE
+192.168.0.178 dev eth0 lladdr 40:40:a7:b3:31:6e STALE
+192.168.0.163 dev eth0 lladdr 08:00:27:13:63:5b STALE
+192.168.0.176 dev eth0 lladdr 9c:4e:36:9c:40:d8 REACHABLE
+192.168.0.1 dev eth0 lladdr 68:ff:7b:56:06:8e STALE
+```
+
+#### ip link
+Displaying link layer characteristics.
+```
+# ip link
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 08:00:27:45:58:d3 brd ff:ff:ff:ff:ff:ff
+```
+
+#### ethtool
 ```
 # ethtool eth0
 Settings for eth0:
@@ -74,102 +171,6 @@ Settings for eth0:
 	Current message level: 0x00000007 (7)
 			       drv probe link
 	Link detected: yes
-```
-
-## ifup, ifdown, ifcfg
-## ip addr
-```
-# ip addr show
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-    inet6 ::1/128 scope host 
-       valid_lft forever preferred_lft forever
-2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
-    link/ether 08:00:27:45:58:d3 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.0.183/24 brd 192.168.0.255 scope global eth0
-    inet 10.0.0.1/24 scope global eth0
-    inet6 fe80::a00:27ff:fe45:58d3/64 scope link 
-       valid_lft forever preferred_lft forever
-```
-``` 
-# ip addr add 10.0.0.1/24 dev eth0
-```
-```
-# ip addr del 10.0.0.1/24 dev eth0
-```
-
-## route, ip route
-```
-# route 
-Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-192.168.0.0     *               255.255.255.0   U     1      0        0 eth0
-default         192.168.0.1     0.0.0.0 
-```
-```
-# ip route list
-192.168.0.0/24 dev eth0  proto kernel  scope link  src 192.168.0.183  metric 1 
-default via 192.168.0.1 dev eth0  proto static
-```
-
-## traceroute
-```
-# traceroute www.google.com
-traceroute to www.google.com (216.58.200.228), 30 hops max, 60 byte packets
- 1  192.168.0.1 (192.168.0.1)  1.100 ms  0.934 ms  1.132 ms
- 2  ZyXEL.Home (192.168.1.1)  1.777 ms  1.635 ms  1.217 ms
- 3  h254.s98.ts.hinet.net (168.95.98.254)  10.545 ms  10.415 ms  11.606 ms
- 4  mlml-3302.hinet.net (168.95.221.66)  11.433 ms  12.002 ms  11.875 ms
- 5  tyfo-3016.hinet.net (220.128.9.66)  22.035 ms tyfo-3016.hinet.net (220.128.9.70)  17.106 ms tyfo-3016.hinet.net (220.128.9.66)  21.720 ms
- 6  tylc-3032.hinet.net (220.128.13.218)  14.279 ms  12.631 ms  13.201 ms
- 7  tyfo-3305.hinet.net (220.128.12.13)  16.134 ms  16.786 ms  16.438 ms
- 8  72.14.213.90 (72.14.213.90)  13.772 ms 72.14.215.0 (72.14.215.0)  12.139 ms  12.728 ms
- 9  108.170.244.129 (108.170.244.129)  14.661 ms  14.234 ms 108.170.244.97 (108.170.244.97)  13.269 ms
-10  72.14.238.17 (72.14.238.17)  13.928 ms 72.14.237.231 (72.14.237.231)  14.670 ms  14.528 ms
-11  tsa03s01-in-f228.1e100.net (216.58.200.228)  12.610 ms  13.235 ms  14.319 ms
-```
-
-## mtr
-```
-mtr www.google.com
-```
-![](fig/mtr.png)
-
-## nslookup, host, dig
-```
-# nslookup www.google.com
-Server:		192.168.0.1
-Address:	192.168.0.1#53
-
-Non-authoritative answer:
-Name:	www.google.com
-Address: 216.58.200.228
-```
-```
-# host www.google.com
-www.google.com has address 216.58.200.228
-www.google.com has IPv6 address 2404:6800:4008:801::2004
-```
-```
-# dig www.google.com
-
-; <<>> DiG 9.8.2rc1-RedHat-9.8.2-0.68.rc1.el6 <<>> www.google.com
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 19732
-;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
-
-;; QUESTION SECTION:
-;www.google.com.			IN	A
-
-;; ANSWER SECTION:
-www.google.com.		172	IN	A	172.217.160.100
-
-;; Query time: 17 msec
-;; SERVER: 192.168.0.1#53(192.168.0.1)
-;; WHEN: Sun Sep 29 09:28:57 2019
-;; MSG SIZE  rcvd: 48
 ```
 
 ## nmcli
