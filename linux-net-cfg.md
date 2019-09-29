@@ -46,6 +46,7 @@ lo        Link encap:Local Loopback
           collisions:0 txqueuelen:0 
           RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
 ```
+
 ## ethtool
 ```
 # ethtool eth0
@@ -74,6 +75,7 @@ Settings for eth0:
 			       drv probe link
 	Link detected: yes
 ```
+
 ## ifup, ifdown, ifcfg
 ## ip addr
 ```
