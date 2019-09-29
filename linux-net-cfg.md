@@ -1,4 +1,4 @@
-# Linux Network Configuration
+# Linux Network Configuration Tools
 
 ## Configuration File
 ```bash
@@ -25,8 +25,7 @@ PEERROUTES=yes
 LAST_CONNECT=1568257891
 ```
 
-## Configure Tools
-### ifconfig
+## ifconfig
 ```
 # ifconfig
 eth0      Link encap:Ethernet  HWaddr 08:00:27:45:58:D3  
@@ -47,7 +46,7 @@ lo        Link encap:Local Loopback
           collisions:0 txqueuelen:0 
           RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
 ```
-### ethtool
+## ethtool
 ```
 # ethtool eth0
 Settings for eth0:
@@ -75,8 +74,8 @@ Settings for eth0:
 			       drv probe link
 	Link detected: yes
 ```
-### ifup, ifdown, ifcfg
-### ip addr
+## ifup, ifdown, ifcfg
+## ip addr
 ```
 # ip addr show
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
@@ -98,7 +97,7 @@ Settings for eth0:
 # ip addr del 10.0.0.1/24 dev eth0
 ```
 
-### route, ip route
+## route, ip route
 ```
 # route 
 Kernel IP routing table
@@ -112,7 +111,7 @@ default         192.168.0.1     0.0.0.0
 default via 192.168.0.1 dev eth0  proto static
 ```
 
-### traceroute
+## traceroute
 ```
 # traceroute www.google.com
 traceroute to www.google.com (216.58.200.228), 30 hops max, 60 byte packets
@@ -129,13 +128,13 @@ traceroute to www.google.com (216.58.200.228), 30 hops max, 60 byte packets
 11  tsa03s01-in-f228.1e100.net (216.58.200.228)  12.610 ms  13.235 ms  14.319 ms
 ```
 
-### mtr
+## mtr
 ```
 mtr www.google.com
 ```
 ![](fig/mtr.png)
 
-### nslookup, host, dig
+## nslookup, host, dig
 ```
 # nslookup www.google.com
 Server:		192.168.0.1
@@ -171,7 +170,7 @@ www.google.com.		172	IN	A	172.217.160.100
 ;; MSG SIZE  rcvd: 48
 ```
 
-### nmcli
+## nmcli
 ```
 # nmcli nm status
 RUNNING         STATE           WIFI-HARDWARE   WIFI       WWAN-HARDWARE   WWAN      
@@ -197,3 +196,7 @@ IP4-SETTINGS.PREFIX:            24 (255.255.255.0)
 IP4-SETTINGS.GATEWAY:           192.168.0.1
 IP4-DNS1.DNS:                   192.168.0.1
 ```
+
+## nmtui
+![](fig/nmtui.png)
+![](fig/nmtui-1.png)
