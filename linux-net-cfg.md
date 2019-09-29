@@ -1,6 +1,6 @@
 # Linux Network Configuration
 
-## Configuration file
+## Configuration File
 ```bash
 # cat /etc/sysconfig/network-scripts/ifcfg-eth0 
 DEVICE=eth0
@@ -25,7 +25,7 @@ PEERROUTES=yes
 LAST_CONNECT=1568257891
 ```
 
-## Configure commands
+## Configure Tools
 ### ifconfig
 ```
 # ifconfig
@@ -47,7 +47,35 @@ lo        Link encap:Local Loopback
           collisions:0 txqueuelen:0 
           RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
 ```
-
+### ethtool
+```
+# ethtool eth0
+Settings for eth0:
+	Supported ports: [ TP ]
+	Supported link modes:   10baseT/Half 10baseT/Full 
+	                        100baseT/Half 100baseT/Full 
+	                        1000baseT/Full 
+	Supported pause frame use: No
+	Supports auto-negotiation: Yes
+	Advertised link modes:  10baseT/Half 10baseT/Full 
+	                        100baseT/Half 100baseT/Full 
+	                        1000baseT/Full 
+	Advertised pause frame use: No
+	Advertised auto-negotiation: Yes
+	Speed: 1000Mb/s
+	Duplex: Full
+	Port: Twisted Pair
+	PHYAD: 0
+	Transceiver: internal
+	Auto-negotiation: on
+	MDI-X: off (auto)
+	Supports Wake-on: umbg
+	Wake-on: d
+	Current message level: 0x00000007 (7)
+			       drv probe link
+	Link detected: yes
+```
+### ifup, ifdown, ifcfg
 ### ip addr
 ```
 # ip addr show
@@ -70,55 +98,102 @@ lo        Link encap:Local Loopback
 # ip addr del 10.0.0.1/24 dev eth0
 ```
 
-```bash
-# nmcli connection show
-NAME    UUID                                  TYPE      DEVICE 
-enp0s3  0dbe726b-1064-45b2-a9e1-063982887115  ethernet  enp0s3 
-
-# nmcli device show
-GENERAL.DEVICE:                         enp0s3
-GENERAL.TYPE:                           ethernet
-GENERAL.HWADDR:                         08:00:27:3A:9D:65
-GENERAL.MTU:                            1500
-GENERAL.STATE:                          100 (connected)
-GENERAL.CONNECTION:                     enp0s3
-GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveConnection/1
-WIRED-PROPERTIES.CARRIER:               on
-IP4.ADDRESS[1]:                         172.22.2.13/23
-IP4.GATEWAY:                            172.22.2.1
-IP4.ROUTE[1]:                           dst = 0.0.0.0/0, nh = 172.22.2.1, mt = 100
-IP4.ROUTE[2]:                           dst = 172.22.2.0/23, nh = 0.0.0.0, mt = 100
-IP4.DNS[1]:                             172.22.6.236
-IP4.DNS[2]:                             10.197.10.253
-IP6.ADDRESS[1]:                         fe80::47f9:a76b:c1f7:48df/64
-IP6.GATEWAY:                            --
-IP6.ROUTE[1]:                           dst = fe80::/64, nh = ::, mt = 100
-IP6.ROUTE[2]:                           dst = ff00::/8, nh = ::, mt = 256, table=255
-
-GENERAL.DEVICE:                         lo
-GENERAL.TYPE:                           loopback
-GENERAL.HWADDR:                         00:00:00:00:00:00
-GENERAL.MTU:                            65536
-GENERAL.STATE:                          10 (unmanaged)
-GENERAL.CONNECTION:                     --
-GENERAL.CON-PATH:                       --
-IP4.ADDRESS[1]:                         127.0.0.1/8
-IP4.GATEWAY:                            --
-IP6.ADDRESS[1]:                         ::1/128
-IP6.GATEWAY:                            --
+### route, ip route
+```
+# route 
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+192.168.0.0     *               255.255.255.0   U     1      0        0 eth0
+default         192.168.0.1     0.0.0.0 
+```
+```
+# ip route list
+192.168.0.0/24 dev eth0  proto kernel  scope link  src 192.168.0.183  metric 1 
+default via 192.168.0.1 dev eth0  proto static
 ```
 
-```bash
-# hostnamectl 
-   Static hostname: RH7
-         Icon name: computer-vm
-           Chassis: vm
-        Machine ID: 1f50519909994dfbb26e03d0e599fd05
-           Boot ID: eef9ad2c37504720b78417838c459f75
-    Virtualization: kvm
-  Operating System: CentOS Linux 7 (Core)
-       CPE OS Name: cpe:/o:centos:centos:7
-            Kernel: Linux 3.10.0-957.el7.x86_64
-      Architecture: x86-64
+### traceroute
+```
+# traceroute www.google.com
+traceroute to www.google.com (216.58.200.228), 30 hops max, 60 byte packets
+ 1  192.168.0.1 (192.168.0.1)  1.100 ms  0.934 ms  1.132 ms
+ 2  ZyXEL.Home (192.168.1.1)  1.777 ms  1.635 ms  1.217 ms
+ 3  h254.s98.ts.hinet.net (168.95.98.254)  10.545 ms  10.415 ms  11.606 ms
+ 4  mlml-3302.hinet.net (168.95.221.66)  11.433 ms  12.002 ms  11.875 ms
+ 5  tyfo-3016.hinet.net (220.128.9.66)  22.035 ms tyfo-3016.hinet.net (220.128.9.70)  17.106 ms tyfo-3016.hinet.net (220.128.9.66)  21.720 ms
+ 6  tylc-3032.hinet.net (220.128.13.218)  14.279 ms  12.631 ms  13.201 ms
+ 7  tyfo-3305.hinet.net (220.128.12.13)  16.134 ms  16.786 ms  16.438 ms
+ 8  72.14.213.90 (72.14.213.90)  13.772 ms 72.14.215.0 (72.14.215.0)  12.139 ms  12.728 ms
+ 9  108.170.244.129 (108.170.244.129)  14.661 ms  14.234 ms 108.170.244.97 (108.170.244.97)  13.269 ms
+10  72.14.238.17 (72.14.238.17)  13.928 ms 72.14.237.231 (72.14.237.231)  14.670 ms  14.528 ms
+11  tsa03s01-in-f228.1e100.net (216.58.200.228)  12.610 ms  13.235 ms  14.319 ms
 ```
 
+### mtr
+```
+mtr www.google.com
+```
+![](fig/mtr.png)
+
+### nslookup, host, dig
+```
+# nslookup www.google.com
+Server:		192.168.0.1
+Address:	192.168.0.1#53
+
+Non-authoritative answer:
+Name:	www.google.com
+Address: 216.58.200.228
+```
+```
+# host www.google.com
+www.google.com has address 216.58.200.228
+www.google.com has IPv6 address 2404:6800:4008:801::2004
+```
+```
+# dig www.google.com
+
+; <<>> DiG 9.8.2rc1-RedHat-9.8.2-0.68.rc1.el6 <<>> www.google.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 19732
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;www.google.com.			IN	A
+
+;; ANSWER SECTION:
+www.google.com.		172	IN	A	172.217.160.100
+
+;; Query time: 17 msec
+;; SERVER: 192.168.0.1#53(192.168.0.1)
+;; WHEN: Sun Sep 29 09:28:57 2019
+;; MSG SIZE  rcvd: 48
+```
+
+### nmcli
+```
+# nmcli nm status
+RUNNING         STATE           WIFI-HARDWARE   WIFI       WWAN-HARDWARE   WWAN      
+running         connected       enabled         enabled    enabled         enabled
+```
+```
+# nmcli con stat
+NAME           UUID                                   DEVICES   SCOPE    DEFAULT  VPN  
+System eth0    b1247f0a-0f22-4f42-b1f6-80717776d673   eth0      system   yes      no 
+```
+```
+# nmcli dev list
+GENERAL.DEVICE:                 eth0
+GENERAL.TYPE:                   802-3-ethernet
+GENERAL.DRIVER:                 e1000
+GENERAL.HWADDR:                 08:00:27:45:58:D3
+GENERAL.STATE:                  connected
+CAPABILITIES.CARRIER-DETECT:    yes
+CAPABILITIES.SPEED:             1000 Mb/s
+WIRED-PROPERTIES.CARRIER:       on
+IP4-SETTINGS.ADDRESS:           192.168.0.183
+IP4-SETTINGS.PREFIX:            24 (255.255.255.0)
+IP4-SETTINGS.GATEWAY:           192.168.0.1
+IP4-DNS1.DNS:                   192.168.0.1
+```
