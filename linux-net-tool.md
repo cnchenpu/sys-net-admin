@@ -16,6 +16,46 @@ Destination     Gateway         Genmask         Flags   MSS Window  irtt  Iface
 192.168.0.0     *               255.255.255.0   U         0 0          0  eth0
 default         192.168.0.1     0.0.0.0         UG        0 0          0  eth0
 ```
+```
+# netstat -s
+Ip:
+    4622 total packets received
+    0 forwarded
+    0 incoming packets discarded
+    4607 incoming packets delivered
+    2526 requests sent out
+Icmp:
+    21 ICMP messages received
+    0 input ICMP message failed.
+    ICMP input histogram:
+        destination unreachable: 21
+    21 ICMP messages sent
+    0 ICMP messages failed
+    ICMP output histogram:
+        destination unreachable: 21
+IcmpMsg:
+        InType3: 21
+        OutType3: 21
+Tcp:
+    31 active connections openings
+    33 passive connection openings
+    3 failed connection attempts
+    2 connection resets received
+    2 connections established
+    2496 segments received
+    1445 segments send out
+    0 segments retransmited
+    0 bad segments received.
+    1001 resets sent
+Udp:
+    41 packets received
+    21 packets to unknown port received.
+    0 packet receive errors
+    58 packets sent
+    0 receive buffer errors
+    0 send buffer errors
+...
+```
 
 ### ss (socket statistics)
 ```
@@ -79,7 +119,7 @@ mtr www.google.com
 ```
 ![](fig/mtr.png)
 
-## DNS diagnosis
+## DNS Lookup Utilities
 ### nslookup
 ```
 # nslookup www.google.com
@@ -143,6 +183,12 @@ Nmap done: 256 IP addresses (9 hosts up) scanned in 3.11 seconds
   
   ```nc -l 8080```
 
+- Enable communication between host1 (client) and host2 (server).
+ 
+  ```HOST1$ nc -l 8000```
+
+  ```HOST2$ nc HOST1 8000```
+
 - Send a file over TCP port 9899 from host2 (client) to host1 (server).
   
   ```HOST1$ nc -l 9899 > outputfile```
@@ -155,15 +201,73 @@ Nmap done: 256 IP addresses (9 hosts up) scanned in 3.11 seconds
 
   ```HOST2$ nc HOST1 9899 > outputfile```
 
-- Enable communication between host1 (client) and host2 (server).
- 
-  ```HOST1$ nc -l 8000```
+- Transfer whole directory from host2 to host1.
+  
+  ```HOST1$ nc -l 5000 | tar xvf -```
 
-  ```HOST2$ nc HOST1 8000```
+  ```HOST2$ tar cvf - /path/to/dir | nc host1 5000```
 
+- Backup host1 whole disk to remote host2.
+  
+  ```host2$ nc -l 5000 | dd of=sdb-backup.img.gz```
+
+  ```host1$ dd if=/dev/sdb | gzip -c | nc hsot2 5000```
+
+- Test port 80 for web server.
+  - Listen port 80 and response test.heml:
+
+    ```bash
+    $ while true; do nc -l 80 < test.html; done
+    ```
+
+  - Check host on the browser
+  - Host shows HTTP requests from browser:
+   
+    ```
+    GET / HTTP/1.1
+    Host: 192.168.1.14
+    User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+    Accept-Language: zh-TW,zh;q=0.8,en-US;q=0.5,en;q=0.3
+    Accept-Encoding: gzip, deflate
+    Connection: keep-alive
+    Upgrade-Insecure-Requests: 1
+    ...
+    ```
+   
 - Port scanning.
   
   ```$ nc -z host.example.com 20-30```
 
 ### tcpdump
-  
+```
+# tcpdump -i enp0s3 arp
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
+23:50:28.151642 ARP, Request who-has E560-RH7 (08:00:27:33:1e:15 (oui Unknown)) tell 192.168.1.59, length 46
+23:50:28.151657 ARP, Reply E560-RH7 is-at 08:00:27:33:1e:15 (oui Unknown), length 28
+23:50:28.446032 ARP, Request who-has E560-RH7 tell gateway, length 46
+23:50:28.446063 ARP, Reply E560-RH7 is-at 08:00:27:33:1e:15 (oui Unknown), length 28
+```
+```
+# tcpdump -i enp0s3 -c 10 -w test.pcap
+tcpdump: listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
+
+10 packets captured
+10 packets received by filter
+0 packets dropped by kernel
+```
+```
+# tcpdump -r test.pcap 
+reading from file test.pcap, link-type EN10MB (Ethernet)
+23:40:09.331080 IP E560-RH7.ssh > 192.168.1.59.neod1: Flags [P.], seq 2810805079:2810805203, ack 2784357959, win 252, length 124
+23:40:09.331280 IP 192.168.1.59.neod1 > E560-RH7.ssh: Flags [.], ack 124, win 2049, length 0
+23:40:09.939682 IP 192.168.1.193.49154 > 255.255.255.255.ircu-2: UDP, length 175
+23:40:13.013061 IP 192.168.1.193.49154 > 255.255.255.255.ircu-2: UDP, length 175
+23:40:16.090072 IP 192.168.1.193.49154 > 255.255.255.255.ircu-2: UDP, length 175
+23:40:18.852361 IP 192.168.1.193.49154 > 255.255.255.255.ircu-2: UDP, length 175
+23:40:20.690333 IP 192.168.1.59.neod1 > E560-RH7.ssh: Flags [P.], seq 1:37, ack 124, win 2049, length 36
+23:40:20.690588 IP E560-RH7.ssh > 192.168.1.59.neod1: Flags [P.], seq 124:160, ack 37, win 252, length 36
+23:40:20.730571 IP 192.168.1.59.neod1 > E560-RH7.ssh: Flags [.], ack 160, win 2049, length 0
+23:40:21.926092 IP 192.168.1.193.49154 > 255.255.255.255.ircu-2: UDP, length 175
+```  
