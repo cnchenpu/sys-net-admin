@@ -108,6 +108,11 @@ default         192.168.0.1     0.0.0.0         UG    0      0        0 eth0
 default via 192.168.0.1 dev eth0  proto static
 ```
 
+### Restart network service
+```/etc/init.d/network restart```
+
+```systemctl restart network.service``` 
+
 ### Ethernet Layer Tools
 #### arp
 ```
