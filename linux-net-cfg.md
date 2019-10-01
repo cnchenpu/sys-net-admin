@@ -28,11 +28,20 @@ LAST_CONNECT=1568257891
 
 ### Hostname and default gateway definition
 ```bash
-# cat /etc/sysconfig/network
+# RHEL 6
+$ cat /etc/sysconfig/network
 NETWORKING=yes
 HOSTNAME=ENCU-RH6
 #GATEWAY=
 ```
+
+```bash
+# RHEL 7
+/etc/hostname
+```
+
+### DNS servers settings
+```/etc/resolv.conf```
 
 ### Reading Routes and IP Information
 #### ifconfig
