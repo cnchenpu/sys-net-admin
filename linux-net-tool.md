@@ -195,7 +195,7 @@ Nmap done: 256 IP addresses (9 hosts up) scanned in 3.11 seconds
 
   ```HOST2$ nc HOST1 9899 < inputfile```
 
-- Transfer in the other direction, turning nc into a "one file" server.
+- Transfer file in the other direction.
 
   ```HOST1$ nc -l 9899 < inputfile```
 
@@ -209,9 +209,9 @@ Nmap done: 256 IP addresses (9 hosts up) scanned in 3.11 seconds
 
 - Backup host1 whole disk to remote host2.
   
-  ```host2$ nc -l 5000 | dd of=sdb-backup.img.gz```
+  ```HOST2$ nc -l 5000 | dd of=sdb-backup.img.gz```
 
-  ```host1$ dd if=/dev/sdb | gzip -c | nc hsot2 5000```
+  ```HOST1$ dd if=/dev/sdb | gzip -c | nc hsot2 5000```
 
 - Test port 80 for web server.
   - Listen port 80 and response test.heml:
@@ -234,7 +234,15 @@ Nmap done: 256 IP addresses (9 hosts up) scanned in 3.11 seconds
     Upgrade-Insecure-Requests: 1
     ...
     ```
-   
+
+- Create backdoor at host1 to run commands from host2
+
+  ```HOST1$ nc -l 8000 -e /bin/bash```
+
+  ```HOST2$ nc host1 8000```
+
+  Then run commands or open files of host1 at host2.
+
 - Port scanning.
   
   ```$ nc -z host.example.com 20-30```
