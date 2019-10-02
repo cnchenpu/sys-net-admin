@@ -12,10 +12,12 @@ Why do you need to know server's booting process?
       - ```dmidecode```
 3. POST (Power On Self Test)
 4. MBR (Master Boot Record)
+   BIOS find bootable device and transfer control to the MBR.
    - First stage boot loader
      - Stage 1 loads stage 1.5
      - Stage 1.5 loads stage 2
 5. Boot-loader
+   Stage 2 read ```grub.conf``` and display the boot menu. GRUB execute the command in the boot menu.
    - Second stage (in the /boot)
    - GRUB / GRUB 2
    - vmlinuz kernel
