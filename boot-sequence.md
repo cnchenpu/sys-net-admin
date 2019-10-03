@@ -16,6 +16,12 @@ Why do you need to know server's booting process?
    - First stage boot loader
      - Stage 1 loads stage 1.5
      - Stage 1.5 loads stage 2
+   ```
+   - UEFI
+     - load UEFI boot system
+     - mount EFI partition
+     - load GRUB stage 2
+   ```
 5. Boot-loader
    Stage 2 read ```grub.conf``` and display the boot menu. GRUB execute the command in the boot menu.
    - Second stage (in the /boot)
@@ -24,7 +30,7 @@ Why do you need to know server's booting process?
    - initrd / initramfs
      - ```lsinitrd```
 6. Load kernel
-7. init / systemd
+7. PID 1: init / systemd
 8. Runlevel programs
    - ```runlevel```
 
@@ -50,6 +56,7 @@ Why do you need to know server's booting process?
 * It contains information about GRUB
 * MBR loads and executes the GRUB boot loader.
   * load stage 2 boot loader (in the /boot) through stage 1.5
+    * GRUB stage 1.5 is located in the first 30 KB following the MBR
 
 ![](fig/boot-sector.png)
 
