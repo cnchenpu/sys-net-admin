@@ -128,3 +128,8 @@ $ mount
 └── vmlinuz-2.6.32-754.el6.x86_64
 ```
 
+## Boot process in UEFI
+![](fig/boot-uefi.jpg)
+
+## Boot process in BIOS
+![](fig/boot-bios.jpg)
