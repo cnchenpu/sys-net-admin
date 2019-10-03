@@ -162,6 +162,8 @@ www.google.com.		172	IN	A	172.217.160.100
 
 ## Advanced network tools
 ### nmap
+Network exploration tool and security / port scanner.
+
 ```
 # nmap -sn 192.168.0.0/24
 ...
@@ -175,7 +177,7 @@ Nmap done: 256 IP addresses (9 hosts up) scanned in 3.11 seconds
 ```
 
 ### nc (ncat)
-![](fig/ncat.jpg)
+Concatenate and redirect sockets.
 
 ```nc``` (```ncat```) reads and writes data across the network from the command line.
 
@@ -195,7 +197,7 @@ Nmap done: 256 IP addresses (9 hosts up) scanned in 3.11 seconds
 
   ```HOST2$ nc HOST1 9899 < inputfile```
 
-- Transfer in the other direction, turning nc into a "one file" server.
+- Transfer file in the other direction.
 
   ```HOST1$ nc -l 9899 < inputfile```
 
@@ -209,9 +211,9 @@ Nmap done: 256 IP addresses (9 hosts up) scanned in 3.11 seconds
 
 - Backup host1 whole disk to remote host2.
   
-  ```host2$ nc -l 5000 | dd of=sdb-backup.img.gz```
+  ```HOST2$ nc -l 5000 | dd of=sdb-backup.img.gz```
 
-  ```host1$ dd if=/dev/sdb | gzip -c | nc hsot2 5000```
+  ```HOST1$ dd if=/dev/sdb | gzip -c | nc hsot2 5000```
 
 - Test port 80 for web server.
   - Listen port 80 and response test.heml:
@@ -234,12 +236,22 @@ Nmap done: 256 IP addresses (9 hosts up) scanned in 3.11 seconds
     Upgrade-Insecure-Requests: 1
     ...
     ```
-   
+
+- Create backdoor at host1 to run commands from host2
+
+  ```HOST1$ nc -l 8000 -e /bin/bash```
+
+  ```HOST2$ nc host1 8000```
+
+  Then run commands or open files of host1 at host2.
+
 - Port scanning.
   
   ```$ nc -z host.example.com 20-30```
 
 ### tcpdump
+Dump traffic on a network.
+
 ```
 # tcpdump -i enp0s3 arp
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
@@ -271,3 +283,59 @@ reading from file test.pcap, link-type EN10MB (Ethernet)
 23:40:20.730571 IP 192.168.1.59.neod1 > E560-RH7.ssh: Flags [.], ack 160, win 2049, length 0
 23:40:21.926092 IP 192.168.1.193.49154 > 255.255.255.255.ircu-2: UDP, length 175
 ```  
+
+### iperf
+Network throughput test.
+
+```HOST1$ iperf3 -s
+-----------------------------------------------------------
+Server listening on 5201
+-----------------------------------------------------------
+Accepted connection from 172.22.14.73, port 55450
+[  5] local 172.22.14.84 port 5201 connected to 172.22.14.73 port 55452
+[ ID] Interval           Transfer     Bandwidth
+[  5]   0.00-1.00   sec  1.06 GBytes  9.13 Gbits/sec                  
+[  5]   1.00-2.00   sec  1.06 GBytes  9.08 Gbits/sec                  
+[  5]   2.00-3.00   sec  1.12 GBytes  9.59 Gbits/sec                  
+[  5]   3.00-4.00   sec  1021 MBytes  8.57 Gbits/sec                  
+[  5]   4.00-5.00   sec  1.10 GBytes  9.41 Gbits/sec                  
+[  5]   5.00-6.00   sec  1.14 GBytes  9.80 Gbits/sec                  
+[  5]   6.00-7.00   sec  1.10 GBytes  9.48 Gbits/sec                  
+[  5]   7.00-8.00   sec  1.15 GBytes  9.85 Gbits/sec                  
+[  5]   8.00-9.00   sec  1.19 GBytes  10.3 Gbits/sec                  
+[  5]   9.00-10.00  sec  1.13 GBytes  9.72 Gbits/sec                  
+[  5]  10.00-10.03  sec  36.9 MBytes  9.16 Gbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth
+[  5]   0.00-10.03  sec  0.00 Bytes  0.00 bits/sec                  sender
+[  5]   0.00-10.03  sec  11.1 GBytes  9.49 Gbits/sec                  receiver
+```
+
+```HOST2 $ # iperf3 -c 172.22.14.84
+Connecting to host 172.22.14.84, port 5201
+[  4] local 172.22.14.73 port 55452 connected to 172.22.14.84 port 5201
+[ ID] Interval           Transfer     Bandwidth       Retr  Cwnd
+[  4]   0.00-1.00   sec  1.10 GBytes  9.48 Gbits/sec    0    829 KBytes       
+[  4]   1.00-2.00   sec  1.05 GBytes  9.06 Gbits/sec    0    868 KBytes       
+[  4]   2.00-3.00   sec  1.12 GBytes  9.60 Gbits/sec    0    906 KBytes       
+[  4]   3.00-4.00   sec  1.00 GBytes  8.60 Gbits/sec    0    919 KBytes       
+[  4]   4.00-5.00   sec  1.09 GBytes  9.38 Gbits/sec    0    926 KBytes       
+[  4]   5.00-6.00   sec  1.13 GBytes  9.74 Gbits/sec    0    963 KBytes       
+[  4]   6.00-7.00   sec  1.11 GBytes  9.53 Gbits/sec    0    966 KBytes       
+[  4]   7.00-8.00   sec  1.15 GBytes  9.88 Gbits/sec    0    983 KBytes       
+[  4]   8.00-9.00   sec  1.19 GBytes  10.2 Gbits/sec    0    987 KBytes       
+[  4]   9.00-10.00  sec  1.13 GBytes  9.74 Gbits/sec    0   1018 KBytes       
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Retr
+[  4]   0.00-10.00  sec  11.1 GBytes  9.52 Gbits/sec    0             sender
+[  4]   0.00-10.00  sec  11.1 GBytes  9.52 Gbits/sec                  receiver
+
+iperf Done.
+```
+
+### iptraf 
+Interactive IP LAN monitor.
+
+![](fig/iptraf-1.jpg)
+
+![](fig/iptraf-2.jpg)
