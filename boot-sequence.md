@@ -17,9 +17,9 @@ Why do you need to know server's booting process?
      - Stage 1 loads stage 1.5
      - Stage 1.5 loads stage 2
    ```
-   - UEFI
+   For the system which use UEFI (Unified Extensible Firmware Interface) instead of traditional BIOS:
      - load UEFI boot system
-     - mount EFI partition
+     - mount EFI partition (/boot/efi)
      - load GRUB stage 2
    ```
 5. Boot-loader
