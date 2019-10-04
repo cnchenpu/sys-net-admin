@@ -9,3 +9,26 @@
   - automatically updated by ```grubby``` each time a new kernel is installed
 - Edits of ```grub.cfg``` will be lost any time ``grub2-mkconfig`` is used to regenerate the file.
 - Any manual changes to ``/etc/default/grub`` require rebuilding the ```grub.cfg``` file. 
+
+## Menu Entries in /boot/grub2/grub.cfg
+```
+### BEGIN /etc/grub.d/10_linux ###
+menuentry 'CentOS Linux (3.10.0-957.27.2.el7.x86_64) 7 (Core)' --class centos --class gnu-linux --class gnu --class os --unrestricted $menuentry_id_option 'gnulinux-3.10.0-957.el7.x86_64-advanced-d56e708b-c5a8-451e-b190-91b5659039b3' {
+	load_video
+	set gfxpayload=keep
+	insmod gzio
+	insmod part_msdos
+	insmod xfs
+	set root='hd0,msdos1'
+	if [ x$feature_platform_search_hint = xy ]; then
+	  search --no-floppy --fs-uuid --set=root --hint-bios=hd0,msdos1 --hint-efi=hd0,msdos1 --hint-baremetal=ahci0,msdos1 --hint='hd0,msdos1'  a0fe573a-f15f-4828-a286-c00617359ca1
+	else
+	  search --no-floppy --fs-uuid --set=root a0fe573a-f15f-4828-a286-c00617359ca1
+	fi
+	linux16 /vmlinuz-3.10.0-957.27.2.el7.x86_64 root=/dev/mapper/centos-root ro crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet LANG=en_US.UTF-8
+	initrd16 /initramfs-3.10.0-957.27.2.el7.x86_64.img
+}
+....
+### END /etc/grub.d/10_linux ###
+```
+
