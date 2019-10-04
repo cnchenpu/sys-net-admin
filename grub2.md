@@ -32,3 +32,42 @@ menuentry 'CentOS Linux (3.10.0-957.27.2.el7.x86_64) 7 (Core)' --class centos --
 ### END /etc/grub.d/10_linux ###
 ```
 
+## grubby
+The grubby tool can be used to read information from, and make persistent changes to, the `grub.cfg` file.
+- To list all the kernel menu entries:
+  ```
+  $ grubby --info=ALL
+  index=0
+  kernel=/boot/vmlinuz-3.10.0-957.27.2.el7.x86_64
+  args="ro crashkernel=auto rd.lvm.lv=cl_rh7/root rd.lvm.lv=cl_rh7/swap rhgb quiet LANG=en_US.UTF-8"
+  root=/dev/mapper/cl_rh7-root
+  initrd=/boot/initramfs-3.10.0-957.27.2.el7.x86_64.img
+  title=CentOS Linux (3.10.0-957.27.2.el7.x86_64) 7 (Core)
+  ....
+  ```
+- To view the GRUB 2 menu entry for a specific kernel:
+  ```
+  $ grubby --info /boot/vmlinuz-3.10.0-514.el7.x86_64
+  ```
+- To find out the file name of the default kernel:
+  ```
+  $ grubby --default-kernel
+  /boot/vmlinuz-3.10.0-957.27.2.el7.x86_64
+  ```
+- To find out the index number of the default kernel:
+  ```
+  $ grubby --default-index
+  0
+  ```
+- Changing the default boot entry persistently:
+  ```
+  $ grubby --set-default /boot/vmlinuz-3.10.0-514.el7.x86_64
+  ```
+- To add and remove arguments from a kernel, e.q.:
+  ```
+  $ grubby --remove-args="rhgb quiet" --args=console=ttyS0,38400 --update-kernel /boot/vmlinuz-3.10.0-957.27.2.el7.x86_64
+  ```
+- Changinig a kernel argument:
+  ```
+  $ grubby --args=vconsole.font=latarcyrheb-sun32 --update-kernel /boot/vmlinuz-3.10.0-957.27.2.el7.x86_64
+  ```      
