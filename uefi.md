@@ -11,7 +11,11 @@ The advantage of UEFI:
 
 
 ## GPT (GUID Partition Table) disk with UEFI
-- Supports unlimited number of partitions, and support the disk over 2 Terabyte. (MBR can only has 4 partitions)
+- UEFI support the boot disk over 2.2 Terabyte.
+- GPT disks use logical block addressing (LBA).
+- To preserve backward compatibility with MBR disks, the first sector (LBA 0) of GPT is reserved for MBR data and it is called “protective MBR”.
+- The primary GPT table includes, by default, 128 partition entries. (MBR can only has 4 partitions)
+- The secondary GPT table is identical to the primary GPT table. It is used as a backup table for recovery. 
 - Uses CRC32 fields for improved data integrity.
   
 ![](https://vjauj58549.i.lithium.com/community/image/serverpage/image-id/20344iBD7B85E66A89702E/image-size/large?v=1.0&px=999)
@@ -19,8 +23,9 @@ The advantage of UEFI:
 
 
 ## Disk partition and boot loader for UEFI
-- EFI is only used when UEFI is enabled. The EFI mount point is ```/boot/efi```.
-- EFI System Partition contains boot loader.
+- EFI is only used when UEFI is enabled. 
+- EFI System Partition (ESP) contains boot loader. The ESP mount point is ```/boot/efi```.
+- The EFI software provided by Red Hat is stored in ```/boot/efi/EFI/redhat/```.
 
 ```
 $ fdisk /dev/sda -l
