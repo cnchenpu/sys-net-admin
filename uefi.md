@@ -19,7 +19,8 @@ The advantage of UEFI:
 
 
 ## Disk partition and boot loader for UEFI
-EFI is only used when UEFI is enabled. The EFI mount point is ```/boot/efi```.
+- EFI is only used when UEFI is enabled. The EFI mount point is ```/boot/efi```.
+- EFI System Partition contains boot loader.
 
 ```
 $ fdisk /dev/sda -l
@@ -129,6 +130,9 @@ $ mount
 ```
 
 ## Boot process in UEFI
+1. UEFI find the EFI System Partition (ESP).
+2. EFI Boot Manager boot the selected system.
+   
 ![](fig/boot-uefi.jpg)
 
 ## Boot process in BIOS
