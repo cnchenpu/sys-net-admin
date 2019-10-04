@@ -67,7 +67,28 @@ The grubby tool can be used to read information from, and make persistent change
   ```
   $ grubby --remove-args="rhgb quiet" --args=console=ttyS0,38400 --update-kernel /boot/vmlinuz-3.10.0-957.27.2.el7.x86_64
   ```
-- Changinig a kernel argument:
+- Changinig a kernel argument, e.q.:
   ```
   $ grubby --args=vconsole.font=latarcyrheb-sun32 --update-kernel /boot/vmlinuz-3.10.0-957.27.2.el7.x86_64
-  ```      
+  ```
+
+  ## grub2-set-default
+  Changing the default boot entry:
+  1. To list the available menu entries:
+     ```
+	 $ grubby --info=ALL
+	 ``` 
+  2. Set the default boot entry:
+     ```
+	 $ grub2-set-default <index number>
+	 ``` 
+  3. Changes to ``/etc/default/grub`` require rebuilding the ``grub.cfg`` file:
+     - On BIOS-based machines:
+       ```
+	   $ grub2-mkconfig -o /boot/grub2/grub.cfg
+	   ```
+     - On UEFI-based machines:
+       ```
+	   $ grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+	   ```
+	   
