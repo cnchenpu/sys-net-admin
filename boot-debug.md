@@ -56,6 +56,7 @@ GRUB_DISABLE_RECOVERY="true"
 3. Stage 1.5 finds the boot partition, then loads the stage 2 in ```/boot```
 4. Stage 2 loads the ```grub.conf```, then user can see the boot menu
 
+## [14 Error messages reported by GRUB](https://www.gnu.org/software/grub/manual/legacy/Troubleshooting.html)
 
 
 ## Manual Boot in GRUB
