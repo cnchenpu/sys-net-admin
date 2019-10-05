@@ -10,7 +10,9 @@
 - Edits of ```grub.cfg``` will be lost any time ``grub2-mkconfig`` is used to regenerate the file.
 - Any manual changes to ``/etc/default/grub`` require rebuilding the ```grub.cfg``` file. 
 
-## Menu Entries in /boot/grub2/grub.cfg
+
+## Configuring GRUB 2
+### Menu Entries in /boot/grub2/grub.cfg
 ```
 ### BEGIN /etc/grub.d/10_linux ###
 menuentry 'CentOS Linux (3.10.0-957.27.2.el7.x86_64) 7 (Core)' --class centos --class gnu-linux --class gnu --class os --unrestricted $menuentry_id_option 'gnulinux-3.10.0-957.el7.x86_64-advanced-d56e708b-c5a8-451e-b190-91b5659039b3' {
@@ -32,7 +34,37 @@ menuentry 'CentOS Linux (3.10.0-957.27.2.el7.x86_64) 7 (Core)' --class centos --
 ### END /etc/grub.d/10_linux ###
 ```
 
-## grubby
+
+### /etc/default/grub
+```
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
+GRUB_DEFAULT=saved
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT="console"
+GRUB_CMDLINE_LINUX="crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet"
+GRUB_DISABLE_RECOVERY="true"
+```
+
+Changes to ``/etc/default/grub`` require rebuilding the ``grub.cfg`` file:
+- On BIOS-based machines:
+  ```
+  $ grub2-mkconfig -o /boot/grub2/grub.cfg
+  ```
+- On UEFI-based machines:
+  ```
+  $ grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+  ```
+
+
+### /boot/grub2/grubenv
+```
+# GRUB Environment Block
+saved_entry=CentOS Linux (3.10.0-957.27.2.el7.x86_64) 7 (Core)
+```
+
+
+### grubby
 The grubby tool can be used to read information from, and make persistent changes to, the `grub.cfg` file.
 - To list all the kernel menu entries:
   ```
@@ -72,23 +104,95 @@ The grubby tool can be used to read information from, and make persistent change
   $ grubby --args=vconsole.font=latarcyrheb-sun32 --update-kernel /boot/vmlinuz-3.10.0-957.27.2.el7.x86_64
   ```
 
-  ## grub2-set-default
-  Changing the default boot entry:
-  1. To list the available menu entries:
+
+### grub2-set-default
+Changing the default boot entry:
+```
+$ grub2-set-default <index number>
+``` 
+
+
+## Reinstalling GRUB 2
+- Upgrading from the previous version of GRUB.
+- Reinstalling GRUB 2 returns control to the desired operating system in the multi-boot environment.
+- Adding the boot information to another drive.
+  
+### Reinstall GRUB 2 if files are not corrupted
+Update information and restore missing files of boot loader.
+- On BIOS-based machines:
+  ```
+  $ grub2-install /dev/sda
+  ```
+- On UEFI-based machines:
+  ```
+  $ yum reinstall grub2-efi shim
+  ```
+
+## Reinstall GRUB 2 if files are corrupted
+Remove the configuration files and reinstall of GRUB 2 files.
+1. Remove configuration files:
+   ```
+   $ rm /etc/grub.d/*
+   $ rm /etc/sysconfig/grub 
+   ```
+2. Reinstall configuration files:
+   - On BIOS-based machines:
      ```
-	 $ grubby --info=ALL
-	 ``` 
-  2. Set the default boot entry:
+     $ yum reinstall grub2-tools
+     ``` 
+   - On UEFI-based machines:
      ```
-	 $ grub2-set-default <index number>
-	 ``` 
-  3. Changes to ``/etc/default/grub`` require rebuilding the ``grub.cfg`` file:
-     - On BIOS-based machines:
-       ```
-	   $ grub2-mkconfig -o /boot/grub2/grub.cfg
-	   ```
-     - On UEFI-based machines:
-       ```
-	   $ grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
-	   ```
-	   
+     $ yum reinstall grub2-efi shim grub2-tools
+     ```
+3. Rebuild the ```grub.cfg```:
+   - On BIOS-based machines:
+     ```
+     $ grub2-mkconfig -o /boot/grub2/grub.cfg
+     ```
+   - On UEFI-based machines:
+     ```
+     $ grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+     ```   
+4. Reinstall GRUB 2 on the ``/boot/`` partition:
+   - On BIOS-based machines:
+     ```
+     $ grub2-install /dev/sda
+     ```
+   - On UEFI-based machines:
+     ```
+     $ yum reinstall grub2-efi shim
+     ```   
+
+
+## Upgrading to GRUB 2     
+1. Remove GRUB legacy package:
+   ```
+   $ yum remove grub
+   ``` 
+2. Install GRUB 2 package:
+   ```
+   $ yum install grub2
+   ```
+3. Generating the GRUB 2 configuration files:
+   1. Install the GRUB 2 files to the ``/boot/grub/`` directory of system disk (/dev/sda):
+      ```
+      $ grub2-install --grub-setup=/bin/true /dev/sda
+      ``` 
+   2. Generate the ``grub.cfg``: 
+      - On BIOS-based machines:
+        ```
+        $ grub2-mkconfig -o /boot/grub2/grub.cfg
+        ```
+      - On UEFI-based machines:
+        ```
+        $ grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+        ``` 
+4. Replace GRUB legacy bootloader by reinstall GRUB 2
+   - On BIOS-based machines:
+     ```
+     $ grub2-install /dev/sda
+     ```
+   - On UEFI-based machines:
+     ```
+     $ yum reinstall grub2-efi shim
+     ```
