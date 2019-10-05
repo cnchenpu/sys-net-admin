@@ -13,7 +13,7 @@ tag: sysadmin, Linux
    ```
    $ mount -o remount,rw /
    ``` 
-3. In RH7, you have to ``touch /.autorelabel`` before you leave root filesystem in the single user mode    
+3. In RH7, you have to ``touch /.autorelabel`` before you leave root filesystem in the single user mode.    
 
 ## Setup serial console
 1. configure serial port
