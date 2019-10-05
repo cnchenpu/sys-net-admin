@@ -5,9 +5,15 @@ tag: sysadmin, Linux
 # Lab: Debug boot failure
 
 ## Single user mode (Emergency mode)
-Press ```e``` key to edit the boot option when GRUB boot menu appear.
-- RH6: Add ```single``` in the end of kernel line.
-- RH7: Replace ```ro``` with ```rw init=/sysroot/bin/sh``` in the kernel line.
+1. Press ```e``` key to edit the boot option when GRUB boot menu appear.
+   - RH6: Add ```single``` in the end of kernel line.
+   - RH7 (method 1): Add ``rd.break`` in the end of kernel line.
+   - RH7 (method 2): Replace ```ro``` with ```rw init=/sysroot/bin/sh``` in the kernel line.
+2. Re-mount root filesystem if it is in read-only mode:
+   ```
+   $ mount -o remount,rw /
+   ``` 
+3. In RH7, you have to ``touch /.autorelabel`` before you leave root filesystem in the single user mode    
 
 ## Setup serial console
 1. configure serial port
