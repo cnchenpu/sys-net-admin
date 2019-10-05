@@ -13,7 +13,9 @@ Press ```e``` key to edit the boot option when GRUB boot menu appear.
 1. configure serial port
 ![](fig/serial-out.jpg)
 
-2. add ```console=tty0 console=ttyS0,38400``` to ```/boot/grub/grub.conf``` in the end of ``kernel``
+2. Edit the  ``kernel`` parameters of the ```/boot/grub/grub.conf```:
+   - remove ``rhgb`` and ``quiet``
+   - add ```console=tty0 console=ttyS0,38400```
 
 ```bash
 #/boot/grub/grub.conf
@@ -142,4 +144,12 @@ succeeded
  Running "install /grub/stage1 (hd0) (hd0)1+27 p (hd0,0)/grub/stage2 /grub/grub.conf"... succeeded
 Done.
 ```
+
+# HW2: Reinstall GRUB 2 (due date:)
+You have to:
+1. Reinstall the ``grub2`` and reconfigure the ``grub.cfg``.
+2. List or take screenshots of your commands and their outputs.
+3. Tell me what file will be updated in the ``/boot/``.
+4. Compose above information in your HackMD page.
+5. Email me your work, the email subject format: [HW2_your-student-ID].
 
