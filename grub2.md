@@ -223,4 +223,3 @@ Remove the configuration files and reinstall of GRUB 2 files.
 ### Booting to the Debug Shell
 - use ``systemctl`` commands for debug
 - kernel parameter: ``init=/bin/bash``
-- or, kernel parameter: ``systemd.deubg-shell``
