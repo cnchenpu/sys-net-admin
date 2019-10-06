@@ -107,9 +107,13 @@ title CentOS 6 (2.6.32-754.el6.x86_64)
 * The initial RAM disk (initrd) is an initial root file system that is mounted prior to when the real root file system is available. 
 * The initrd is bound to the kernel and loaded as part of the kernel boot procedure. 
 * The kernel then mounts this initrd as part of the two-stage boot process to load the modules to make the real file systems available and get at the real root file system.
+* The initrd must match kernel version.
 * The initrd contains a minimal set of directories and executables to achieve this, such as the insmod tool to install kernel modules into the kernel.
+* Created and managed using ``mkinitrd`` which calls ``dracut``.
+  * ``dracut --list-modules`` list modules.
 * The initrd image contains the necessary executables and system files to support the second-stage (```/boot/stage2```) boot of a Linux system.
 * Decompress command: ```zcat initramfs-2.6.32-754.el6.x86_64.img | cpio -id```
+* Show content of initrd: ``lsinitrd``.
 
 ![](fig/initramfs.jpg)
 
