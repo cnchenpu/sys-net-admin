@@ -196,3 +196,22 @@ Remove the configuration files and reinstall of GRUB 2 files.
      ```
      $ yum reinstall grub2-efi shim
      ```
+
+## Debug Booting with GRUB 2
+Modify GRUB kernel parameters to start a minimal shell for debuging.
+
+### Booting to Rescue Mode (Single User Mode)
+- mount all local filesystem
+- start some import system services
+- no activate network 
+- kernel parmeter: ``systemd.target=rescue.target``
+
+### Booting to Emergency Mode
+- mount root filesystem only for read
+- only few essential serices
+- no activate network
+- kernel parmeter: ``systemd.unit=emergency.target``
+
+### Booting to the Debug Shell
+- use ``systemctl`` commands for debug
+- kernel parmeter: ``systemd.deubg-shell``
