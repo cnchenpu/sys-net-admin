@@ -204,7 +204,7 @@ Modify GRUB kernel parameters to start a minimal shell for debuging.
 - mount all local filesystem
 - start some import system services
 - no activate network 
-- kernel parmeter: ``systemd.target=rescue.target``
+- kernel parmeter: ``systemd.unit=rescue.target``
 
 ### Booting to Emergency Mode
 - mount root filesystem only for read
