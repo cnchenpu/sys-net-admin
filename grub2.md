@@ -198,20 +198,29 @@ Remove the configuration files and reinstall of GRUB 2 files.
      ```
 
 ## Debug Booting with GRUB 2
-Modify GRUB kernel parameters to start a minimal shell for debuging.
+- Modify GRUB kernel parameters to start a minimal shell for debuging.
+- Use ``e`` in GRUB menu to edit; use ``Ctrl + x`` to run settings.
+- If changed anything in filesystem in these modes, run ``touch /.autorelabel`` to tell SELinux updating.
 
 ### Booting to Rescue Mode (Single User Mode)
 - mount all local filesystem
 - start some import system services
 - no activate network 
-- kernel parmeter: ``systemd.unit=rescue.target``
+- kernel parameter: ``systemd.unit=rescue.target``
 
 ### Booting to Emergency Mode
 - mount root filesystem only for read
 - only few essential serices
 - no activate network
-- kernel parmeter: ``systemd.unit=emergency.target``
+- kernel parameter: ``systemd.unit=emergency.target``
+- or, kernel parameter: ``rd.break``
+  
+  ![](fig/emergency-mode.jpg)
+
+  ![](fig/remount-rw.jpg)
+
 
 ### Booting to the Debug Shell
 - use ``systemctl`` commands for debug
-- kernel parmeter: ``systemd.deubg-shell``
+- kernel parameter: ``init=/bin/bash``
+- or, kernel parameter: ``systemd.deubg-shell``
