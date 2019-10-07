@@ -68,6 +68,35 @@ GRUB_DISABLE_RECOVERY="true"
 
 
 ## Manual Boot in GRUB
+1. Press ``c`` to drop to GRUB subsystem in the GRUB boot screen. You will see the ``grub>`` prompt.
+2. Find the ``/boot`` partition, command: ``root`` or ``root (hd0,0)`` for the case that ``/boot`` is in the ``/dev/sda1``.
+3. Specify the ``kernel`` parameters about the ``vmlinuz`` file and the root filesystem device.
+4. Specify the ``initrd`` parameters about the ``initramfs`` file.
+5. Run ``boot`` to reboot.
+
+Exapmle:
+- The ``/boot`` is the ``/dev/sda1``; the root device is the ``/dev/sda5``.
+  ```
+  $ cat /etc/fstab 
+  /dev/sda5	 /  	ext4	defaults	1	1
+  /dev/sda1	 /boot	ext4	defaults	1	2
+  /dev/sda2	 /var	ext4	defaults	1	2
+  /dev/sda3  swap   swap    defaults    0   0
+  ```
+- The ``grub.conf``:
+  ```
+  $ cat /boot/grub/grub.conf
+  default=0
+  title CentOS (2.6.32-71.el6.x86_64)
+          root (hd0,0)
+          kernel /vmlinuz-2.6.32-71.el6.x86_64 ro root=/dev/sda5
+          initrd /initramfs-2.6.32-71.el6.x86_64.img     
+  ``` 
+- Manual boot in GRUB:
+  ![](fig/grub-manual-1.jpg)
+  ![](fig/grub-manual-2.jpg)  
+
+Common error:
 - No root parameter causes kernel panic
  ![](fig/boot-no-root-parameter-0.jpg)
  ![](fig/boot-no-root-parameter.jpg)
