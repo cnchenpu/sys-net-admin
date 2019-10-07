@@ -28,6 +28,31 @@ The advantage of UEFI:
 - The EFI software provided by Red Hat is stored in ```/boot/efi/EFI/redhat/```.
 
 ```
+$ efibootmgr -v
+BootCurrent: 0004
+BootOrder: 0004,0000,0001,0002,0003,0005
+Boot0000* EFI SCSI Hard Drive	ACPI(a0341d0,0)PCI(10,0)SCSI(0,0)
+Boot0001* EFI SCSI Hard Drive 1	ACPI(a0341d0,0)PCI(10,0)SCSI(1,0)
+Boot0002* EFI IDE CD/DVD Drive	ACPI(a0341d0,0)PCI(7,1)ATAPI(1,0,0)
+Boot0003* EFI Network	ACPI(a0341d0,0)PCI(11,0)PCI(0,0)MAC(MAC(005056acf9b3,0)
+Boot0004* CentOS	HD(1,800,64000,babe9ef5-b6df-4cc1-a29b-5f1fd77d6f0b)File(\EFI\centos\shim.efi)
+Boot0005* EFI Internal Shell (Unsupported option)	MM(b,7eec4000,7f2a7fff)FvFile(c57ad6b7-0515-40a8-9d21-551652854e37)
+```
+```bash
+# /etc/fstab
+
+/dev/mapper/centos_lvm-root                 /               xfs     defaults        0 0
+UUID=cbaf6878-247f-47aa-a2a4-af36eb55b143   /boot           xfs     defaults        0 0
+UUID=1E1A-A31A                              /boot/efi       vfat    umask=0077      0 0
+/dev/mapper/centos_lvm-swap                 swap            swap    defaults        0 0
+```
+```
+$ mount
+/dev/sda2 on /boot type xfs (rw,relatime,...)
+/dev/sda1 on /boot/efi type vfat (rw,relatime,...)
+```
+
+```
 $ fdisk /dev/sda -l
 WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.
 
@@ -49,12 +74,6 @@ NR   START      END  SECTORS  SIZE NAME                 UUID
  1    2048   411647   409600  200M EFI System Partition babe9ef5-b6df-4cc1-a29b-5f1fd77d6f0b
  2  411648  1435647  1024000  500M                      5d19f200-4db2-49b2-99fa-84930b703ebe
  3 1435648 33552383 32116736 15.3G                      2bad62a6-735a-4d31-a4a4-f192427580a9
-```
-
-```
-$ mount
-/dev/sda2 on /boot type xfs (rw,relatime,...)
-/dev/sda1 on /boot/efi type vfat (rw,relatime,...)
 ```
 
 ```
