@@ -103,6 +103,31 @@ $ hexdump -C /boot/grub/stage2 -n 95 -s 512
 ```
 
 
+## Find out the root device name
+- Print block device attributes: ``blkid``
+  ```
+  $ blkid
+  /dev/sda1: UUID="5c91a597-ebb5-4372-a6fb-10893d6a4baa" TYPE="xfs" 
+  /dev/sda2: UUID="5f59355e-bf62-4b8a-80f7-9c46454bb764" TYPE="xfs" 
+  /dev/sda3: UUID="20f0425b-2ae7-400a-938e-861d61bc60c6" TYPE="swap"
+  ``` 
+- Print filesystem information: ``/etc/fstab``
+  ```
+  $ cat /etc/fstab
+  UUID=5f59355e-bf62-4b8a-80f7-9c46454bb764     /        xfs     defaults        0 0
+  UUID=5c91a597-ebb5-4372-a6fb-10893d6a4baa     /boot    xfs     defaults        0 0
+  UUID=20f0425b-2ae7-400a-938e-861d61bc60c6     swap     swap    defaults        0 0 
+  ```
+  In this case, the ``/dev/sda1`` is the ``/boot``, the ``/dev/sda2`` is the root ``/``.
+
+- Report filesystem usage: ``df``
+  ```
+  $ df
+  Filesystem     1K-blocks    Used Available Use% Mounted on
+  /dev/sda2       16242688 5288892  10953796  33% /
+  /dev/sda1         508580  171428    337152  34% /boot
+  ```     
+
 ## Rebuild GRUB
 ### Reinstall GRUB
 ```grub-install``` copies GRUB images into the ```/boot``` directory, and uses the grub shell to install ```./grub``` into the ```/boot```.
@@ -138,7 +163,7 @@ find /grub/stage1
  (hd0,0)
 
 # Install (stage 1) boot-loader into MBR
-grub> setup (hd1)
+grub> setup (hd0)
 
 setup (hd0)
  Checking if "/boot/grub/stage1" exists... no
