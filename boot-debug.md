@@ -205,6 +205,9 @@ succeeded
 Done.
 ```
 
+![](fig/grub.png)
+
+
 # HW2: Reinstall GRUB 2 (due date:)
 You have to:
 1. Reinstall the ``grub2`` and reconfigure the ``grub.cfg``.
