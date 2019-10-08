@@ -2,9 +2,9 @@
 tag: sysadmin, Linux
 ---
 
-# Lab: Debug boot failure
+# Lab: Debug Boot Failure
 
-## Single user mode (Emergency mode)
+## Single User Mode (Emergency Mode)
 1. Press ```e``` key to edit the boot option when GRUB boot menu appear.
    - RH6: Add ```single``` in the end of kernel line.
    - RH7 (method 1): Add ``rd.break`` in the end of kernel line.
@@ -15,7 +15,7 @@ tag: sysadmin, Linux
    ``` 
 3. In RH7, you have to ``touch /.autorelabel`` before you leave root filesystem in the single user mode.    
 
-## Setup serial console
+## Setup Serial Console
 1. configure serial port
 ![](fig/serial-out.jpg)
 
@@ -37,7 +37,7 @@ title CentOS 6 (2.6.32-754.el6.x86_64)
 3. check [serial.txt](./serialRH6.txt)
 
 
-## Setup serial console for RHEL 7
+## Setup Serial Console For RHEL 7
 
 1. Add ```console=tty0 console=ttyS0,38400 rd.debug``` to the end of ```GRUB_CMDLINE_LINUX``` in ```/etc/default/grub```
 2. For UEFI, run ```grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg``` to rebuild ```grub2.conf```
@@ -57,7 +57,7 @@ GRUB_DISABLE_RECOVERY="true"
 - Boot messages in serial in RH7: [serial.txt](./serialRH7.txt)
 
 
-## Boot loader issues
+## Boot Loader Issues
 ![](fig/boot-loader.png)
 1. BIOS runs boot loader stage 1 in MBR
 2. MBR loads stage 1.5
