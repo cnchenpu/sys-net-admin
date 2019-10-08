@@ -67,7 +67,7 @@ GRUB_DISABLE_RECOVERY="true"
 ## [14 Error messages reported by GRUB](https://www.gnu.org/software/grub/manual/legacy/Troubleshooting.html)
 
 
-## Manual Boot in GRUB
+## Manual Booting with GRUB
 1. Press ``c`` to drop to GRUB subsystem in the GRUB boot screen. You will see the ``grub>`` prompt.
 2. Find the ``/boot`` partition, command: ``root`` or ``root (hd0,0)`` for the case that ``/boot`` is in the ``/dev/sda1``.
 3. Specify the ``kernel`` parameters about the ``vmlinuz`` file and the root filesystem device.
@@ -110,7 +110,7 @@ Common error:
 
 
 
-## Checking boot loaders
+## Checking Boot Loaders
 ### 1. Stage 1 in MBR
 ```bash
 $ dd if=/dev/sda of=mbr.bin bs=512 count=1
@@ -157,8 +157,7 @@ $ hexdump -C /boot/grub/stage2 -n 95 -s 512
   /dev/sda1         508580  171428    337152  34% /boot
   ```     
 
-## Rebuild GRUB
-### Reinstall GRUB
+## Reinstall GRUB
 ```grub-install``` copies GRUB images into the ```/boot``` directory, and uses the grub shell to install ```./grub``` into the ```/boot```.
 sector.
 
@@ -174,7 +173,7 @@ fix it and re-run the script `grub-install`.
 (hd0)     /dev/sda
 ```
 
-### Use GRUB Shell to Reinstall GRUB (Manual Booting with GRUB)
+## Use GRUB Shell to Reinstall GRUB 
 ```bash
 # Starts GRUB shell
 $ grub
@@ -206,6 +205,13 @@ Done.
 ```
 
 ![](fig/grub.png)
+
+
+## GRUB 2 Command Example: ls
+- Lists the attached storage devices along with its partitions.
+- Lists any particular partition's filesystem.
+- List the conations of the partition and directories.
+![](fig/grub2-manually-0.jpg)
 
 
 ## Manual Booting with GRUB 2 on BIOS
