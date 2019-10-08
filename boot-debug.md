@@ -174,7 +174,7 @@ fix it and re-run the script `grub-install`.
 (hd0)     /dev/sda
 ```
 
-### Use GRUB Shell to Reinstall GRUB
+### Use GRUB Shell to Reinstall GRUB (Manual Booting with GRUB)
 ```bash
 # Starts GRUB shell
 $ grub
@@ -207,6 +207,82 @@ Done.
 
 ![](fig/grub.png)
 
+
+## Manual Booting with GRUB 2 on BIOS
+### The root device and the grub2.cfg
+
+```
+$ blkid
+/dev/sda1: UUID="d34983cf-cc74-445b-9444-0ef17a891e4d" TYPE="xfs" 
+/dev/sda2: UUID="f6ceba51-e039-4a12-88b3-49528b3fc9d9" TYPE="swap" 
+/dev/sda3: UUID="29a1e3d5-42ae-419c-b5ac-295ca4854081" TYPE="xfs" 
+/dev/sda5: UUID="1061852b-a3a9-45b0-b298-ebf8ba0bddf1" TYPE="xfs"
+```
+```
+$ cat /etc/fstab
+/dev/sda5	/	xfs	defaults	0	0
+/dev/sda3	/app	xfs	defaults	0	0
+/dev/sda1	/boot	xfs	defaults	0	0
+UUID=f6ceba51-e039-4a12-88b3-49528b3fc9d9 swap                    swap    defaults        0 0
+```
+```
+$ cat /boot/grub2/grub.cfg
+menuentry 'CentOS Linux (3.10.0-327.el7.x86_64) 7 (Core)' ...
+	load_video
+	set gfxpayload=keep
+	insmod gzio
+	insmod part_msdos
+	insmod xfs
+	set root='hd0,msdos1'
+    ...
+    linux16 /vmlinuz-3.10.0-327.el7.x86_64 root=UUID=1061852b-a3a9-45b0-b298-ebf8ba0bddf1 rootfstype=xfs ro ... 
+	initrd16 /initramfs-3.10.0-327.el7.x86_64.img
+```    
+### Booting procedures in GRUB 2
+1. Choose the kernel from the GRUB 2 boot menu. And press ``c`` to the ``grub>`` prompt.
+   ![](fig/grub2-manually-1.jpg)
+2. Set the root device, kernel (``vmlinuz``) and initrd (``initramfs``) files in the ``grub>`` prompt.
+   - The ``hd0`` is the ``/dev/sda``; the ``msdos1`` is the first partition of the ``/dev/sda``, the ``/dev/sda1``.
+   - The kernel version of kernel (``vmlinuz``) and initrd (``initramfs``) files must be the same.
+   ![](fig/grub2-manually-2.jpg) 
+
+
+
+## Manual Booting with GRUB 2 on UEFI
+### The root device and the grub2.cfg
+```
+$ blkid
+/dev/sr0: UUID="2015-12-09-23-14-10-00" LABEL="CentOS 7 x86_64" TYPE="iso9660" PTTYPE="dos" 
+/dev/sda1: SEC_TYPE="msdos" UUID="1E1A-A31A" TYPE="vfat" PARTLABEL="EFI System Partition" PARTUUID="babe9ef5-b6df-4cc1-a29b-5f1fd77d6f0b" 
+/dev/sda2: UUID="cbaf6878-247f-47aa-a2a4-af36eb55b143" TYPE="xfs" PARTUUID="5d19f200-4db2-49b2-99fa-84930b703ebe" 
+/dev/sda3: UUID="f1zuKP-mFGO-2WU2-tUUL-ja30-Onka-uLAwt6" TYPE="LVM2_member" PARTUUID="2bad62a6-735a-4d31-a4a4-f192427580a9" 
+/dev/mapper/centos_ds--centos7--64bit--uefi--lvm-swap: UUID="43d56629-ce67-4ff5-ae3f-36287ea228c4" TYPE="swap" 
+/dev/dm-0: UUID="d2ab2e8b-67b1-44a5-8081-08c0ce139264" TYPE="xfs"
+```
+```
+
+```
+$ cat /etc/fstab
+/dev/mapper/centos_ds--centos7--64bit--uefi--lvm-root /                       xfs     defaults        0 0
+UUID=cbaf6878-247f-47aa-a2a4-af36eb55b143 /boot                   xfs     defaults        0 0
+UUID=1E1A-A31A          /boot/efi               vfat    umask=0077,shortname=winnt 0 0
+/dev/mapper/centos_ds--centos7--64bit--uefi--lvm-swap swap                    swap    defaults        0 0
+```
+```
+$ df
+Filesystem                                            1K-blocks    Used Available Use% Mounted on
+/dev/mapper/centos_ds--centos7--64bit--uefi--lvm-root  14325760 4880320   9445440  35% /
+devtmpfs                                                 926376       0    926376   0% /dev
+tmpfs                                                    941952      84    941868   1% /dev/shm
+tmpfs                                                    941952    9520    932432   2% /run
+tmpfs                                                    941952       0    941952   0% /sys/fs/cgroup
+/dev/sda2                                                508588  182232    326356  36% /boot
+/dev/sda1                                                204580    9640    194940   5% /boot/efi
+```
+```
+$ cat /boot/efi/EFI/centos/grub.cfg
+
+```
 
 # HW2: Reinstall GRUB 2 (due date:)
 You have to:
