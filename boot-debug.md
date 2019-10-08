@@ -347,5 +347,17 @@ done
 ```
 
 ## Reinstall GRUB 2 in UEFI-base machine
-
+- The ``grub2-install`` command is not work on the UEFI-based machine.
+- Use ``yum install grub2-efi shim`` command to install the binaries.
+  - The grub2-efi package provides the following files:
+    - fonts
+    - gcdx64.efi
+    - grubx64.efi
+  - The shim package installs the below-mentioned binaries:
+    - BOOTX64.efi
+    - fallback.efi
+    - MockManager.efi
+    - shim.efi
+    - shim-redhat.efi
+- Then use ``grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg`` command to rebuild the grub.cfg.
 
