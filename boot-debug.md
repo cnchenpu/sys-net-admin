@@ -191,7 +191,7 @@ grub> find /grub/stage1
 find /grub/stage1
  (hd0,0)
 
-# Install (stage 1) boot-loader into MBR
+# Install (stage 1) boot-loader into MBR, followed by stage 1.5 (e2fs_stage1_5).
 grub> setup (hd0)
 
 setup (hd0)
