@@ -313,11 +313,39 @@ menuentry 'CentOS Linux (3.10.0-327.el7.x86_64) 7 (Core)' ... {
     
 
 
-# HW2: Reinstall GRUB 2 (due date:)
-You have to:
-1. Reinstall the ``grub2`` and reconfigure the ``grub.cfg``.
-2. List or take screenshots of your commands and their outputs.
-3. Tell me what file will be updated in the ``/boot/``.
-4. Compose above information in your HackMD page.
-5. Email me your work, the email subject format: [HW2_your-student-ID].
+## Reinstall GRUB 2 in BIOS-based machine
+1. ``grub2-install /dev/sda``
+   - restore the missing files in the ``/boot/grub2``.  
+2. ``grub2-mkconfig -o /boot/grub2/grub.cfg``
+   - reconfigure the ``grub.cfg``. 
+
+```bash
+# The original files in the /boot/grub2
+$ ls /boot/grub2
+device.map  fonts  grub.cfg  grubenv  i386-pc  locale  themes
+
+# Delete the /boot/grub2 to corrupt it
+$ rm -rf /boot/grub2
+
+# Use grub2-install to recover lost files in the /boot/grub2
+$ grub2-install /dev/sda
+Installing for i386-pc platform.
+Installation finished. No error reported.
+
+# The /boot/grub2 is recovered, but the grub.cfg not.
+$ ls /boot/grub2/
+fonts  grubenv  i386-pc  locale
+
+# Use grub2-mkconfig to rebuild the grub.cfg
+$ grub2-mkconfig -o /boot/grub2/grub.cfg
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-3.10.0-327.el7.x86_64
+Found initrd image: /boot/initramfs-3.10.0-327.el7.x86_64.img
+Found linux image: /boot/vmlinuz-0-rescue-b9f19f3ff2724e17877e40e27b6dd40a
+Found initrd image: /boot/initramfs-0-rescue-b9f19f3ff2724e17877e40e27b6dd40a.img
+done
+```
+
+## Reinstall GRUB 2 in UEFI-base machine
+
 
