@@ -1,9 +1,12 @@
 # systemd
-The *systemd*, system and service manager, is responsible for controlling how services are started, stopped and managed. It is backward compatible with *init scripts* used by previous versions of Linux. The *systemd* management command is ```systemctl```.
+The ***systemd***, system and service manager, is responsible for controlling how services are started, stopped and managed. It is backward compatible with **init scripts** used by previous versions of Linux. The ***systemd*** management command is ```systemctl```.
+
+Two most essential components of ***systemd*** are **Unit** and **Target**. The **unit** represents a service resource; the **target** describes a stage about what service is needed at what time.
 
 ## How systemd boots the system?
 Kernel runs the ```/sbin/init``` which links to ```/lib/systemd/systemd```. It runs the default target, ```/etc/systemd/system/default.target```, which link to ```/lib/systemd/system/multi-user.target``` for a text login or ```/usr/lib/systemd/system/graphical.target``` for a GUI environment.
 
+![](fig/boot-systemd.jpg)
 
 ## Unit
 The basic item of configuration is the **unit** file. A **unit** file ```/usr/lib/systemd/system/<resource name>.<unit type>``` basically describes a resource and tells **systemd** how to activate that resource.
