@@ -1,21 +1,25 @@
-# systemd
+# Working with the *systemd*
 The ***systemd***, system and service manager, is responsible for controlling how services are started, stopped and managed. It is backward compatible with **init scripts** used by previous versions of Linux. The ***systemd*** management command is ```systemctl```.
 
-Objective of systemd:
+### Objective of *systemd*:
 - Reducing the system startup tim.
 - Handling dynamic system configuration changes.
 - Providing the standard method for service start and stop.
-- Controling the process execution environment (**cgrounp**).
+- Controling the process execution environment (**cgroup**).
 
 Two most essential components of ***systemd*** are **Unit** and **Target**. The **unit** represents a service resource; the **target** describes a stage about what service is needed at what time.
 
-## How systemd boots the system?
+## How *systemd* boots the system?
 Kernel runs the ```/sbin/init``` which links to ```/lib/systemd/systemd```. It runs the default target, ```/etc/systemd/system/default.target```, which link to ```/lib/systemd/system/multi-user.target``` for a text login or ```/usr/lib/systemd/system/graphical.target``` for a GUI environment.
 
 ![](fig/boot-systemd.jpg)
 
 ## Unit
-The basic item of configuration is the **unit** file. A **unit** file ```/usr/lib/systemd/system/<resource name>.<unit type>``` basically describes a resource and tells **systemd** how to activate that resource.
+The basic item of configuration is the **unit** file. A **unit** file ```/usr/lib/systemd/system/<resource name>.<unit type>``` basically describes a resource and tells **systemd** how to activate that resource. 
+
+Unit configuration files are placed in two location:
+- Installed default files: ``/usr/lib/systemd/system/``
+- Customized override files: ``/etc/systemd/system/``
 
 unit type | function | extention
 ---|---|---
@@ -48,7 +52,7 @@ Checking server properties:
 $ systemctl show <service-name>.service
 ```
 
-## Common services
+### Common services
 service name | description
 ---|---
 atd.service | one time task scheduler
@@ -81,14 +85,13 @@ $ systemctl cat <service-name>.service
 $ systemctl edit --full <service-name>.service
 ```
 
-### Reload systemd for edited unit:
+### Reload systemd configuration files:
 ```bash
 $ systemctl daemon-reload
 ```
 
-### E.q.: firewalld.service unit file (```systemctl cat firewalld.service``` or ```/usr/lib/systemd/system/firewalld.service```):
+### E.q. The firewalld.service unit file ```/usr/lib/systemd/system/firewalld.service```:
 ```bash
-# /etc/systemd/system/firewalld.service
 [Unit]
 Description=firewalld - dynamic firewall daemon
 Before=network-pre.target   
@@ -144,6 +147,7 @@ $ service --status-all
 #chkconfig utility (RHEL6)
 $ chkconfig --list 
 $ chkconfig --list <service-name>
+
 #systemctl utility
 $ systemctl list-units --type service --all
 $ systemctl list-unit-files --type service
@@ -161,6 +165,7 @@ $ systemctl status | start | stop | restart | reload <service-name>
 ```bash
 #chkconfig utility (RHEL6)
 $ chkconfig <service-name> on | off
+
 #systemctl utility
 $ systemctl enable | disable <service-name>
 ```
