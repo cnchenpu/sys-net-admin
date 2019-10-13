@@ -1,6 +1,12 @@
 # systemd
 The ***systemd***, system and service manager, is responsible for controlling how services are started, stopped and managed. It is backward compatible with **init scripts** used by previous versions of Linux. The ***systemd*** management command is ```systemctl```.
 
+Objective of systemd:
+- Reducing the system startup tim.
+- Handling dynamic system configuration changes.
+- Providing the standard method for service start and stop.
+- Controling the process execution environment (**cgrounp**).
+
 Two most essential components of ***systemd*** are **Unit** and **Target**. The **unit** represents a service resource; the **target** describes a stage about what service is needed at what time.
 
 ## How systemd boots the system?
@@ -59,7 +65,9 @@ cups.socket | printer service
 
 ## systemd service units v.s. init scripts
 
-Previous versions of Linux use *init scripts* located in the ```/etc/rc.d/init.d/``` directory to start and stop services. In RHEL 7, these init scripts have been replaced with *systemd service units*. 
+Previous versions of Linux use ***init scripts*** located in the ```/etc/rc.d/init.d/``` directory to start and stop services. In RHEL 7, these init scripts have been replaced with ***systemd service units***. 
+
+![](fig/init-vs-systemd.jpg)
 
 ### Check service configurations:
 ```bash
