@@ -28,6 +28,7 @@ top | Display Linux processes
 vmstat | Report virtual memory statistics
 mpstat | Report processors related statistics
 sar | Collect and report system activity information
+ps | Report a snapshot of the current processes
 iostat | Report CPU and IO statistics
 iotop | I/O monitor
 netstat | Print network connections, routing tables and interface statistics
@@ -79,6 +80,38 @@ iperf3 | Perform network throughput tests
 
 
 ## Memory
+### Virtual Memory and page:
+- OS use disk (**swap**) as virtual memory.
+- Disk IO is slower than using RAM.
+- Virtual memory is divided into pages.
+
+### Memory statistics in the vmstat:
+- **swpd**
+  - The amount of virtual memory currently in use. As free memory reaches low thresholds, more data is paged to the swap device.
+- **free**
+  - The amount of physical RAM currently available to running applications.
+- **buff**
+  - The amount of physical memory in the buffer cache as a result of read() and write() operations.
+- **cache** 
+  - The amount of memory used as cache.
+- **si** 
+  - Amount of memory swapped in from disk (/s).
+- **so** 
+  - Amount of memory swapped to disk (/s).
+- **bo**
+  - Blocks received from a block device (blocks/s).
+- **bi** 
+  - Blocks sent to a block device (blocks/s).
+
+### Heavy utilization of virtual memory in an IO application
+
+![](fig/vmstat-3.jpg)
+
+- The large amount of disk blocks are paged in (**bi**) from the filesystem.
+- The amount of **cache** is growing. 
+- The amount of **free** memory left decreased (17 MB left).
+
+
 
 ## IO
 
