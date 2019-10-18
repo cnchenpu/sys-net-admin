@@ -120,5 +120,52 @@ iperf3 | Perform network throughput tests
 
 ![](fig/disk-latency.png)
 
+### IOPS
+
+Device | Type | IOPS | Interface
+---|---|---|---
+7200 RPM SATA HD | HD | 75 ~ 100 | SATA II (3 Gbit/s)
+10000 RPM SATA HD | HD | 125 ~ 150 | SATA II
+15000 RPM SAS HD | HD | 175 ~ 210 | SAS
+Intel X25-M G2（MLC）| SSD | ~8600 | SATA II
+OCZ Vertex 3 | SSD | ~60000 | SATA III (6 Gbit/s)
+
+```
+E.q.
+
+- 10000 RPM = 166 RPS (1000/60).
+- A disk rotation: 1/166 = 0.006 seconds = 6 millisecond (ms).
+- Average rotation latenvy: 6/2 = 3 ms.
+- Assume average seek time + transmission time are 5 ms, then total service time for an IO is 8 ms.
+- 1/8 x 1000 = 125 IOPS.
+```
+
+#### IOPS x Transfer Size (Bytes) = Byte per second.
+
+### Sequential I/O
+- Large amounts of data to be read/write swquentially at once.
+- Sequential workload performance relies on the ability to move large amounts of data as fast as possible.
+- E.q., database executing large queries and streaming media services.  
+
+![](fig/iostat-1.jpg)
+
+- The amount of data writen per IO for /dev/sda increases:
+  - 53040/105 = 505 KB
+  - 71152/102 = 697 KB
+
+### Random I/O
+- The I/O requests are rather small.
+- Random access workload relies on how many requests can be processed at once.
+- E.q., web and mail servers.
+
+![](fig/iostat-2.jpg)
+
+- The IOPS for write stays almost the same as the sequential output (102~130).
+- The IO size is smaller and remained.
+  - 2604/102 = 23 KB
+  - 3176/130 = 24 KB
+
+
+
 ## Network
 
