@@ -89,27 +89,30 @@ iperf3 | Perform network throughput tests
 - **swpd**
   - The amount of virtual memory currently in use.
   - If the swap device sustained, the memory is shortage on the system.
+  - As free memory reaches low thresholds, more data is paged to the swap device.
 - **free**
   - The amount of physical RAM currently available to running applications.
-  - Low amounts of free memory are a good sign that caches are effectively used unless there are sustained writes to the swap device and disk.
+  - Low amounts of free memory are a good sign that caches are effectively used, unless there are sustained writes to the swap device and disk.
 - **buff**
   - The amount of physical memory in the buffer cache as a result of read() and write() operations.
 - **cache** 
   - The amount of memory used as cache.
 - **si** 
-  - Amount of memory swapped in from disk (/s).
+  - Amount of memory swapped in from disk.
+  - Read from swap disk then write to RAM.
 - **so** 
-  - Amount of memory swapped to disk (/s).
+  - Amount of memory swapped to disk.
+  - Write to the swap disk.
 - **bo**
-  - Blocks received from a block device (blocks/s).
+  - Blocks received from (read) a block device (blocks/s).
 - **bi** 
-  - Blocks sent to a block device (blocks/s).
+  - Blocks sent to (write) a block device (blocks/s).
 
 ### Heavy utilization of virtual memory in an IO application
 
 ![](fig/vmstat-3.jpg)
 
-- The large amount of disk blocks are paged in (**bi**) from the filesystem.
+- The large amount of disk blocks are written (**bi**) from the filesystem.
 - The amount of **cache** is growing as the amount of **free** memory decreasing (17 MB left).
 
 
