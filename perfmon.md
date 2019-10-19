@@ -41,9 +41,13 @@ iperf3 | Perform network throughput tests
 
 ## CPU
 
+#### Process status diagram:
+![](fig/process-states.jpg)
+
 ### CPU utilization factors:
 - Interrupt (**in**)
 - Context Switch (**cs**)
+  - OS saves the state of active process and restore the state of new process.
   - A high amount of context switching is acceptable if CPU utilization stays within balance:
     - 65% – 70% User Time
     - 30% - 35% System Time
@@ -84,6 +88,8 @@ iperf3 | Perform network throughput tests
 - OS use disk (**swap**) as virtual memory.
 - Disk IO is slower than using RAM.
 - Virtual memory is divided into pages.
+
+![](fig/swap.jpg)
 
 ### Memory statistics in the vmstat:
 - **swpd**
@@ -168,7 +174,11 @@ E.q.
   - 2604/102 = 23 KB
   - 3176/130 = 24 KB
 
-
-
+#### High IO requests:
+![](fig/iostat-3.jpg)
+- The /dev/sda3 is swap device
+- The write request (**w/s**) and wait time (**await**) are high.
+- Swap device busy indicates high demand of virtual memory.
+  
 ## Network
 
