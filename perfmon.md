@@ -182,3 +182,60 @@ E.q.
   
 ## Network
 
+### iperf
+Network throughput test.
+
+```
+HOST1$ iperf3 -s
+-----------------------------------------------------------
+Server listening on 5201
+-----------------------------------------------------------
+Accepted connection from 172.22.14.73, port 55450
+[  5] local 172.22.14.84 port 5201 connected to 172.22.14.73 port 55452
+[ ID] Interval           Transfer     Bandwidth
+[  5]   0.00-1.00   sec  1.06 GBytes  9.13 Gbits/sec                  
+[  5]   1.00-2.00   sec  1.06 GBytes  9.08 Gbits/sec                  
+[  5]   2.00-3.00   sec  1.12 GBytes  9.59 Gbits/sec                  
+[  5]   3.00-4.00   sec  1021 MBytes  8.57 Gbits/sec                  
+[  5]   4.00-5.00   sec  1.10 GBytes  9.41 Gbits/sec                  
+[  5]   5.00-6.00   sec  1.14 GBytes  9.80 Gbits/sec                  
+[  5]   6.00-7.00   sec  1.10 GBytes  9.48 Gbits/sec                  
+[  5]   7.00-8.00   sec  1.15 GBytes  9.85 Gbits/sec                  
+[  5]   8.00-9.00   sec  1.19 GBytes  10.3 Gbits/sec                  
+[  5]   9.00-10.00  sec  1.13 GBytes  9.72 Gbits/sec                  
+[  5]  10.00-10.03  sec  36.9 MBytes  9.16 Gbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth
+[  5]   0.00-10.03  sec  0.00 Bytes  0.00 bits/sec                  sender
+[  5]   0.00-10.03  sec  11.1 GBytes  9.49 Gbits/sec                  receiver
+```
+
+```
+HOST2 $ # iperf3 -c 172.22.14.84
+Connecting to host 172.22.14.84, port 5201
+[  4] local 172.22.14.73 port 55452 connected to 172.22.14.84 port 5201
+[ ID] Interval           Transfer     Bandwidth       Retr  Cwnd
+[  4]   0.00-1.00   sec  1.10 GBytes  9.48 Gbits/sec    0    829 KBytes       
+[  4]   1.00-2.00   sec  1.05 GBytes  9.06 Gbits/sec    0    868 KBytes       
+[  4]   2.00-3.00   sec  1.12 GBytes  9.60 Gbits/sec    0    906 KBytes       
+[  4]   3.00-4.00   sec  1.00 GBytes  8.60 Gbits/sec    0    919 KBytes       
+[  4]   4.00-5.00   sec  1.09 GBytes  9.38 Gbits/sec    0    926 KBytes       
+[  4]   5.00-6.00   sec  1.13 GBytes  9.74 Gbits/sec    0    963 KBytes       
+[  4]   6.00-7.00   sec  1.11 GBytes  9.53 Gbits/sec    0    966 KBytes       
+[  4]   7.00-8.00   sec  1.15 GBytes  9.88 Gbits/sec    0    983 KBytes       
+[  4]   8.00-9.00   sec  1.19 GBytes  10.2 Gbits/sec    0    987 KBytes       
+[  4]   9.00-10.00  sec  1.13 GBytes  9.74 Gbits/sec    0   1018 KBytes       
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Retr
+[  4]   0.00-10.00  sec  11.1 GBytes  9.52 Gbits/sec    0             sender
+[  4]   0.00-10.00  sec  11.1 GBytes  9.52 Gbits/sec                  receiver
+
+iperf Done.
+```
+
+### iptraf 
+Interactive IP LAN monitor.
+
+![fig/iptraf-1.jpg](https://i.imgur.com/KUiMpit.jpg)
+
+![fig/iptraf-2.jpg](https://i.imgur.com/Gb1PYYW.jpg)
