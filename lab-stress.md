@@ -94,3 +94,11 @@ procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
  1  2      0 109332  43384 1544572    0    0     0 39940  401  318  0 15  0 85  0	
  0  2      0 1103812  43388 580340    0    0     0 24628  446  238  0 26  0 74  0
 ```
+
+# HW (deu date: ): CPU bound vs. IO bound
+- What is CPU bound and IO bound?
+- Use stress tool to make you own examples:
+  - Demo and explain your example in **vmstat**, **iostat** or other commands
+- Compose your results in your HacdMD page, than email me the link.
+  - Email subject format: [HW_you-student-ID]
+
