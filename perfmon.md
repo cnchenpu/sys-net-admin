@@ -26,9 +26,11 @@ Tool | Description
 ---|---
 top | Display Linux processes
 vmstat | Report virtual memory statistics
+free | Display amount of free and used memory in the system
 mpstat | Report processors related statistics
 sar | Collect and report system activity information
 ps | Report a snapshot of the current processes
+pstree | Display a tree of processes
 iostat | Report CPU and IO statistics
 iotop | I/O monitor
 netstat | Print network connections, routing tables and interface statistics
