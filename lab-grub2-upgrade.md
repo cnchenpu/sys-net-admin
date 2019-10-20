@@ -1,3 +1,7 @@
+---
+tags: sysadmin, Linux
+---
+
 # Lab: Upgrading to GRUB 2     
 
 ### 1. Remove GRUB legacy package:
