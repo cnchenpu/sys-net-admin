@@ -64,10 +64,18 @@ To safely test GRUB 2 configuration, we will start GRUB 2 from GRUB Legacy.
 	    kernel /grub/i386-pc/core.img
 	    boot
    ```
+   ![](fig/grub2-test-0.jpg)
+
 2. Reboot the system. 
-3. Select the ``GRUB 2`` Test entry when the GRUB menu presented.
-4. When presented with a ``GRUB 2`` menu, select a kernel to boot.
-5. If the above did not work, restart, and do not choose the ``GRUB 2`` Test entry on next boot.  
+3. Select the ``GRUB2 Test`` entry when the GRUB menu presented.
+   
+   ![](fig/grub2-test-1.jpg)
+
+4. When presented with a ``GRUB 2`` menu, use the default boot option.
+   
+   ![](fig/grub2-test-2.jpg)
+
+5. If the above did not work, restart, and do not choose the ``GRUB2 Test`` entry on next boot.  
 
 ### 5. Replace GRUB legacy bootloader by reinstall GRUB 2
    - On BIOS-based machines:
@@ -80,7 +88,7 @@ To safely test GRUB 2 configuration, we will start GRUB 2 from GRUB Legacy.
      ```
 
 # HW4 (due date: 10/22):
-- Import the test VM from me, I have installed GRUB 2 for you.
+- Import the test VM from me, the GRUB 2 has installed for you.
 - Take a VM snapshot before you do this lab.
 - Upgrade boot loader to GRUB 2.
 - Show me the GRUB 2 screen in the class.
