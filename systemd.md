@@ -1,18 +1,38 @@
 # Working with the *systemd*
 The ***systemd***, system and service manager, is responsible for controlling how services are started, stopped and managed. It is backward compatible with **init scripts** used by previous versions of Linux. The ***systemd*** management command is ```systemctl```.
 
+
 ### Objective of *systemd*:
-- Reducing the system startup tim.
+- Reducing the system startup time.
 - Handling dynamic system configuration changes.
 - Providing the standard method for service start and stop.
 - Controling the process execution environment (**cgroup**).
 
-Two most essential components of ***systemd*** are **Unit** and **Target**. The **unit** represents a service resource; the **target** describes a stage about what service is needed at what time.
+## The diffecence between SysV init tools and systemd systemctl
+
+SysV init tool | systemctl | Description
+---|---|---
+service service-name start | systemctl start service-name | Start service
+service service-name stop | systemctl stop name | Stop service
+service service-name restart | systemctl restart name | Restarts service
+service service-name reload | systemctl reload name | Reloads the configuration for service
+service service-name status | systemctl status service-name | Displays the current status of service
+service –status-all | systemctl | Displays the status of all current services
+chkconfig service-name on | systemctl enable service-name | Enable service to run on startup as specified in the unit file (the file to which the symlink points). The process of enabling or disabling a service to start automatically on boot consists in adding or removing symbolic links inside the /etc/systemd/system directory.
+chkconfig service-name off | systemctl disable service-name | Disables service to run on startup as specified in the unit file (the file to which the symlink points)
+chkconfig –list service-name | systemctl is-enabled service-name | Verify whether service is currently enabled
+chkconfig –list | systemctl –type=service | Displays all services and tells whether they are enabled or disabled
+shutdown -h now | systemctl poweroff | Power-off the machine (halt)
+shutdown -r now | systemctl reboot | Reboot the system
+
 
 ## How *systemd* boots the system?
 Kernel runs the ```/sbin/init``` which links to ```/lib/systemd/systemd```. It runs the default target, ```/etc/systemd/system/default.target```, which link to ```/lib/systemd/system/multi-user.target``` for a text login or ```/usr/lib/systemd/system/graphical.target``` for a GUI environment.
 
 ![](fig/boot-systemd.jpg)
+
+
+Two most essential components of ***systemd*** are **Unit** and **Target**. The **unit** represents a service resource; the **target** describes a stage about what service is needed at what time.
 
 ## Unit
 The basic item of configuration is the **unit** file. A **unit** file ```/usr/lib/systemd/system/<resource name>.<unit type>``` basically describes a resource and tells **systemd** how to activate that resource. 
