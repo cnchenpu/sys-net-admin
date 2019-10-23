@@ -1,7 +1,6 @@
 # Linux System and Performance Monitoring
 
-Performance tuning is the process of finding bottlenecks in a system and achieving balance between the different sub-systems of an OS. These
-sub-systems include: **CPU**, **Memory**, **IO** and **Network**.
+Performance tuning is the process of finding bottlenecks in a system and achieving balance between the different sub-systems of an OS. These sub-systems include: **CPU**, **Memory**, **IO** and **Network**.
 
 Sub-system utilization will affect each other, e.q.:
 - Large amounts of page-in IO requests can fill the memory queues.
