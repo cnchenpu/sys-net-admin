@@ -43,6 +43,12 @@ net_prio	            5	            1	       1
 
 **systemd** manage **cgroups**. **systemd** automatically creates a hierarchy of ***slice***, ***scope*** and ***service*** units to provide a unified structure for the cgroup tree. Use ```systemd-cgls```  and ```ps xawf -eo pid,user,command,cgroup```command to check **cgroups** tree.
 
+### Show control group
+```bash
+$ systemd-cgls
+$ systemd-cgtop
+```
+
 ![](fig/cgroups-2.jpg)
 
 - **user.slice** — the default place for all user sessions.

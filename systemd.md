@@ -313,12 +313,6 @@ $ journalctl -f     # tail -f /var/log/messages
 ```
 
 
-### Show control group
-```bash
-$ systemd-cgls
-$ systemd-cgtop
-```
-
 ### Use *systemd-analyze* to check server's boot problem
 ```bash
 $ systemd-analyze
