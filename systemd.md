@@ -275,6 +275,17 @@ run level | target units | description
 5 | runlevel5.target, graphical.target | graphical multi-user mode
 6 | runlevel6.target, reboot.target | system reboot
 
+### The target unit file example - /usr/lib/systemd/system/multi-user.target
+```
+[Unit]
+Description=Multi-User System
+Documentation=man:systemd.special(7)
+Requires=basic.target
+Conflicts=rescue.service rescue.target
+After=basic.target rescue.service rescue.target
+AllowIsolate=yes
+```
+
 ### List the currently active targets:
 ```bash
 $ systemctl list-units --type target
