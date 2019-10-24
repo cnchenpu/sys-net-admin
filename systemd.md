@@ -1,18 +1,21 @@
 # Working with the *systemd*
 The ***systemd***, system and service manager, is responsible for controlling how services are started, stopped and managed. It is backward compatible with **init scripts** used by previous versions of Linux. The ***systemd*** management command is ```systemctl```.
 
+
 ### Objective of *systemd*:
-- Reducing the system startup tim.
+- Reducing the system startup time.
 - Handling dynamic system configuration changes.
 - Providing the standard method for service start and stop.
 - Controling the process execution environment (**cgroup**).
 
-Two most essential components of ***systemd*** are **Unit** and **Target**. The **unit** represents a service resource; the **target** describes a stage about what service is needed at what time.
 
 ## How *systemd* boots the system?
 Kernel runs the ```/sbin/init``` which links to ```/lib/systemd/systemd```. It runs the default target, ```/etc/systemd/system/default.target```, which link to ```/lib/systemd/system/multi-user.target``` for a text login or ```/usr/lib/systemd/system/graphical.target``` for a GUI environment.
 
 ![](fig/boot-systemd.jpg)
+
+
+Two most essential components of ***systemd*** are **Unit** and **Target**. The **unit** represents a service resource; the **target** describes a stage about what service is needed at what time.
 
 ## Unit
 The basic item of configuration is the **unit** file. A **unit** file ```/usr/lib/systemd/system/<resource name>.<unit type>``` basically describes a resource and tells **systemd** how to activate that resource. 
@@ -90,6 +93,26 @@ $ systemctl edit --full <service-name>.service
 $ systemctl daemon-reload
 ```
 
+## The equivalent tools between SysV init utils and systemd systemctl
+
+SysV init tool | systemctl | Description
+---|---|---
+service service-name start | systemctl start service-name | Start service
+service service-name stop | systemctl stop name | Stop service
+service service-name restart | systemctl restart name | Restarts service
+service service-name reload | systemctl reload name | Reloads the configuration for service
+service service-name status | systemctl status service-name | Displays the current status of service
+service –status-all | systemctl | Displays the status of all current services
+chkconfig service-name on | systemctl enable service-name | Enable service to run on startup 
+chkconfig service-name off | systemctl disable service-name | Disables service to run on startup 
+chkconfig –list service-name | systemctl is-enabled service-name | Verify whether service is currently enabled
+chkconfig –list | systemctl –type=service | Displays all services and tells whether they are enabled or disabled
+shutdown -h now | systemctl poweroff | Power-off the machine (halt)
+shutdown -r now | systemctl reboot | Reboot the system
+
+[Check the major difference between RHEL 7 and RHEL 6](https://hackmd.io/d_ADDCXjR1SyBzpcOtfV0Q)
+
+
 ### E.q. The firewalld.service unit file ```/usr/lib/systemd/system/firewalld.service```:
 ```bash
 [Unit]
@@ -123,9 +146,13 @@ Alias=dbus-org.fedoraproject.FirewallD1.service
 
 ### Unit order and dependency
 - Dependency means if unit A is activated, unit B must be activated, too.
-  - Requires= and Conflicts=
+    - Requires: A list of units that this unit depends on, which is started when this unit is started
+    - Wants: A weaker form of Requires: the units listed are started but the current unit is not stopped if any of them fail
+    - Conflicts: A negative dependency: the units listed are stopped when this one is started and, conversely, if one of them is started, this one is stopped
+    
 - Order means unit A must be activated before/after unit B.
-  - After= and Before=
+  - Before: This unit should be started before the units listed
+  - After: This unit should be started after the units listed
 
 ![](fig/unit-dep.jpg)
 
