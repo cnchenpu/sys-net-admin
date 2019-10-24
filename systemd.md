@@ -14,6 +14,12 @@ Kernel runs the ```/sbin/init``` which links to ```/lib/systemd/systemd```. It r
 
 ![](fig/boot-systemd.jpg)
 
+### systemd service units v.s. init scripts
+
+Previous versions of Linux use ***init scripts*** located in the ```/etc/rc.d/init.d/``` directory to start and stop services. In RHEL 7, these init scripts have been replaced with ***systemd service units***. 
+
+![](fig/init-vs-systemd.jpg)
+
 
 Two most essential components of ***systemd*** are **Unit** and **Target**. The **unit** represents a service resource; the **target** describes a stage about what service is needed at what time.
 
@@ -69,12 +75,41 @@ sshd.service | secure remote login
 httpd.service | web service
 cups.socket | printer service
 
+### Check service status:
+```bash
+$ systemctl status <service-name>
+```
+```
+$ systemctl status sshd
+● sshd.service - OpenSSH server daemon
+   Loaded: loaded (/usr/lib/systemd/system/sshd.service; enabled; vendor preset: enabled)
+   Active: active (running) since Mon 2019-09-23 10:35:47 CST; 1 months 0 days ago
+     Docs: man:sshd(8)
+           man:sshd_config(5)
+ Main PID: 1360 (sshd)
+   CGroup: /system.slice/sshd.service
+           └─1360 /usr/sbin/sshd -D
 
-## systemd service units v.s. init scripts
+Sep 23 10:35:46 Coconut-14-73 systemd[1]: Starting OpenSSH server daemon...
+Sep 23 10:35:47 Coconut-14-73 sshd[1360]: Server listening on 0.0.0.0 port 22.
+Sep 23 10:35:47 Coconut-14-73 sshd[1360]: Server listening on :: port 22.
+Sep 23 10:35:47 Coconut-14-73 systemd[1]: Started OpenSSH server daemon.
+Sep 23 10:37:16 Coconut-14-73 sshd[1929]: Accepted password for root from 172.22.2.221 port 64155 ssh2
+```
+```
+$ systemctl status firewalld
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/etc/systemd/system/firewalld.service; enabled; vendor preset: enabled)
+   Active: inactive (dead) since Tue 2019-10-01 13:50:23 CST; 3 weeks 2 days ago
+     Docs: man:firewalld(1)
+  Process: 921 ExecStart=/usr/sbin/firewalld --nofork --nopid $FIREWALLD_ARGS (code=exited, status=0/SUCCESS)
+ Main PID: 921 (code=exited, status=0/SUCCESS)
 
-Previous versions of Linux use ***init scripts*** located in the ```/etc/rc.d/init.d/``` directory to start and stop services. In RHEL 7, these init scripts have been replaced with ***systemd service units***. 
-
-![](fig/init-vs-systemd.jpg)
+Sep 23 10:35:40 Coconut-14-73 systemd[1]: Starting firewalld - dynamic firewall daemon...
+Sep 23 10:35:42 Coconut-14-73 systemd[1]: Started firewalld - dynamic firewall daemon.
+Oct 01 13:50:22 Coconut-14-73 systemd[1]: Stopping firewalld - dynamic firewall daemon...
+Oct 01 13:50:23 Coconut-14-73 systemd[1]: Stopped firewalld - dynamic firewall daemon.
+```
 
 ### Check service configurations:
 ```bash
@@ -169,31 +204,35 @@ $ systemctl show <service-name> | egrep 'After|Before'
 
 ### Display the status of all services:
 ```bash
-#service utility (RHEL6)
+#SysV utility (RHEL6)
 $ service --status-all
-#chkconfig utility (RHEL6)
+
 $ chkconfig --list 
 $ chkconfig --list <service-name>
-
-#systemctl utility
+```
+```bash
+#systemd utility
+$ systemctl list-units
+$ systemctl list-units --type service
 $ systemctl list-units --type service --all
-$ systemctl list-unit-files --type service
+$ systemctl list-unit-files
 ```
 
 ### Starting and stopping services:
 ```bash
-#service utility (RHEL6)
+#SysV utility (RHEL6)
 $ service <service-name> status | start | stop | restart 
-#systemctl utility
+
+#systemd utility
 $ systemctl status | start | stop | restart | reload <service-name>
 ```
 
 ### Enabling and disabling services:
 ```bash
-#chkconfig utility (RHEL6)
+#SysV utility (RHEL6)
 $ chkconfig <service-name> on | off
 
-#systemctl utility
+#systemd utility
 $ systemctl enable | disable <service-name>
 ```
 
