@@ -43,9 +43,15 @@ net_prio	            5	            1	       1
 
 **systemd** manage **cgroups**. **systemd** automatically creates a hierarchy of ***slice***, ***scope*** and ***service*** units to provide a unified structure for the cgroup tree. Use ```systemd-cgls```  and ```ps xawf -eo pid,user,command,cgroup```command to check **cgroups** tree.
 
-### Show control group
+### Show control group info
 ```bash
+# View cgroup information with 'ps'
+$ ps xaf -eo pid,user,args,cgroup
+
+# Show cgroup group tree
 $ systemd-cgls
+
+# Display resource usage per group in real time
 $ systemd-cgtop
 ```
 
