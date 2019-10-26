@@ -10,7 +10,7 @@ The ***systemd***, system and service manager, is responsible for controlling ho
 
 
 ## How *systemd* boots the system?
-Kernel runs the ```/sbin/init``` which links to ```/lib/systemd/systemd```. It runs the default target, ```/etc/systemd/system/default.target```, which link to ```/lib/systemd/system/multi-user.target``` for a text login or ```/usr/lib/systemd/system/graphical.target``` for a GUI environment.
+Kernel runs the ```/sbin/init``` which links to ```/lib/systemd/systemd```. It read configuration files from ```/etc/systemd/``` then runs the default target, ```/etc/systemd/system/default.target```, which link to ```/lib/systemd/system/multi-user.target``` for a text login or ```/usr/lib/systemd/system/graphical.target``` for a GUI environment.
 
 ![](fig/boot-systemd.jpg)
 
