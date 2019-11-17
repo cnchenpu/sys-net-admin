@@ -10,13 +10,13 @@ You can choose any Open Source you like, but it's better to be a system or toolc
 There os no limit to the number of members of your team. Every team needs to present a proposal and demostrate your topic.
 The grade of your final project depends on the team's proposal and demo. Everyone on the team gets the same grades.
 
-## Proposal (deu date: 12/10)
+## Proposal (due date: 12/10)
 The team leader needs to present your proposal in class at 12/10.
 The team leader needs to send me your proposal is HackMD format (link) before 12/10.
 The proposal includes:
 - Topic
-- Team Leader (name & ID)
-- Your team Member (name & ID)
+- Team leader (name & ID)
+- Your team member (name & ID)
 - Abstraction
   - Why choose this topic?
   - What are you going to demo in the class?
