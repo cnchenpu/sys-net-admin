@@ -37,13 +37,15 @@ Time and date specifications are in the man-page ``systemd.time(7)``.
 
 ## Create a service to backup root home directory
 
-1. Create the backup directory (mkdir) ``/var/backup/root``
+1. Create the backup directory (mkdir) ``/var/backup/root``.
+   
 2. Create the backup script ``/root/backup.sh``:
    ```bash
    #!/bin/bash
    DAYMONTH=`date "+%d-%H%M%S"`
    /bin/tar --selinux -czvf /var/backup/root/backup-$DAYMONTH.tgz /root &>/dev/null
    ```
+
 3. Create the ``/usr/lib/systemd/system/backup.service`` unit file:
    ```
    [Unit]
@@ -56,7 +58,8 @@ Time and date specifications are in the man-page ``systemd.time(7)``.
    [Install]
    WantedBy=multi-user.target
    ```
-4. Test to start the service (run backup)
+
+4. Test to start the service (run backup).
    ```
    # systemctl daemon-reload
    # systemctl start backup.service
@@ -64,9 +67,28 @@ Time and date specifications are in the man-page ``systemd.time(7)``.
 
 ## Create timer for backup service
 
+1. Create the ``/usr/lib/systemd/system/backup.timer`` unit file:
+   ```
+   [Unit]
+   Description=Execute backup every day at midnight
+
+   [Timer]
+   OnCalendar=*-*-* 00:00:00
+   Unit=backup.service
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+2. Enable and start the timer.
    ```
    # systemctl enable backup.timer
-   # systemctl start backup.timer
    # systemctl is-enabled backup.timer
+   # systemctl start backup.timer
    # systemctl is-active backup.timer
+   ```
+
+3. Check the timer.
+   ```
+   # systemctl list-timers --all | grep backup
    ```
