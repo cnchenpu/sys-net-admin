@@ -1,92 +1,57 @@
 # Log Management
 
+Log file location: ``/var/log/``.
+```
+-rw-------. 1 root   root    57065 Nov 18 13:01 messages
+-rw-------. 1 root   root   295806 Oct 27 03:29 messages-20191027
+-rw-------. 1 root   root   312702 Nov  3 03:14 messages-20191103
+-rw-------. 1 root   root   446771 Nov 10 03:46 messages-20191110
+-rw-------. 1 root   root   551505 Nov 17 03:10 messages-20191117
+```
+
+## systemd-journald
+**systemd-journald** is a system service (```systemd-journald.service```) that collects and stores logging data. The configuration file is ```/etc/systemd/journald.conf```.
+
 ## journalctl
 **journalctl** is a utility for querying and displaying logs from systemd’s journal (```systemd-journald.service```). 
 
 ### Viewing journal log messages:
 ```bash
 $ journalctl
+
+$ journalctl --list-boots     # a list of pervious boots
 $ journalctl -b     # boot messages
+$ journalctl -k     # show only kernel messages
+$ journalctl -f     # view the log in reat time, tail -f /var/log/messages
+$ journalctl -n 10     # show the last 10 events
+
 # time range
-$ journalctl --since "1 hour ago"  |    |  
+$ journalctl --since "1 hour ago"   
 $ journalctl --since "2 days ago"
 $ journalctl --since today
 $ journalctl --since yesterday --until now
 $ journalctl --since "2019-06-26 23:00:00" --until "2019-06-26 23:20:00" 
+
+# filter by units
 $ journalctl -u <service-name>.service      # show only specific service log
 $ journalctl -u sshd.service
 $ journalctl -u sshd.service -x     # -x: show more detail
-$ journalctl -k     # show only kernel messages
-$ journalctl -f     # tail -f /var/log/messages
+$ journalctl -u sshd.service --since yesterday     # show sshd's log since yesterday
+
+# filter by error level
+# error level: "emerg" (0), "alert" (1), "crit" (2), "err" (3), "warning" (4), "notice" (5), "info" (6), "debug" (7)
+$ journalctl -p err
 ```
 
+## Log Rotation
 
-## systemd-journald
-**systemd-journald** is a system service (```systemd-journald.service```) that collects and stores logging data. By default, the journal stores log data in ```/run/log/journal/```. Since /run/ is volatile, log data is lost at reboot. The configuration file is ```/etc/systemd/journald.conf```.
+The configure file: ``/etc/logrotate.conf``.
 ```bash
-$ systemctl list-units --type service --all | grep journal
-systemd-journal-flush.service   # Flush Journal to Persistent Storage
-systemd-journald.service        # Journal Service
-systemd-journald.socket         # Journal Socket
+# rotate log files size=20M
+size=20M
 
-$ systemctl status systemd-journald.service
-```
-
-
-### Log flow
-Journal events can be transferred to traditional syslog daemon (***syslogd***). The syslog daemon behaves like a normal journal client, and reads messages from the journal files, similarly to journalctl.
-![](fig/log-flow.jpg)
-
-## *rsyslog.service* - System Logging Service (extened of traditional *syslogd*)
-```bash
-$ systemctl list-units --type service --all | grep rsyslog
-$ systemctl status rsyslog.service
-```
-
-### Configuration file for *rsyslogd*: /etc/rsyslog.conf
-```bash
-#### MODULES ####
-# The imjournal module bellow is now used as a message source instead of imuxsock.
-$ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
-$ModLoad imjournal # provides access to the systemd journal
-#$ModLoad imklog # reads kernel messages (the same are read from journald)
-#$ModLoad immark  # provides --MARK-- message capability
-
-# Provides TCP syslog reception
-$ModLoad imtcp
-$InputTCPServerRun 514
-....
-
-#### RULES ####
-# Log anything (except mail) of level info or higher.
-# Don't log private authentication messages!
-*.info;mail.none;authpriv.none;cron.none                /var/log/messages
-....
-
-# ### begin forwarding rule ###
-# remote host is: name/ip:port, e.g. 192.168.0.1:514, port optional
-#*.* @@remote-host:514
-```
-
-### Configure centralized rsyslog server
-1. Load **imtcp** module at remote-server.
-2. Open **port 514** for firewall at remote-server.
-   ```bash
-   $ firewall-cmd --permanent --add-port=514/tcp
-   $ firewall-cmd --reload
-   ```
-3. Add **\*.\* @@remote-host:514** in ***/etc/rsyslog.conf*** at client.
-   ```bash
-   $ echo "*.* @@remote-server:514" >> /etc/rsyslog.conf
-   ```
-4. Restart **rsyslog.service** in both hosts is necessary.
-
-## *logrotate* - Log Rotation
-
-### Configuration file for log rotation: /etc/logrotate.conf
-```bash
 # rotate log files weekly
-weekly 
+weekly
 
 # keep 4 weeks worth of backlogs
 rotate 4
@@ -98,13 +63,13 @@ create
 dateext
 
 # uncomment this if you want your log files compressed
-#compress
+compress
 
 # RPM packages drop log rotation information into this directory
 include /etc/logrotate.d
 ```
 
-### Configuration files for log rotation: /etc/logrotate.d/syslog
+Configuration files for log rotation: ``/etc/logrotate.d/syslog``
 ```bash
 /var/log/cron
 /var/log/maillog
@@ -126,7 +91,13 @@ include /etc/logrotate.d
 }
 ```
 
-### Tells logrotate to force the rotation:
+## Log flow
+Journal events can be transferred to traditional syslog daemon (***syslogd***). The syslog daemon behaves like a normal journal client, and reads messages from the journal files, similarly to journalctl.
+
+![](fig/log-flow.jpg)
+
+## *rsyslog.service* - System Logging Service (extened of traditional *syslogd*)
 ```bash
-$ logrotate -fv /etc/logrotate.conf
+$ systemctl list-units --type service --all | grep rsyslog
+$ systemctl status rsyslog.service
 ```
