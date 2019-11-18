@@ -29,7 +29,44 @@ Documentation=man:tmpfiles.d(5) man:systemd-tmpfiles(8)
 OnBootSec=15min         # defines a timer relative to when the machine was booted up
 OnUnitActiveSec=1d      # defines a timer relative to when the unit the timer is activating was last activated.
 ```
-The timer unit will run just 15 minutes after systemd start and every 1 day.
+This timer unit will run just 15 minutes after systemd start and every 1 day.
 
 Time and date specifications are in the man-page ``systemd.time(7)``.
 
+# Lab - Create service unit and a timer
+
+## Create a service to backup root home directory
+
+1. Create the backup directory (mkdir) ``/var/backup/root``
+2. Create the backup script ``/root/backup.sh``:
+   ```bash
+   #!/bin/bash
+   DAYMONTH=`date "+%d-%H%M%S"`
+   /bin/tar --selinux -czvf /var/backup/root/backup-$DAYMONTH.tgz /root &>/dev/null
+   ```
+3. Create the ``/usr/lib/systemd/system/backup.service`` unit file:
+   ```
+   [Unit]
+   Description=Backup the root home directory
+
+   [Service]
+   Type=simple
+   ExecStart=/root/backup.sh
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+4. Test to start the service (run backup)
+   ```
+   # systemctl daemon-reload
+   # systemctl start backup.service
+   ```
+
+## Create timer for backup service
+
+   ```
+   # systemctl enable backup.timer
+   # systemctl start backup.timer
+   # systemctl is-enabled backup.timer
+   # systemctl is-active backup.timer
+   ```
