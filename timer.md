@@ -31,7 +31,9 @@ OnUnitActiveSec=1d      # defines a timer relative to when the unit the timer is
 ```
 This timer unit will run just 15 minutes after systemd start and every 1 day.
 
-Time and date specifications are in the man-page ``systemd.time(7)``.
+Time and date specifications are in the man-page ``systemd.time(7)``. 
+
+For example: ```Thu,Fri 2012-*-1,5 11:12:13``` refers to 11:12:13 of the first or fifth day of any month of the year 2012, but only if that day is a Thursday or Friday. 
 
 # Lab - Create service unit and a timer
 
@@ -65,7 +67,7 @@ Time and date specifications are in the man-page ``systemd.time(7)``.
    # systemctl start backup.service
    ```
 
-## Create timer for backup service
+## Create timer for backup service, run backup every day at midnight (00:00:00)
 
 1. Create the ``/usr/lib/systemd/system/backup.timer`` unit file:
    ```
