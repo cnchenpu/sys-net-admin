@@ -5,7 +5,7 @@ tags: sysadmin
 # Final Project 
 Pick up a topic, build a team, study it together, and share with others.
 
-You can choose any Open Source you like, but it's better to be a system or toolchain, not just a command. For example: game, desktop office software, design software, server diagnostic utility, web services, development tools, network security tools...
+You can choose any Open Source you like, but it's better to be a system or toolchain, not just a command. For example: game, desktop office software, design software, database, server diagnostic utility, web services, development tools, network security tools...
 
 There is no limit to the number of members of your team. Every team needs to present a proposal and demostrate your topic.
 The grade of your final project depends on the team's proposal and demo. Everyone on the team gets the same grades. The team leader receives additional rewards.
@@ -38,3 +38,13 @@ Demo your team work in class at 2020/01/07.
 
 Every student has 3 tickets to vote for you favorite teams. Of cause, you can vote yourself team.
 
+# Interesting Project Topics
+- MRTG
+- Snort
+- CentOS 8
+- Linux KVM
+- Docker
+- Kali Linux
+- phpMyAdmin
+- [Monitoring Linux Processes using Prometheus and Grafana](https://devconnected.com/monitoring-linux-processes-using-prometheus-and-grafana/)
+- [Monitoring Linux Logs with Kibana and Rsyslog](https://devconnected.com/monitoring-linux-logs-with-kibana-and-rsyslog/)
