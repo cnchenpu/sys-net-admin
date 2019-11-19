@@ -85,16 +85,37 @@ CPUAffinity=1   # assign core 1 to service
 ExecStart=/usr/bin/dd if=/dev/zero of=/dev/null
 ```
 
-2. Start these services (**system slice**) and check CPU usage.
+2. Check the service unit files.
+```
+# systemctl list-unit-files | grep stress
+stress1.service              static  
+stress2.service              static
+```
+
+3. Start these services (**system slice**) and check CPU usage.
 ```bash
 $ systemctl daemon-reload
-$ systemctl start stress1
-$ systemctl start stress1
+$ systemctl start stress1.service 
+$ systemctl start stress1.service 
 ```
-### Two processes get CPU 1 resource equally
+
+4. Check the service units.
+```
+# systemctl list-units | grep stress
+stress1.service       loaded active running   Put some stress, stress1.
+stress2.service       loaded active running   Put some stress, stress2.
+```
+
+#### Two processes get CPU 1 resource equally
 ![](fig/cgroups-top-0.jpg)
 
-3. Limits CPU usages (**CPUShares**) for the stress services by editing the unit files.
+5. Stop stress services, then change their unit files.
+```
+# systemctl stop stress1
+# systemctl stop stress2
+```
+
+6. Limits CPU usages (**CPUShares**) for the stress services by editing the unit files.
 ```bash
 # cat /etc/systemd/system/stress1.service
 [Unit]
@@ -119,11 +140,11 @@ ExecStart=/usr/bin/dd if=/dev/zero of=/dev/null
 # allow stress2 double to stress1 of the resource allocation  
 ```
 
-4. Reload systemd and stress services
+7. Reload systemd and stress services
 ```bash
 $ systemctl daemon-reload
 $ systemctl restart stress1
 $ systemctl restart stress2
 ```
-### stress2 gets double the CPU 1 allocated to stress1 service
+#### The stress2 gets double the CPU 1 allocated to stress1 service
 ![](fig/cgroups-top-1.jpg)
