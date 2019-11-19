@@ -30,7 +30,7 @@ net_prio	            5	            1	       1
 
 - **cpuset** - assigns individual CPUs and memory nodes to tasks in a cgroup.
 - **cpu** - uses the CPU scheduler to provide cgroup tasks access to the CPU.
-- **cpuset** - creates automatic reports on CPU resources used by tasks in a cgroup.
+- **cpuacct** - creates automatic reports on CPU resources used by tasks in a cgroup.
 - **memory** - sets limits on memory use by tasks in a cgroup.
 - **devices** - allows or denies access to devices for tasks in a cgroup.
 - **freezer** - suspends or resumes tasks in a cgroup.
@@ -62,7 +62,7 @@ $ systemd-cgtop
 
 And ```systemd-cgtop``` command shows **cgroups** resource usage.
 
-## Example of CPU resource allocation
+## Lab - vgroup example of CPU resource allocation
 1. Create systemd unit file for CPU stress tests.
 ```bash
 # cat /etc/systemd/system/stress1.service
@@ -73,7 +73,8 @@ Description=Put some stress
 Type=Simple
 CPUAffinity=1   # assign core 1 to service
 ExecStart=/usr/bin/dd if=/dev/zero of=/dev/null
-####
+```
+```bash
 # cat /etc/systemd/system/stress2.service
 [Unit]
 Description=Put some stress
@@ -104,7 +105,8 @@ CPUShares=512
 Type=Simple
 CPUAffinity=1
 ExecStart=/usr/bin/dd if=/dev/zero of=/dev/null
-####
+```
+```bash
 # cat /etc/systemd/system/stress2.service
 [Unit]
 Description=Put some stress
