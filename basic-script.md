@@ -155,7 +155,7 @@ No. | Operator | Description
 14  echo $?
 ```
 
-## if
+## if - then
 ```bash
 01  if [ <some test> ]
 02  then
@@ -165,7 +165,7 @@ No. | Operator | Description
 
 - The ``[ ]`` in ``if`` command is just a reference to the command ``test``.
 
-## Nested if
+## if - then - elif
 ```bash
 01  if [ <test> ] && [ <test> ] || [ <test> ]
 02  then
@@ -176,6 +176,18 @@ No. | Operator | Description
 07  else
 08      <other commands>    
 09  fi
+```
+
+## Nested if
+```bash
+01  if [ <test> ]
+02  then
+03      <commands>
+04      if [ <test> ]
+05      then
+06          <different commands>    
+07      fi
+08  fi
 ```
 
 ### Lab 4: Nested if
@@ -191,6 +203,8 @@ No. | Operator | Description
 09       fi
 10    fi
 ```
+
+##
 
 ### case
 ```bash
