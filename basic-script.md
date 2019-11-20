@@ -116,8 +116,28 @@ $ test > test.log 2>&1
 
 ## pipe: |
 
-## Conditions
-### if
+## Conditions test
+Operator | Description
+---|---
+``!`` EXPRESSION | The EXPRESSION is false.
+``-n`` STRING | The length of STRING is greater than zero.
+``-z`` STRING | The lengh of STRING is zero (ie it is empty).
+STRING1 ``=`` STRING2 | STRING1 is equal to STRING2
+STRING1 ``!=`` STRING2 | STRING1 is not equal to STRING2
+INTEGER1 ``-eq`` INTEGER2 | INTEGER1 is numerically equal to INTEGER2
+INTEGER1 ``-gt`` INTEGER2 | INTEGER1 is numerically greater than INTEGER2
+INTEGER1 ``-lt`` INTEGER2 | INTEGER1 is numerically less than INTEGER2
+``-d`` FILE | FILE exists and is a directory.
+``-e`` FILE | FILE exists.
+``-r`` FILE | FILE exists and the read permission is granted.
+``-s`` FILE | FILE exists and it's size is greater than zero (ie. it is not empty).
+``-w`` FILE | FILE exists and the write permission is granted.
+``-x`` FILE | FILE exists and the execute permission is granted.
+
+- ``=`` is slightly different to ``-eq``. ``[ 001 = 1 ]`` will return ``false`` as ``=`` does a `string comparison` (ie. character for character the same) whereas ``-eq`` does a `numerical comparison` meaning ``[ 001 -eq 1 ]`` will return ``true``.
+- When we refer to ``FILE`` above we are actually meaning a path of file. Remember that a path may be absolute or relative and may refer to a file or a directory.
+
+## if
 ```bash
 if [ <test> ] && [ <test> ] || [ <test> ]
 then
