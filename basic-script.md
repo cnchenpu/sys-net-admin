@@ -1,6 +1,8 @@
 # Basic Bash Scipting 
 
 - Beginning with ```#!/bin/bash```
+
+## Variables
 - Specical variables:
   - $0 : The name of the Bash script.
   - $1 ~ $9 : The first 9 arguments to the Bash script. (As mentioned above.)
@@ -8,43 +10,66 @@
   - $@ : All the arguments supplied to the Bash script.
   - $? : The exit status of the most recently run process.
   - $$ : The process ID of the current script.
+  - $RANDOM - Returns a different random number each time
   - ${#VAR} : Length of a variable.
   
-- VAR=$(`command`) : Save the output of the command into a variable VAR.
+- ``VAR=<something>`` : Assign something to the variable VAR.
+- ``VAR='string1 string2'`` : Assign strings to the variable VAR. Single quotes will treat every character literally.
+- ``VAR1="string $VAR2"`` :  Assign string and the contain of the VAR2 to the variable VAR. Double quotes will allow you to do substitution (that is include variables within the setting of the value).
+- ``export VAR`` : Export the variable VAR after assigning values. Make the variable VAR available to child processes.
+- ``VAR=$( command )`` : Save the output of the command into the variable VAR.
 - ```read VAR``` : Read and save input into a variable VAR.
-- ```read -p 'statement' VAR``` : Read and save input into a variable VAR and ``-p`` allows you to specify a prompt.
-- ```read -sp 'statement' VAR``` : Read and save input into a variable VAR and ``-s`` makes the input silent.
-- ```let "VAR = <expression>"``` : Make a variable equal to an expression.
-- ```expr item1 operator item2``` : Print out the result of the expression.
-- ```expr "item1 operator item2"``` : If we do put quotes around the expression then the expression will not be evaluated but printed instead.
-- ```expr <item1>operator<item2>``` : If we do not put spaces between the items of the expression then the expression will not be evaluated but printed instead.
-- ```VAR=$( expr expression )``` : Return the result of the expression.
-- ```VAR=$(( expression ))``` : Return the result of the expression.
-  - operator : +, -, *, /, ++, --, %
-- ```${#var}``` : Return the length of the variable var.
+- ```read -p 'statement' VAR``` : Read and save input into the variable VAR and ``-p`` allows you to specify a prompt.
+- ```read -sp 'statement' VAR``` : Read and save input into the variable VAR and ``-s`` makes the input silent.
+- ```let "VAR = <expression>"``` : Make the variable VAR equal to an expression.
+- ``echo $VAR`` : Print out the variable VAR.
 
-
-### Lab 1: Read from input
+### Lab 1: Variable and reading from input 
 ```bash
-    #!/bin/bash
-    # Ask the user for their name
-    echo Hello, who am I talking to?
-    read varname
-    echo It\'s nice to meet you $varname
-
-    # Ask the user for login details
-    read -p 'Username: ' uservar
-    read -sp 'Password: ' passvar
-    echo
-    echo Thank you $uservar, your login password is $passvar.
-
-    # More variables
-    echo What 3 cars do you like?
-    read car1 car2 car3     # Test to input more than 3 cars
-    echo Your first car was: $car1
-    echo Your second car was: $car2
-    echo Your third car was: $car3
+01    #!/bin/bash
+02    # Ask the user for their name
+03    echo Hello, who am I talking to?
+04    read varname
+05    echo It\'s nice to meet you $varname
+06
+07    # Ask the user for login details
+08    read -p 'Username: ' uservar
+09    read -sp 'Password: ' passvar
+10    echo
+11    echo Thank you $uservar, your login password is $passvar.
+12
+13    # More variables
+14    echo What 3 cars do you like?
+15    read car1 car2 car3     # Test to input more than 3 cars
+16    echo Your first car was: $car1
+17    echo Your second car was: $car2
+18    echo Your third car was: $car3
+19
+20    # Use variable for command
+21    sampledir=/etc
+22    ls $sampledir
+23    myvar=$( ls /etc | wc -l )
+24    echo There are $myvar entries in the directory /etc
+25    
+26    # The difference between single and double quotes for assigning variables
+27    myvar='Hello World'
+28    echo $myvar
+29    newvar1='More $myvar'
+30    echo $newvar1
+31    newvar2="More $myvar"    
+32    echo $newvar2
 ```
+
+## Arithmetics
+
+- ```expr item1 operator item2``` : Print out the result of the expression. There are `spaces` between the item and operator.
+- ```expr "item1 operator item2"``` : If we `do put quotes` around the expression then the expression will not be evaluated but printed instead.
+- ```expr <item1>operator<item2>``` : If we `do not put spaces` between the items of the expression then the expression will not be evaluated but printed instead.
+- ```VAR=$( expr expression )``` : Return the result of the expression to the variable VAR.
+- ```VAR=$(( expression ))``` : Return the result of the expression to the variable VAR.
+  - operator : +, -, *, /, ++, --, %
+- ```${#VAR}``` : Return the length of the variable VAR.
+
 
 ### Lab 2: Arithmetic
 ```bash
@@ -75,7 +100,7 @@
 25    echo $a # 20
 26
 27    # Show the length of a variable.
-28     a='Hello World'
+28    a='Hello World'
 29    echo ${#a} # 11
 30    b=4953
 31    echo ${#b} # 4
