@@ -226,6 +226,34 @@ No. | Operator | Description
 08    fi
 ```
 
+## if - elif - else
+```bash
+01  if [ <some test> ]
+02  then
+03      <commands>
+04  elif [ <some test> ]
+05  then
+06      <different commands>
+07  else
+08      <other commands>
+09  fi
+```
+
+### Lab 6: if - elif - else
+```bash
+01    #!/bin/bash
+02    # elif statements
+03    if [ $1 -ge 18 ]
+04    then
+05       echo You may go to the party.
+06    elif [ $2 == 'yes' ]
+07    then
+08       echo You may go to the party but be back before midnight.
+09    else
+10       echo You may not go to the party.
+11    fi
+```
+
 ### case
 ```bash
 01  case <VAR> in
