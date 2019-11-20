@@ -269,6 +269,26 @@ No. | Operator | Description
 11  esac    
 ```
 
+### Lab 7: case
+```bash
+01    #!/bin/bash
+02    # case example
+03    case $1 in
+04       start)
+05          echo starting
+06          ;;
+07       stop)
+08          echo stoping
+09          ;;
+10       restart)
+11          echo restarting
+12          ;;
+13       *)
+14          echo don\'t know
+15          ;;
+16       esac
+```
+
 ## Loop
 ### while
 ```bash
