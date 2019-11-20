@@ -4,25 +4,25 @@
 
 ## Variables
 - Specical variables:
-  - $0 : The name of the Bash script.
-  - $1 ~ $9 : The first 9 arguments to the Bash script. (As mentioned above.)
-  - $# : How many arguments were passed to the Bash script.
-  - $@ : All the arguments supplied to the Bash script.
-  - $? : The exit status of the most recently run process.
-  - $$ : The process ID of the current script.
-  - $RANDOM - Returns a different random number each time
-  - ${#VAR} : Length of a variable.
+  1. ``$0`` : The name of the Bash script.
+  2. ``$1`` ~ ``$9`` : The first 9 arguments to the Bash script. (As mentioned above.)
+  3.`` $#`` : How many arguments were passed to the Bash script.
+  4. ``$@`` : All the arguments supplied to the Bash script.
+  5. ``$?`` : The exit status of the most recently run process.
+  6. ``$$`` : The process ID of the current script.
+  7. ``$RANDOM`` - Returns a different random number each time
+  8. ``${#VAR}`` : Length of a variable.
   
-- ``VAR=<something>`` : Assign something to the variable VAR.
-- ``VAR='string1 string2'`` : Assign strings to the variable VAR. Single quotes will treat every character literally.
-- ``VAR1="string $VAR2"`` :  Assign string and the contain of the VAR2 to the variable VAR. Double quotes will allow you to do substitution (that is include variables within the setting of the value).
-- ``export VAR`` : Export the variable VAR after assigning values. Make the variable VAR available to child processes.
-- ``VAR=$( command )`` : Save the output of the command into the variable VAR.
-- ```read VAR``` : Read and save input into a variable VAR.
-- ```read -p 'statement' VAR``` : Read and save input into the variable VAR and ``-p`` allows you to specify a prompt.
-- ```read -sp 'statement' VAR``` : Read and save input into the variable VAR and ``-s`` makes the input silent.
-- ```let "VAR = <expression>"``` : Make the variable VAR equal to an expression.
-- ``echo $VAR`` : Print out the variable VAR.
+9. ``VAR=<something>`` : Assign something to the variable VAR.
+10. ``VAR='string1 string2'`` : Assign strings to the variable VAR. Single quotes will treat every character literally.
+11. ``VAR1="string $VAR2"`` :  Assign string and the contain of the VAR2 to the variable VAR. Double quotes will allow you to do substitution (that is include variables within the setting of the value).
+12. ``export VAR`` : Export the variable VAR after assigning values. Make the variable VAR available to child processes.
+13. ``VAR=$( command )`` : Save the output of the command into the variable VAR.
+14. ```read VAR``` : Read and save input into a variable VAR.
+15. ```read -p 'statement' VAR``` : Read and save input into the variable VAR and ``-p`` allows you to specify a prompt.
+16. ```read -sp 'statement' VAR``` : Read and save input into the variable VAR and ``-s`` makes the input silent.
+17. ```let "VAR = <expression>"``` : Make the variable VAR equal to an expression.
+18. ``echo $VAR`` : Print out the variable VAR.
 
 ### Lab 1: Variable and reading from input 
 ```bash
@@ -62,13 +62,13 @@
 
 ## Arithmetics
 
-- ```expr item1 operator item2``` : Print out the result of the expression. There are `spaces` between the item and operator.
-- ```expr "item1 operator item2"``` : If we `do put quotes` around the expression then the expression will not be evaluated but printed instead.
-- ```expr <item1>operator<item2>``` : If we `do not put spaces` between the items of the expression then the expression will not be evaluated but printed instead.
-- ```VAR=$( expr expression )``` : Return the result of the expression to the variable VAR.
-- ```VAR=$(( expression ))``` : Return the result of the expression to the variable VAR.
+1. ```expr item1 operator item2``` : Print out the result of the expression. There are `spaces` between the item and operator.
+2. ```expr "item1 operator item2"``` : If we `do put quotes` around the expression then the expression will not be evaluated but printed instead.
+3. ```expr <item1>operator<item2>``` : If we `do not put spaces` between the items of the expression then the expression will not be evaluated but printed instead.
+4. ```VAR=$( expr expression )``` : Return the result of the expression to the variable VAR.
+5. ```VAR=$(( expression ))``` : Return the result of the expression to the variable VAR.
   - operator : +, -, *, /, ++, --, %
-- ```${#VAR}``` : Return the length of the variable VAR.
+6. ```${#VAR}``` : Return the length of the variable VAR.
 
 
 ### Lab 2: Arithmetic
@@ -117,66 +117,81 @@ $ test > test.log 2>&1
 ## pipe: |
 
 ## Conditions test
-Operator | Description
----|---
-``!`` EXPRESSION | The EXPRESSION is false.
-``-n`` STRING | The length of STRING is greater than zero.
-``-z`` STRING | The lengh of STRING is zero (ie it is empty).
-STRING1 ``=`` STRING2 | STRING1 is equal to STRING2
-STRING1 ``!=`` STRING2 | STRING1 is not equal to STRING2
-INTEGER1 ``-eq`` INTEGER2 | INTEGER1 is numerically equal to INTEGER2
-INTEGER1 ``-gt`` INTEGER2 | INTEGER1 is numerically greater than INTEGER2
-INTEGER1 ``-lt`` INTEGER2 | INTEGER1 is numerically less than INTEGER2
-``-d`` FILE | FILE exists and is a directory.
-``-e`` FILE | FILE exists.
-``-r`` FILE | FILE exists and the read permission is granted.
-``-s`` FILE | FILE exists and it's size is greater than zero (ie. it is not empty).
-``-w`` FILE | FILE exists and the write permission is granted.
-``-x`` FILE | FILE exists and the execute permission is granted.
+No. | Operator | Description
+---|---|---
+1 | ``!`` EXPRESSION | The EXPRESSION is false.
+2 | ``-n`` STRING | The length of STRING is greater than zero.
+3 | ``-z`` STRING | The lengh of STRING is zero (ie it is empty).
+4 | STRING1 ``=`` STRING2 | STRING1 is equal to STRING2
+5 | STRING1 ``!=`` STRING2 | STRING1 is not equal to STRING2
+6 | INTEGER1 ``-eq`` INTEGER2 | INTEGER1 is numerically equal to INTEGER2
+7 | INTEGER1 ``-gt`` INTEGER2 | INTEGER1 is numerically greater than INTEGER2
+8 | INTEGER1 ``-lt`` INTEGER2 | INTEGER1 is numerically less than INTEGER2
+9 | ``-d`` FILE | FILE exists and is a directory.
+10 | ``-e`` FILE | FILE exists.
+11 | ``-r`` FILE | FILE exists and the read permission is granted.
+12 | ``-s`` FILE | FILE exists and it's size is greater than zero (ie. it is not empty).
+13 | ``-w`` FILE | FILE exists and the write permission is granted.
+14 | ``-x`` FILE | FILE exists and the execute permission is granted.
 
-- ``=`` is slightly different to ``-eq``. ``[ 001 = 1 ]`` will return ``false`` as ``=`` does a `string comparison` (ie. character for character the same) whereas ``-eq`` does a `numerical comparison` meaning ``[ 001 -eq 1 ]`` will return ``true``.
+- ``=`` is slightly different to ``-eq``. ``[ 001 = 1 ]`` will return ``false (1)`` as ``=`` does a `string comparison` (ie. character for character the same) whereas ``-eq`` does a `numerical comparison` meaning ``[ 001 -eq 1 ]`` will return ``true (0)``.
 - When we refer to ``FILE`` above we are actually meaning a path of file. Remember that a path may be absolute or relative and may refer to a file or a directory.
+
+### Lab 3: test
+```bash
+01  #!/bin/bash
+02  test 001 = 1
+03  echo $?
+04
+05  test 001 -eq 1
+06  echo $?
+07
+08  touch myfile
+09  test -s myfile
+10  echo $?
+11
+12  ls /etc > myfile
+13  test -s myfile
+14  echo $?
+```
 
 ## if
 ```bash
-if [ <test> ] && [ <test> ] || [ <test> ]
-then
-    <commands>
-elif [ <test> ]
-then
-    <different commands>    
-else
-    <other commands>    
-fi
+01  if [ <some test> ]
+02  then
+03      <commands>
+04  fi
+```
+
+- The ``[ ]`` in ``if`` command is just a reference to the command ``test``.
+
+## Nested if
+```bash
+01  if [ <test> ] && [ <test> ] || [ <test> ]
+02  then
+03      <commands>
+04  elif [ <test> ]
+05  then
+06      <different commands>    
+07  else
+08      <other commands>    
+09  fi
 ```
 
 ### case
 ```bash
-case <VAR> in
-<pattern 1>)
-    <commands>
-    ;;
-<pattern 2>)
-    <other commands>
-    ;;
-*)
-    <defaults>
-    ;;
-esac    
+01  case <VAR> in
+02  <pattern 1>)
+03      <commands>
+04      ;;
+05  <pattern 2>)
+06      <other commands>
+07      ;;
+08  *)
+09      <defaults>
+10      ;;
+11  esac    
 ```
-
-### test operations
-- ! exp : false expression
-- -n string : The length of string is greater than zero
-- -z string : the length of string is zero (empty) 
-- string1 = string2 : strings are equal
-- string1 != string2 : strings are not equal
-- integer1 -eq integer2 : integers are equal
-- integer1 -gt integer2 : integer1 is greater than integer2
-- integer1 -lt integer2 : integer1 is less than integer2
-- -d DIR : directory DIR exists
-- -e file : file exists
-
 
 ## Loop
 ### while
