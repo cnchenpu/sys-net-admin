@@ -178,6 +178,20 @@ No. | Operator | Description
 09  fi
 ```
 
+### Lab 4: Nested if
+```bash
+01    #!/bin/bash
+02    # Nested if statements
+03    if [ $1 -gt 100 ]
+04    then
+05       echo Hey that\'s a large number.
+06       if (( $1 % 2 == 0 ))
+07       then
+08          echo And is also an even number.
+09       fi
+10    fi
+```
+
 ### case
 ```bash
 01  case <VAR> in
