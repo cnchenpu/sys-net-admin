@@ -204,7 +204,27 @@ No. | Operator | Description
 10    fi
 ```
 
-##
+## if - else
+```bash
+01  if [ <some test> ]
+02  then
+03      <commands>
+04  else
+05      <other commands>
+06  fi
+```
+
+### Lab 5: if - else
+```bash
+01    #!/bin/bash
+02    # else example
+03    if [ $# -eq 1 ]
+04    then
+05        nl $1
+06    else
+07        nl /dev/stdin
+08    fi
+```
 
 ### case
 ```bash
