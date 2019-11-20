@@ -10,13 +10,76 @@
   - $$ : The process ID of the current script.
   - ${#VAR} : Length of a variable.
   
-- VAR=$(`command`) : Save the output of the command into a variable VAR
-- ```read VAR``` : Read and save input into a variable VAR
-- ```let "VAR = <expression>"```
-- ```expr "item1 operator item2"```
-- ```VAR=$( expr expression )```
-- ```VAR=$(( expression ))```
+- VAR=$(`command`) : Save the output of the command into a variable VAR.
+- ```read VAR``` : Read and save input into a variable VAR.
+- ```read -p 'statement' VAR``` : Read and save input into a variable VAR and ``-p`` allows you to specify a prompt.
+- ```read -sp 'statement' VAR``` : Read and save input into a variable VAR and ``-s`` makes the input silent.
+- ```let "VAR = <expression>"``` : Make a variable equal to an expression.
+- ```expr item1 operator item2``` : Print out the result of the expression.
+- ```expr "item1 operator item2"``` : If we do put quotes around the expression then the expression will not be evaluated but printed instead.
+- ```expr <item1>operator<item2>``` : If we do not put spaces between the items of the expression then the expression will not be evaluated but printed instead.
+- ```VAR=$( expr expression )``` : Return the result of the expression.
+- ```VAR=$(( expression ))``` : Return the result of the expression.
   - operator : +, -, *, /, ++, --, %
+- ```${#var}``` : Return the length of the variable var.
+
+
+### Lab 1: Read from input
+```bash
+    #!/bin/bash
+    # Ask the user for their name
+    echo Hello, who am I talking to?
+    read varname
+    echo It\'s nice to meet you $varname
+
+    # Ask the user for login details
+    read -p 'Username: ' uservar
+    read -sp 'Password: ' passvar
+    echo
+    echo Thank you $uservar, your login password is $passvar.
+
+    # More variables
+    echo What 3 cars do you like?
+    read car1 car2 car3     # Test to input more than 3 cars
+    echo Your first car was: $car1
+    echo Your second car was: $car2
+    echo Your third car was: $car3
+```
+
+### Lab 2: Arithmetic
+```bash
+01    #!/bin/bash
+02    # Basic arithmetic using expr
+03    expr 5 + 4
+04    expr "5 + 4"
+05    expr 5+4  
+06    expr 5 \* $1
+07    expr 11 % 2
+08    a=$( expr 10 - 3 )
+09    echo $a # 7
+10
+11    # Basic arithmetic using double parentheses
+12    a=$(( 4 + 5 ))
+13    echo $a # 9
+14    a=$((3+5))
+15    echo $a # 8
+16    b=$(( a + 3 ))
+17    echo $b # 11
+18    b=$(( $a + 4 ))
+19    echo $b # 12
+20    (( b++ ))
+21    echo $b # 13
+22    (( b += 3 ))
+23    echo $b # 16
+24    a=$(( 4 * 5 ))
+25    echo $a # 20
+26
+27    # Show the length of a variable.
+28     a='Hello World'
+29    echo ${#a} # 11
+30    b=4953
+31    echo ${#b} # 4
+```
 
 ## Re-direct: <, >
 ```bash
@@ -189,22 +252,23 @@ $ sed 's/Warning/Error/g' test.log
 -    e.q. email address: ```[a-zA-Z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}```
 -    e.q. IP address: ```\b(\d{1,3}\.){3}\d{1,3}\b```
 
-
-- ```egrep 'mellon' myfile.txt```
+ 
+- Print every line in myfile.txt containing the string 'mellon'.
   
-  Print every line in myfile.txt containing the string 'mellon'.
+  ```egrep 'mellon' myfile.txt```
 
-- ```egrep -n 'mellon' myfile.txt```
-
-    Same as above but print a line number before each line.
-
-- ```egrep -l '[0-9]{8,}' /files/projectx/*```
+- Same as above but print a line number before each line.
+  
+  ```egrep -n 'mellon' myfile.txt```
+ 
+- Print each file in the directory projectx which contains a number of 8 digits or more.
+  
+  ```egrep -l '[0-9]{8,}' /files/projectx/*```
     
-    Print each file in the directory projectx which contains a number of 8 digits or more.
-
-- ```egrep '[a-z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}' myfile.txt```
-    
-    Print every line of myfiles.txt containing an email address.
+- Print every line of myfiles.txt containing an email address.
+  
+  ```egrep '[a-z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}' myfile.txt```
+     
 
 
 ## find /path -name <file name> -exec <command> "{}" \;
