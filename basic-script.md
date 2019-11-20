@@ -165,19 +165,6 @@ No. | Operator | Description
 
 - The ``[ ]`` in ``if`` command is just a reference to the command ``test``.
 
-## if - then - elif
-```bash
-01  if [ <test> ] && [ <test> ] || [ <test> ]
-02  then
-03      <commands>
-04  elif [ <test> ]
-05  then
-06      <different commands>    
-07  else
-08      <other commands>    
-09  fi
-```
-
 ## Nested if
 ```bash
 01  if [ <test> ]
@@ -254,7 +241,20 @@ No. | Operator | Description
 11    fi
 ```
 
-### case
+## && (and), || (or)
+```bash
+01  if [ <test> ] && [ <test> ] || [ <test> ]
+02  then
+03      <commands>
+04  elif [ <test> ]
+05  then
+06      <different commands>    
+07  else
+08      <other commands>    
+09  fi
+```
+
+## case
 ```bash
 01  case <VAR> in
 02  <pattern 1>)
