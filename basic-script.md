@@ -503,30 +503,30 @@ $ sed 's/Warning/Error/g' test.log
 - -r : Read all files in given directory and sub-directories recursively.
 
 ### pattern: Reqular Expression
--    . (dot) : a single character.
--    ? : the preceding character matches 0 or 1 times only.
--    * : the preceding character matches 0 or more times.
--    + : the preceding character matches 1 or more times.
--    {n} : the preceding character matches exactly n times.
--    {n,m} : the preceding character matches at least n times and not more than m times.
--    {n,} : match at least x times.
--    [agd] : the character is one of those included within the square brackets.
--    [^agd] : the character is not one of those included within the square brackets.
--    [c-f] : the dash within the square brackets operates as a range. In this case it means either the letters c, d, e or f.
--    \s : anything which is considered whitespace.
--    \S : anything which is NOT considered whitespace.
--    \d : a digit (ie. 0 ~ 9).
--    \D : anything which is NOT a digit.
--    \w : anything which is considered a word character.
--    \W : anything which is NOT considered a word character.
--    () : allows us to group several characters to behave as one.
--    | (pipe symbol) : the logical OR operation.
--    ^ : matches the beginning of the line.
--    $ : matches the end of the line. 
--    \b : word boundary - wither the beginning or end of a word.
--    e.q. credit card numbers: ```\d{4}[-, ]?\d{4}[-, ]?\d{4}[-, ]\d{4}```
--    e.q. email address: ```[a-zA-Z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}```
--    e.q. IP address: ```\b(\d{1,3}\.){3}\d{1,3}\b```
+1.    ``.`` (dot) : a single character.
+2.    ``?`` : the preceding character matches 0 or 1 times only.
+3.    ``*`` : the preceding character matches 0 or more times.
+4.    ``+`` : the preceding character matches 1 or more times.
+5.    ``{n}`` : the preceding character matches exactly n times.
+6.    ``{n,m}`` : the preceding character matches at least n times and not more than m times.
+7.    ``{n,}`` : match at least n times.
+8.    ``[agd]`` : the character is one of those included within the square brackets.
+9.    ``[^agd]`` : the character is not one of those included within the square brackets.
+10.    ``[c-f]`` : the dash within the square brackets operates as a range. In this case it means either the letters c, d, e or f.
+11.    ``\s`` : anything which is considered whitespace.
+12.    ``\S`` : anything which is NOT considered whitespace.
+13.    ``\d`` : a digit (ie. 0 ~ 9).
+14.    ``\D`` : anything which is NOT a digit.
+15.    ``\w`` : anything which is considered a word character.
+16.    ``\W`` : anything which is NOT considered a word character.
+17.    ``()`` : allows us to group several characters to behave as one.
+18.    ``|`` (pipe symbol) : the logical OR operation.
+19.    ``^`` : matches the beginning of the line.
+20.    ``$`` : matches the end of the line. 
+21.    ``\b`` : word boundary - wither the beginning or end of a word.
+22.    e.q. credit card numbers: ```\d{4}[-, ]?\d{4}[-, ]?\d{4}[-, ]\d{4}```
+23.    e.q. email address: ```[a-zA-Z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}```
+24.    e.q. IP address: ```\b(\d{1,3}\.){3}\d{1,3}\b```
 
  
 - Print every line in myfile.txt containing the string 'mellon'.
