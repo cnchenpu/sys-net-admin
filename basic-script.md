@@ -289,6 +289,30 @@ No. | Operator | Description
 16       esac
 ```
 
+### Lab 8: case - check disk usage
+```bash
+01    #!/bin/bash
+02    # case example: check disk useage.
+03    space_free=$( df -h | awk '{ print $5 }' | sort -n | tail -n 1 | sed 's/%//' )
+04    case $space_free in
+05      [1-5]*)
+06          echo Plenty of disk space available
+07          ;;
+08      [6-7]*)
+09          echo There could be a problem in the near future
+10          ;;
+11      8*)
+12          echo Maybe we should look at clearing out old files
+13          ;;
+14      9*)
+15          echo We could have a serious problem on our hands soon
+16          ;;
+17      *)
+18          echo Something is not quite right here
+19          ;;
+20     esac
+```
+
 ## Loop
 ### while
 ```bash
