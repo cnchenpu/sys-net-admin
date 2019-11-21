@@ -355,12 +355,24 @@ No. | Operator | Description
 09    echo All done
 ```
 
-### for-loop
+## for-loop
 ```bash
-for VAR in {list}
-do
-    <commands>
-done
+01  for VAR in {list}
+02  do
+03      <commands>
+04  done
+```
+
+### Lab 11: for-loop
+```bash
+01    #!/bin/bash
+02    # Basic for loop
+03    names='Stan Kyle Cartman'
+04    for name in $names
+05    do
+06      echo $name
+07    done
+08    echo All done
 ```
 
 ### loop control
