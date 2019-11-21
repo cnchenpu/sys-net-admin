@@ -524,9 +524,9 @@ $ sed 's/Warning/Error/g' test.log
 19.    ``^`` : matches the beginning of the line.
 20.    ``$`` : matches the end of the line. 
 21.    ``\b`` : word boundary - wither the beginning or end of a word.
-22.    e.q. credit card numbers: ```\d{4}[-, ]?\d{4}[-, ]?\d{4}[-, ]\d{4}```
-23.    e.q. email address: ```[a-zA-Z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}```
-24.    e.q. IP address: ```\b(\d{1,3}\.){3}\d{1,3}\b```
+
+- e.q. email address: ```[a-zA-Z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}```
+- e.q. IP address: ```\b(\d{1,3}\.){3}\d{1,3}\b```
 
  
 - Print every line in myfile.txt containing the string 'mellon'.
