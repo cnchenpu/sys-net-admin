@@ -397,10 +397,37 @@ No. | Operator | Description
 07    echo All done
 ```
 
-### loop control
+## loop control
 - break
 - continue
 
+### Lab 12: break in loop
+```bash
+01  i=0
+02  while [ $i -lt 5 ]
+03  do
+04    echo "Number: $i"
+05    ((i++))
+06    if [[ "$i" == '2' ]]; then
+07      break
+08    fi
+09  done
+10  echo 'All Done'
+```
+
+### Lab 13: continue in loop
+```bash
+01  i=0
+02  while [ $i -lt 5 ]
+03  do
+04    echo "Number: $i"
+05    ((i++))
+06    if [[ "$i" == '2' ]]; then
+07      continue
+08    fi
+09  done
+10  echo 'All Done'
+```
 
 ## Function
 ```bash
