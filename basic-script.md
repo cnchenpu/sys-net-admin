@@ -6,7 +6,7 @@
 - Specical variables:
   1. ``$0`` : The name of the Bash script.
   2. ``$1`` ~ ``$9`` : The first 9 arguments to the Bash script. (As mentioned above.)
-  3.`` $#`` : How many arguments were passed to the Bash script.
+  3. `` $#`` : How many arguments were passed to the Bash script.
   4. ``$@`` : All the arguments supplied to the Bash script.
   5. ``$?`` : The exit status of the most recently run process.
   6. ``$$`` : The process ID of the current script.
@@ -565,20 +565,19 @@ $ find /path -type d -exec chmod 755 "{}" \;
 
 ## awk '{actions}' file-to-process
 ```bash
-# source example file
-$ cat mysampledata.txt
-Fred apples 20
-Susy oranges 5
-Mark watermellons 12
-Robert pears 4
-Terry oranges 9
-Lisa peaches 7
-Susy oranges 12
-Mark grapes 39
-Anne mangoes 7
-Greg pineapples 3
-Oliver rockmellons 2
-Betty limes 14
+# source example file: mysampledata.txt
+01  Fred apples 20
+02  Susy oranges 5
+03  Mark watermellons 12
+04  Robert pears 4
+05  Terry oranges 9
+06  Lisa peaches 7
+07  Susy oranges 12
+08  Mark grapes 39
+09  Anne mangoes 7
+10  Greg pineapples 3
+11  Oliver rockmellons 2
+12  Betty limes 14
 
 # print colume 2
 $ awk '{print $2}' mysampledata.txt
