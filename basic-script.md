@@ -363,7 +363,7 @@ No. | Operator | Description
 04  done
 ```
 
-### Lab 11: for-loop
+### Lab 11: for-loop 1
 ```bash
 01    #!/bin/bash
 02    # Basic for loop
@@ -373,6 +373,28 @@ No. | Operator | Description
 06      echo $name
 07    done
 08    echo All done
+```
+
+### Lab 11: for-loop 2
+```bash
+01    #!/bin/bash
+02    # Basic range in for loop
+03    for value in {1..5}
+04    do
+05      echo $value
+06    done
+07    echo All done
+```
+
+### Lab 11: for-loop 3
+```bash
+01    #!/bin/bash
+02    # Basic range with steps for loop
+03    for value in {10..0..2}
+04    do
+05      echo $value
+06    done
+07    echo All done
 ```
 
 ### loop control
