@@ -313,16 +313,28 @@ No. | Operator | Description
 20     esac
 ```
 
-## Loop
-### while
+## while loop
 ```bash
-while [ <some test> ]
-do
-    <commands>
-done
+01  while [ <some test> ]
+02  do
+03      <commands>
+04  done
 ```
 
-### until
+### Lab 9: simple while loop
+```bash
+01    #!/bin/bash
+02    # Basic while loop
+03    counter=1
+04    while [ $counter -le 10 ]
+05    do
+06      echo $counter
+07      ((counter++))
+08    done
+09    echo All done
+```
+
+## until
 ```bash
 until [ <some test> ]
 do
