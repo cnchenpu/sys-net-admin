@@ -431,13 +431,23 @@ No. | Operator | Description
 
 ## Function
 ```bash
-function_name () {
-    <commands>
-    return <value>
+01  function_name () {
+02      <commands>
+03  return <value>
 }
+```
 
-# call the function and passing arguments
-function_name VAR
+### Lab 14: call the function and passing arguments
+```bash
+01    #!/bin/bash
+02    # Setting a return status for a function
+03    print_something () {
+04      echo Hello $1
+05      return 0
+06    }
+07    print_something Mars
+08    print_something Jupiter
+09    echo "The return value: $?"
 ```
 
 
