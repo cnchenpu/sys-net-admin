@@ -336,10 +336,23 @@ No. | Operator | Description
 
 ## until
 ```bash
-until [ <some test> ]
-do
-    <commands>
-done
+01  until [ <some test> ]
+02  do
+03      <commands>
+04  done
+```
+
+### Lab 10: until
+```bash
+01    #!/bin/bash
+02    # Basic until loop
+03    counter=1
+04    until [ $counter -gt 10 ]
+05    do
+06      echo $counter
+07      ((counter++))
+08    done
+09    echo All done
 ```
 
 ### for-loop
