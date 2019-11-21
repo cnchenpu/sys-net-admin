@@ -524,26 +524,26 @@ $ sed 's/Warning/Error/g' test.log
 19.    ``^`` : matches the beginning of the line.
 20.    ``$`` : matches the end of the line. 
 21.    ``\b`` : word boundary - wither the beginning or end of a word.
+22.    e.q. email address: ```[a-zA-Z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}```
+23.    e.q. IP address: ```\b(\d{1,3}\.){3}\d{1,3}\b```
 
-- e.q. email address: ```[a-zA-Z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}```
-- e.q. IP address: ```\b(\d{1,3}\.){3}\d{1,3}\b```
+### egrep examples:
 
+1. Print every line in myfile.txt containing the string 'mellon'.
+   
+   ```egrep 'mellon' myfile.txt```
+
+2. Same as above but print a line number before each line.
+  
+   ```egrep -n 'mellon' myfile.txt```
  
-- Print every line in myfile.txt containing the string 'mellon'.
+3. Print each file in the directory projectx which contains a number of 8 digits or more.
   
-  ```egrep 'mellon' myfile.txt```
-
-- Same as above but print a line number before each line.
-  
-  ```egrep -n 'mellon' myfile.txt```
- 
-- Print each file in the directory projectx which contains a number of 8 digits or more.
-  
-  ```egrep -l '[0-9]{8,}' /files/projectx/*```
+   ```egrep -l '[0-9]{8,}' /files/projectx/*```
     
-- Print every line of myfiles.txt containing an email address.
+4. Print every line of myfiles.txt containing an email address.
   
-  ```egrep '[a-z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}' myfile.txt```
+   ```egrep '[a-z0-9.+-_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}' myfile.txt```
      
 
 
@@ -598,8 +598,8 @@ $ awk -F ":" '{print $1}' /etc/passwd
     finds bugs in your shell scripts. 
 
 - Run script in debug mode:
-```
-$ export PS4=' $BASH_SOURCE:$LINENO: ${function}'
-$ bash -x script-name.sh
-```
+  ```
+  $ export PS4=' $BASH_SOURCE:$LINENO: ${function}'
+  $ bash -x script-name.sh
+  ```
 
