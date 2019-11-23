@@ -1,3 +1,7 @@
+---
+tags: sysdamin, Linux, Bash
+---
+
 # Basic Bash Scipting 
 
 - Beginning with ```#!/bin/bash```
@@ -25,7 +29,7 @@
 18. ``echo $VAR`` : Print out the variable VAR.
 
 ### Lab 1: Variable and reading from input 
-```bash
+```bash 
 01    #!/bin/bash
 02    # Ask the user for their name
 03    echo Hello, who am I talking to?
