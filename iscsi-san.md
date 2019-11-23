@@ -16,3 +16,12 @@ Portal | The IP address and port that a target or initiator uses to establish co
 ACl | The access control list that is based on the iSCSI initiator IQN and used to provide access to specific user
 LUN | A Logical Unit Number. The backend storage devices that are shared through the target. This can be any device that supports read/write operations, such as disk, partitions, logical volumes, files or tape drves
 
+## Setting Up the iSCSI Target on RHEL 7
+
+1. Create the backing storage devices.
+2. Create the IQN and default target portal group (TPG).
+3. Configure one or more ACLs for the TPG.
+4. Create LUNs to provide access to the backing storage devices.
+5. Create a portal to provide a network interface that iSCSI initiators can connect to.
+6. Verify and commit the configuration.
+
