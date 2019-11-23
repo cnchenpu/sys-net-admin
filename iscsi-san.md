@@ -34,9 +34,10 @@ o- / ................................................................ [...]
 
 1. Create the backing storage devices.
    ```=
+   /> cd backstores/block 
    /backstores/block> create name=sdb dev=/dev/sdb
    ```
-   ```=2
+   ```=3
    /backstores/block> ls
    o- block .......................................... [Storage Objects: 1]
      o- sdb .................. [/dev/sdb (256.0MiB) write-thru deactivated]
@@ -50,6 +51,7 @@ o- / ................................................................ [...]
    The valid IQN must be unique in LAN. It starts with ``iqn``, which is followed by the year and month it was created and the reverse DNS name.
 
    ```=
+   /backstores/block> cd /
    /> cd iscsi
    /iscsi> create wwn=iqn.2019-12.edu.pu:csie
    Created target iqn.2019-12.edu.pu:csie.
@@ -58,7 +60,7 @@ o- / ................................................................ [...]
    Created default portal listening on all IPs (0.0.0.0), port 3260.
    /iscsi>
    ```
-   ```=8
+   ```=9
    /iscsi> ls
    o- iscsi .................................................. [Targets: 1]
      o- iqn.2019-12.edu.pu:csie ................................. [TPGs: 1]
@@ -157,8 +159,40 @@ o- / ................................................................ [...]
    ```
 
 6. Start and enable target service
+
    ```=
    # systemctl start target
    # systemctl enable target
    ```
 
+## Setting Up the iSCSI Initiator on RHEL 6
+
+The tool for iSCSI Initiator is ``iscsiadm`` which is in the ``iscsi-initiator-utils`` RPM.
+
+1. Setting the iSCSI Initiator name in ``/etc/iscsi/initiatorname.iscsi``
+   
+   ```
+   InitiatorName=iqn.2019-12.edu.pu:node1
+   ```
+
+2. Start ``iscisd`` if it is not started.
+
+3. Discover the target.
+   ```
+   # iscsiadm -m discovery -t st -p <server-IP>
+   ```
+   ```=
+   # iscsiadm -m discovery -t st -p 192.168.0.163
+   192.168.0.163:3260,1 iqn.2019-12.edu.pu:csie
+   ```
+
+4. Login the target.
+   ```=
+   # iscsiadm -m node -l
+   Logging in to [iface: default, target: iqn.2019-12.edu.pu:csie, portal: 192.168.0.163,3260] (multiple)
+   Login to [iface: default, target: iqn.2019-12.edu.pu:csie, portal: 192.168.0.163,3260] successful.
+   ```
+
+5. Use ``fdisk -l`` to get the LUN.   
+
+  
