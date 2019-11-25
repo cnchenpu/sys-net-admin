@@ -1,9 +1,9 @@
 # iptables
-**iptables** is a tool to filter out and block internet traffic. **iptables** firewall is a list of rules, so when an incomming connection is open, if it matches any of the rules, this rule can accept that connection or reject it. If no rules are met, we use the default rule.
+The **iptables** is a tool to filter or block internet traffic. The **iptables** firewall is a list of rules which can accept or reject the incomming connection. If no rules are met, we use the default rule.
 
-Man page: **iptables** is used to set up, maintain, and inspect the ***tables*** of IPv4 packet filter rules in the Linux kernel. Several different tables may be defined. Each ***tables*** contains a number of built-in ***chains*** and may also contain user-defined chains. The default table is ***filter table***. Each ***chains*** is a list of ***rules*** which can match a set of packets. Each rule specifies what to do with a packet that matches. This is called a ***target***, which may be a jump to a ***chain*** in the same table.
+Man page: **iptables** is used to set up, maintain, and inspect the ***tables*** of IPv4 packet filter rules in the Linux kernel. Several different tables may be defined. Each ***tables*** contains a number of built-in ***chains*** and may also contain user-defined chains. The default table is ***filter table***. Each ***chains*** is a list of ***rules*** which can match a set of packets. Each rule specifies what to do with a packet that matches. Rules are the items that actually classify traffic to be acted upon. Rules are applied to chains, which are attached to tables, similar to the graphic below.
 
-```Note: Table << Chain << Rule ```
+![](fig/Tables-Chains-Rules.png)
 
 ## Synopsis:
 ```bash
