@@ -37,7 +37,7 @@ To use the **iptables** services instead of **firewalld**, needs to disable **fi
 $ systemctl enable firewalld
 $ systemctl start firewalld
 $ systemctl restart firewalld
-$ $ systemctl disable firewalld
+$ systemctl disable firewalld
 ```
 
 ### firewalld zone and services configuration files:
@@ -118,6 +118,7 @@ Predefine zone: ```/usr/lib/firewalld/zones/```
 ```bash
 $ firewall-cmd --get-default-zone
 $ firewall-cmd --get-zones
+$ firewall-cmd --list-all-zones
 ```
 
 zone|comment
@@ -165,6 +166,15 @@ $ firewall-cmd --get-services
 ### get a specific service info
 ```bash
 $ firewall-cmd --info-service=<service-name>
+```
+```=0
+$firewall-cmd --info-service=ssh
+ssh
+  ports: 22/tcp
+  protocols: 
+  source-ports: 
+  modules: 
+  destination: 
 ```
 
 ### add service to zone
@@ -219,16 +229,15 @@ $ firewall-cmd --info-service=iperf3
 </service>
 ```
 
-2. add the service to zone
-```bash
-$ firewall-cmd --add-service=iperf3 --zone=public
-```
-
-3. reload firewalld configurations (service xml file have changed)
+2. reload firewalld configurations (service xml file have changed)
 ```bash
 $ firewall-cmd --reload
 ```
 
+3. add the service to zone
+```bash
+$ firewall-cmd --add-service=iperf3 --zone=public
+```
 
 ### disable firewalld
 ```bash
@@ -243,23 +252,29 @@ $ firewall-cmd --query-panic
 ```
 
 ## Advanced firewalld configuration with Rich Language
-For more detail, check ```man firewalld.richlanguage```.
+
+The rich language extends the current zone elements. With the rich language more complex firewall rules can be created in an easy to understand way. For more detail, check ```man firewalld.richlanguage```.
 
 E.q.:
 1. Allow new IPv4 connections from address 192.168.0.0/24 for service tftp.
-```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.0.0/24" service name="tftp"'```
+  
+  ```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.0.0/24" service name="tftp"' ```
 
 2. Deny IPv4 traffic over TCP from host 192.168.1.10 to port 22.
-```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.1.10" port port=22 protocol=tcp reject'``` 
+
+   ```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.1.10" port port=22 protocol=tcp reject'``` 
 
 3. White-list source address to allow all connections from 192.168.2.2.
-```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.2.2" accept'```
+
+   ```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.2.2" accept'```
 
 4. Black-list source address to reject all connections from 192.168.2.3.
-```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.2.3" reject type="icmp-admin-prohibited"'```
+
+   ```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.2.3" reject type="icmp-admin-prohibited"'```
 
 5. Black-list source address to drop all connections from 192.168.2.4
-```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.2.4" drop'```
+
+   ```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.2.4" drop'```
 
 ## Lab: Open connection port for iperf3 service
 
