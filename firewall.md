@@ -1,14 +1,16 @@
-# Firewall
+---
+tags: sysadmin, Linux
+---
 
-![](/fig/Linux-firewall.jpg)
+# Linux Firewall - firewalld
 
-A firewall is a way to protect machines from any unwanted traffic from outside. It enables users to control incoming network traffic on host machines by defining a set of firewall rules. These rules are used to sort the incoming traffic and either block it or allow through. 
+A firewall is a way to protect machines from any unwanted traffic from outside. It enables users to control incoming network traffic on host machines by defining a set of **firewall rules**. These rules are used to sort the incoming traffic and either **block** it or **allow** through. 
 
 ## firewalld v.s. iptables
 
-The essential differences between firewalld and the iptables (and ip6tables) services are:
+The essential differences between ***firewalld*** and the ***iptables*** (and ip6tables) services are:
 - The **iptables** service stores configuration in ```/etc/sysconfig/iptables``` and ```/etc/sysconfig/ip6tables```, while **firewalld** stores it in various XML files in ```/usr/lib/firewalld/``` and ```/etc/firewalld/```. Note that the ```/etc/sysconfig/iptables``` file does not exist as **firewalld** is installed by default on RHEL 7.x.
-- With the **iptables** service, every single change means flushing all the old rules and reading all the new rules from ```/etc/sysconfig/iptables```, while with **firewalld** there is no recreating of all the rules. Only the differences are applied. Consequently, **firewalld** can change the settings during runtime without existing connections being lost. Unlike the iptables command, the firewall-cmd command does not restart the firewall and disrupt established TCP connections.
+- With the **iptables** service, every single change means flushing all the old rules and reading all the new rules from ```/etc/sysconfig/iptables```, while with **firewalld** there is no recreating of all the rules. Only the differences are applied. Consequently, **firewalld** can change the settings during runtime without existing connections being lost. Unlike the iptables command, the ``firewall-cmd`` command does not restart the firewall and disrupt established TCP connections.
 
 To use the **iptables** services instead of **firewalld**, needs to disable **firewalld** service and install ***iptables-services*** package.
 1. Disable and stop firewalld:
@@ -38,9 +40,8 @@ $ systemctl restart firewalld
 $ $ systemctl disable firewalld
 ```
 
-### configuration files:
-* /etc/firewalld/firewalld.conf
-* /etc/firewalld/lockdown-whitelist.xml
+### firewalld zone and services configuration files:
+
 * /etc/firewalld/zones/
 * /etc/firewalld/services/
 * /usr/lib/firewalld/services/
@@ -59,8 +60,26 @@ $ firewall-cmd --get-active-zones
 $ firewall-cmd --zone=public --list-all
 ```
 
+```=0
+$ firewall-cmd --zone=public --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: ens192
+  sources: 
+  services: ssh dhcpv6-client
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+```
+
+
 #### "/etc/firewalld/zones/public.xml:"
-```xml
+```xml=
 <?xml version="1.0" encoding="utf-8"?>
 <zone>
   <short>Public</short>
@@ -81,7 +100,7 @@ $ firewall-cmd --list-ports
 ```
 
 #### "/usr/lib/firewalld/services/ssh.xml:"
-```xml
+```xml=
 <?xml version="1.0" encoding="utf-8"?>
 <service>
   <short>SSH</short>
@@ -97,8 +116,8 @@ Predefine zone: ```/usr/lib/firewalld/zones/```
 
 ### list all zones
 ```bash
+$ firewall-cmd --get-default-zone
 $ firewall-cmd --get-zones
-$ firewall-cmd --list-all-zones
 ```
 
 zone|comment
@@ -113,11 +132,10 @@ trusted|All network connections are accepted.
 drop|Any incoming network packets are dropped without any notification. Only outgoing network connections are possible. 
 block|Any incoming network connections are rejected with an icmp-host-prohibited message for IPv4 and icmp6-adm-prohibited for IPv6. Only network connections initiated from within the system are possible. 
 
-```
-Default: Only selected incoming connections are accepted.
-```
 
 ### set default zone and add network interface to the zone (if not exist)
+- default: Only selected incoming connections are accepted.
+
 ```bash
 $ firewall-cmd --set-default-zone <zone-name>
 $ firewall-cmd --zone=<zone-name> --add-interface=eth0
@@ -127,12 +145,6 @@ $ firewall-cmd --zone=<zone-name> --add-interface=eth0
 ```bash
 $ firewall-cmd --zone=home --change-interface=ens0s3
 ```
-
-### use zone target to set default behavior for incoming traffic
-```bash
-$ firewall-cmd --zone=<zone-name> --list-all
-$ firewall-cmd --zone=<zone-name> --set-target=<default|ACCEPT|REJECT|DROP>
-``` 
 
 ### change fielwalld settings
 ```bash
@@ -148,6 +160,11 @@ Services use one or more ports or addresses for network communication. Firewalls
 ```bash
 # /usr/lib/firewalld/services/
 $ firewall-cmd --get-services
+```
+
+### get a specific service info
+```bash
+$ firewall-cmd --info-service=<service-name>
 ```
 
 ### add service to zone
@@ -166,7 +183,7 @@ $ firewall-cmd --zone=public --remove-service=http --permanent
 ```
 
 ### create new service (add port) by command
-```bash
+```bash=
 # new service
 $ firewall-cmd --permanent --new-service=iperf3
 
@@ -190,7 +207,8 @@ $ firewall-cmd --info-service=iperf3
 
 ### create new service (add port) by xml file
 1. create service xml file at ```/usr/lib/firewalld/services/service-name.xml```
-```xml
+
+```xml=
 <!-- /usr/lib/firewalld/services/iperf3.xml -->
 <?xml version="1.0" encoding="utf-8"?>
 <service>
@@ -242,3 +260,13 @@ E.q.:
 
 5. Black-list source address to drop all connections from 192.168.2.4
 ```$ firewall-cmd --zone=public --add-rich-rule 'rule family="ipv4" source address="192.168.2.4" drop'```
+
+## Lab: Open connection port for iperf3 service
+
+The **iperf3** is a network testing tool. User initiate an **iperf3** service on a server and run another **iperf3** on a client, then **iperf3** can test the connection throughput between the client and server. You can check [here](https://hackmd.io/SHVMza8-T1WqOVkZmNt1bA#iperf) for the command usage.
+
+The **iperf3** server listen to the **5201** port, so firewall need to open the port **5201** for client/server connection. Use RHEL 7 for server and RHEL 6 for client.
+
+- Hint: 
+    1. You have to create an **iperf3** service definition XML file for **firewalld**.
+    2. Then add the service to the default **zone**.
