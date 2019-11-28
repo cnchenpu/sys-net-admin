@@ -187,33 +187,92 @@ Create 8M PE: ```vgcreate -s 8m vg1 /dev/sdd1```
    lv2  vg   -wi-a----- 300.00m 
    ```
 
-5. e2fsck & resize2fs
+5. e2fsck
    ```
    # e2fsck -f /dev/mapper/vg-lv1
-   # resize2fs /dev/mapper/vg-lv1
+   /dev/mapper/vg-lv1: 11/104624 files (0.0% non-contiguous), 15390/417792 blocks
    ```
 
-6. mount
+6. resize2fs
+   ```=
+   # resize2fs /dev/mapper/vg-lv1
+   Resizing the filesystem on /dev/mapper/vg-lv1 to 679936 (4k) blocks.
+   The filesystem on /dev/mapper/vg-lv1 is now 679936 blocks long.
+   ```
+
+7. mount
    ```
    # mount /dev/mapper/vg-lv1 /mnt/
    ```
 
+# Lab 2: LVM extension.
+1. Add a PV disk to VG.
+2. Expand the LV size.
+
 ## LVM Shrink
 1. unmount
-2. e2fsck
-3. resize2fs
-   
-   ```resize2fs /dev/vg1/lvol0 100M```
+   ```
+   # umount /dev/mapper/vg-lv1
+   ```
 
-4. lvreduce {-l|--extents | -L|--size  [-] …} 
+2. e2fsck
+   ```=
+   # e2fsck -f /dev/mapper/vg-lv1
+   /dev/mapper/vg-lv1: 16/169008 files (31.3% non-contiguous), 132264/679936 blocks
+   ```
+
+ 3. resize2fs
+   ```  
+   # resize2fs /dev/mapper/vg-lv1 1G
+   Resizing the filesystem on /dev/mapper/vg-lv1 to 262144 (4k) blocks.
+   The filesystem on /dev/mapper/vg-lv1 is now 262144 blocks long.
+   ```
    
-   ```lvreduce -L 100M /dev/vg1/lvol0```
+4. lvreduce {-l|--extents | -L|--size  [-] …} 
+   ```=
+   # lvreduce -L -1G /dev/mapper/vg-lv1
+   WARNING: Reducing active logical volume to 1.59 GiB
+   THIS MAY DESTROY YOUR DATA (filesystem etc.)
+   Do you really want to reduce lv1? [y/n]: y
+   Size of logical volume vg/lv1 changed from 2.59 GiB (664 extents) to 1.59 GiB (408 extents).
+   Logical volume lv1 successfully resized.
+   ```   
+
+   ```=
+   # lvs
+   WARNING: Ignoring duplicate config value: write_cache_state
+   LV   VG   Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+   lv1  vg   -wi-a-----   1.59g                                                    
+   lv2  vg   -wi-a----- 300.00m
+   ```
 
 5. vgreduce
+   ```
+   # vgreduce vg /dev/sdd
+   Removed "/dev/sdd" from volume group "vg"
+   ```
    
-   ```vgreduce vg1 /dev/sde2```
+   ```=
+   # vgs
+   WARNING: Ignoring duplicate config value: write_cache_state
+   VG   #PV #LV #SN Attr   VSize VFree  
+   vg     2   2   0 wz--n- 1.99g 108.00m
+   ``` 
 
 6. pvremove
-   
-   ```pvremove /dev/sde2```
+   ```
+   # pvremove /dev/sdd
+   Labels on physical volume "/dev/sdd" successfully wiped
+   ```
+   ```=
+   # pvs
+   WARNING: Ignoring duplicate config value: write_cache_state
+   PV         VG   Fmt  Attr PSize    PFree  
+   /dev/sdb   vg   lvm2 a--  1020.00m      0 
+   /dev/sdc1  vg   lvm2 a--  1020.00m 108.00m
+   ```
 
+# Lab 3: LVM reduction
+1. Reduce a LV size.
+2. Remove a PV from VG.
+3. Remove the PV disk.
