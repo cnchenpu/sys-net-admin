@@ -1,5 +1,5 @@
 ---
-tag: sysadmin, Linux
+tags: sysadmin, Linux
 ---
 
 # Lab: Debug Boot Failure
@@ -17,7 +17,7 @@ tag: sysadmin, Linux
 
 ## Setup Serial Console
 1. configure serial port
-![](fig/serial-out.jpg)
+![fig/serial-out.jpg](https://i.imgur.com/PbeO8BH.jpg)
 
 2. Edit the  ``kernel`` parameters of the ```/boot/grub/grub.conf```:
    - remove ``rhgb`` and ``quiet``
@@ -34,7 +34,7 @@ title CentOS 6 (2.6.32-754.el6.x86_64)
 	kernel /vmlinuz-2.6.32-754.el6.x86_64 ro root=/dev/mapper/vg_rh6-lv_root rd_NO_LUKS LANG=en_US.UTF-8 rd_LVM_LV=vg_rh6/lv_swap rd_NO_MD SYSFONT=latarcyrheb-sun16 crashkernel=auto rd_LVM_LV=vg_rh6/lv_root  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM rhgb quiet console=tty0 console=ttyS0,38400
 	initrd /initramfs-2.6.32-754.el6.x86_64.img
 ```
-3. check [serial.txt](./serialRH6.txt)
+3. Boot messages in serial in RH6 [serial.txt](https://raw.githubusercontent.com/cnchenpu/sys-net-admin/master/serialRH6.txt)
 
 
 ## Setup Serial Console For RHEL 7
@@ -54,11 +54,24 @@ GRUB_CMDLINE_LINUX="crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap
 GRUB_DISABLE_RECOVERY="true"
 ```
 
-- Boot messages in serial in RH7: [serial.txt](./serialRH7.txt)
+
+# Quiz: Find out the "dracut" version which used in your RHEL 7 from the serial outputs 
+Hint:
+1. Search "NAME=dracut" from the serial outpus.
+2. Find out the "VERSION" of the "dracut".
+ 
+E.q.:
+
+  ![dracut-version](https://i.imgur.com/GinGBR7.png)
+
+You have to:
+1. Take a screenshot of your answer and post it in your HackMD notebook.
+2. Email me your work, the email subject format: ``[HW3_your-student-ID]``.
+
 
 
 ## Boot Loader Issues
-![](fig/boot-loader.png)
+![boot-loader.png](https://i.imgur.com/CvpSeyq.png)
 1. BIOS runs boot loader stage 1 in MBR
 2. MBR loads stage 1.5
 3. Stage 1.5 finds the boot partition, then loads the stage 2 in ```/boot```
@@ -67,7 +80,7 @@ GRUB_DISABLE_RECOVERY="true"
 ## [14 Error messages reported by GRUB](https://www.gnu.org/software/grub/manual/legacy/Troubleshooting.html)
 
 
-## Manual Booting with GRUB
+# Manual Booting with GRUB
 1. Press ``c`` to drop to GRUB subsystem in the GRUB boot screen. You will see the ``grub>`` prompt.
 2. Find the ``/boot`` partition, command: ``root`` or ``root (hd0,0)`` for the case that ``/boot`` is in the ``/dev/sda1``.
 3. Specify the ``kernel`` parameters about the ``vmlinuz`` file and the root filesystem device.
@@ -93,20 +106,24 @@ Exapmle:
           initrd /initramfs-2.6.32-71.el6.x86_64.img     
   ``` 
 - Manual boot in GRUB:
-  ![](fig/grub-manual-1.jpg)
-  ![](fig/grub-manual-2.jpg)  
+  
+  ![fig/grub-manual-1.jpg](https://i.imgur.com/GYLojxH.jpg)
 
-Common error:
-- No root parameter causes kernel panic
- ![](fig/boot-no-root-parameter-0.jpg)
- ![](fig/boot-no-root-parameter.jpg)
+  ![fig/grub-manual-2.jpg](https://i.imgur.com/bgR7Yx7.jpg)
 
-- Wrong root parameter failure
- ![](fig/boot-wrong-root-0.jpg)
- ![](fig/boot-wrong-root.jpg)  
 
-- Correct root parameter (root path)
-![](fig/boot-manual.jpg)
+## Common error:
+### No root parameter causes kernel panic
+ 
+  ![fig/boot-no-root-parameter-0.jpg](https://i.imgur.com/atxdcEE.jpg)
+  
+  ![fig/boot-no-root-parameter.jpg](https://i.imgur.com/rgP95xj.jpg)
+
+### Wrong root parameter failure
+ 
+  ![fig/boot-wrong-root-0.jpg](https://i.imgur.com/XhdFgOW.jpg)
+  
+  ![fig/boot-wrong-root.jpg](https://i.imgur.com/PI7jtwh.jpg)
 
 
 
@@ -130,7 +147,6 @@ $ hexdump -C /boot/grub/e2fs_stage1_5 -n 95 -s 512
 ```bash
 $ hexdump -C /boot/grub/stage2 -n 95 -s 512
 ```
-
 
 ## Find out the root device name
 - Print block device attributes: ``blkid``
@@ -173,7 +189,7 @@ fix it and re-run the script `grub-install`.
 (hd0)     /dev/sda
 ```
 
-## Use GRUB Shell to Reinstall GRUB 
+## Use GRUB Shell to Reinstall GRUB (Manual Booting with GRUB)
 ```bash
 # Starts GRUB shell
 $ grub
@@ -204,17 +220,18 @@ succeeded
 Done.
 ```
 
-![](fig/grub.png)
+![grub.png](https://i.imgur.com/26mBLDh.png)
 
 
-## GRUB 2 Command Example: ls
+# Manual Booting with GRUB 2 on BIOS
+
+### GRUB 2 Command Example: ls
 - Lists the attached storage devices along with its partitions.
 - Lists any particular partition's filesystem.
 - List the conations of the partition and directories.
-![](fig/grub2-manually-0.jpg)
 
+![fig/grub2-manually-0.jpg](https://i.imgur.com/I1xmqCW.jpg)
 
-## Manual Booting with GRUB 2 on BIOS
 ### The root device and the grub2.cfg
 
 ```
@@ -245,9 +262,10 @@ menuentry 'CentOS Linux (3.10.0-327.el7.x86_64) 7 (Core)' ... {
 	initrd16 /initramfs-3.10.0-327.el7.x86_64.img
 }    
 ```    
-### Booting procedures in GRUB 2 on BIOS
+## Booting procedures in GRUB 2 on BIOS
 1. Choose the kernel from the GRUB 2 boot menu. And press ``c`` to the ``grub>`` prompt.
-   ![](fig/grub2-manually-1.jpg)
+   ![fig/grub2-manually-1.jpg](https://i.imgur.com/OohSQKG.jpg)
+
 2. Set the ``/boot`` partition, the for kernel (``vmlinuz``) and the initrd (``initramfs``) files in the ``grub>`` prompt.
    1. ``set root=(hd0,msdos1)``
       - The ``/boot`` partition is the ``/dev/sda1``.
@@ -256,11 +274,17 @@ menuentry 'CentOS Linux (3.10.0-327.el7.x86_64) 7 (Core)' ... {
       - The ``root`` device is the ``/dev/sda5``. 
    3. ``initrd16 /initramfs-3.10.0-327.el7.x86_64.img``
       - The kernel version (``3.10.0-327.el7.x86_64``) of ``vmlinuz`` and ``initramfs`` files are the same.
-   ![](fig/grub2-manually-2.jpg) 
- 
+
+   ![fig/grub2-manually-2.jpg](https://i.imgur.com/l26h4rm.jpg)
+
+> **(hd0,msdos1)** 
+> 
+> disk 0, partition 1.
+> 
+> disk number是從0開始，但是這邊要注意的是，partition number卻是從1開始
 
 
-## Manual Booting with GRUB 2 on UEFI
+# Manual Booting with GRUB 2 on UEFI
 ### The root device and the grub2.cfg
 ```
 $ blkid
@@ -300,7 +324,7 @@ menuentry 'CentOS Linux (3.10.0-327.el7.x86_64) 7 (Core)' ... {
 }    
 ```
 
-### Booting procedures in GRUB 2 on UEFI
+## Booting procedures in GRUB 2 on UEFI
 1. Choose the kernel from the GRUB 2 boot menu. And press ``c`` to the ``grub>`` prompt.
 2. Set the ``/boot`` partition, the for kernel (``vmlinuz``) and the initrd (``initramfs``) files in the ``grub>`` prompt.
    1. ``set root=(hd0,gpt2)``
@@ -313,51 +337,5 @@ menuentry 'CentOS Linux (3.10.0-327.el7.x86_64) 7 (Core)' ... {
     
 
 
-## Reinstall GRUB 2 in BIOS-based machine
-1. ``grub2-install /dev/sda``
-   - restore the missing files in the ``/boot/grub2``.  
-2. ``grub2-mkconfig -o /boot/grub2/grub.cfg``
-   - reconfigure the ``grub.cfg``. 
 
-```bash
-# The original files in the /boot/grub2
-$ ls /boot/grub2
-device.map  fonts  grub.cfg  grubenv  i386-pc  locale  themes
-
-# Delete the /boot/grub2 to corrupt it
-$ rm -rf /boot/grub2
-
-# Use grub2-install to recover lost files in the /boot/grub2
-$ grub2-install /dev/sda
-Installing for i386-pc platform.
-Installation finished. No error reported.
-
-# The /boot/grub2 is recovered, but the grub.cfg not.
-$ ls /boot/grub2/
-fonts  grubenv  i386-pc  locale
-
-# Use grub2-mkconfig to rebuild the grub.cfg
-$ grub2-mkconfig -o /boot/grub2/grub.cfg
-Generating grub configuration file ...
-Found linux image: /boot/vmlinuz-3.10.0-327.el7.x86_64
-Found initrd image: /boot/initramfs-3.10.0-327.el7.x86_64.img
-Found linux image: /boot/vmlinuz-0-rescue-b9f19f3ff2724e17877e40e27b6dd40a
-Found initrd image: /boot/initramfs-0-rescue-b9f19f3ff2724e17877e40e27b6dd40a.img
-done
-```
-
-## Reinstall GRUB 2 in UEFI-base machine
-- The ``grub2-install`` command is not work on the UEFI-based machine.
-- Use ``yum install grub2-efi shim`` command to install the binaries.
-  - The grub2-efi package provides the following files:
-    - fonts
-    - gcdx64.efi
-    - grubx64.efi
-  - The shim package installs the below-mentioned binaries:
-    - BOOTX64.efi
-    - fallback.efi
-    - MockManager.efi
-    - shim.efi
-    - shim-redhat.efi
-- Then use ``grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg`` command to rebuild the grub.cfg.
 
