@@ -1,3 +1,7 @@
+---
+tags: sysadmin, Linux
+---
+
 # UEFI (Unified Extensible Firmware Interface)
 ![](https://www.howtogeek.com/wp-content/uploads/2017/05/img_5913820521683.png.pagespeed.ce.SW-PQN3x9j.png)
 
@@ -38,19 +42,6 @@ Boot0003* EFI Network	ACPI(a0341d0,0)PCI(11,0)PCI(0,0)MAC(MAC(005056acf9b3,0)
 Boot0004* CentOS	HD(1,800,64000,babe9ef5-b6df-4cc1-a29b-5f1fd77d6f0b)File(\EFI\centos\shim.efi)
 Boot0005* EFI Internal Shell (Unsupported option)	MM(b,7eec4000,7f2a7fff)FvFile(c57ad6b7-0515-40a8-9d21-551652854e37)
 ```
-```bash
-# /etc/fstab
-
-/dev/mapper/centos_lvm-root                 /               xfs     defaults        0 0
-UUID=cbaf6878-247f-47aa-a2a4-af36eb55b143   /boot           xfs     defaults        0 0
-UUID=1E1A-A31A                              /boot/efi       vfat    umask=0077      0 0
-/dev/mapper/centos_lvm-swap                 swap            swap    defaults        0 0
-```
-```
-$ mount
-/dev/sda2 on /boot type xfs (rw,relatime,...)
-/dev/sda1 on /boot/efi type vfat (rw,relatime,...)
-```
 
 ```
 $ fdisk /dev/sda -l
@@ -74,6 +65,12 @@ NR   START      END  SECTORS  SIZE NAME                 UUID
  1    2048   411647   409600  200M EFI System Partition babe9ef5-b6df-4cc1-a29b-5f1fd77d6f0b
  2  411648  1435647  1024000  500M                      5d19f200-4db2-49b2-99fa-84930b703ebe
  3 1435648 33552383 32116736 15.3G                      2bad62a6-735a-4d31-a4a4-f192427580a9
+```
+
+```
+$ mount
+/dev/sda2 on /boot type xfs (rw,relatime,...)
+/dev/sda1 on /boot/efi type vfat (rw,relatime,...)
 ```
 
 ```
@@ -153,11 +150,29 @@ $ mount
 └── vmlinuz-2.6.32-754.el6.x86_64
 ```
 
-## Boot process in UEFI
-1. UEFI find the EFI System Partition (ESP).
-2. EFI Boot Manager boot the selected system.
-   
-![](fig/boot-uefi.jpg)
+# Boot process in UEFI
+1. The Security (SEC) phase.
+    - Serving as the root of trust in the system
+2. Pre-EFI Initialization (PEI).
+    - Responsible for initializing permanent memory in the platform so that the DXE phase can be loaded and executed.
+4. Driver Execution Environment (DXE) phase.
+5. Boot Device Selection (BDS)
+    - Initializing console devices
+    - Loading device drivers
+    - Attempting to load and execute boot selections
+    - UEFI find the EFI System Partition (ESP).
+    - EFI Boot Manager boot the selected system.
+6. Transient System Load (TSL) and Runtime (RT)
+    - The Transient System Load (TSL) is primarily the OS vendor provided boot loader. 
+    - Both the TSL and the Runtime Services (RT) phases may allow access to persistent content, via UEFI drivers and UEFI applications. 
+    - Drivers in this category include PCI Option ROMs.
+
+![fig/boot-uefi.jpg](https://i.imgur.com/p52Jvjc.jpg =450x)
+
+![](https://gblobscdn.gitbook.com/assets%2F-M5spcVt2sqlUZOWmnXY%2F-M5sphJDWD7_iUuoREya%2F-M5spjTOFjRbcY8ckkSh%2Fimage3.png?alt=media =400x)
 
 ## Boot process in BIOS
-![](fig/boot-bios.jpg)
+Lecture notes: [Boot Sequences](https://hackmd.io/Lct6KHaIQ7apDGvjY4MUqQ)
+
+![fig/boot-bios.jpg](https://i.imgur.com/mfhUMW1.jpg =250x)
+
